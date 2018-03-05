@@ -28,6 +28,17 @@
 
     <div class="col-md-6 mb-2">
       <div class="card">
+        <div class="card-header bg-red">
+          Daily Production
+        </div>
+        <div class="card-body">
+          <canvas id="bar_d" height="150"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6 mb-2">
+      <div class="card">
         <div class="card-header bg-green">
           Monthly Production
         </div>
@@ -50,7 +61,7 @@
 
     <div class="col-md-6 mb-2">
       <div class="card">
-        <div class="card-header bg-light-blue">
+        <div class="card-header bg-red">
           Sewing Department WIP
         </div>
         <div class="card-body">
@@ -58,6 +69,7 @@
         </div>
       </div>
     </div>
+
   </div>
 </div>
 
@@ -70,6 +82,7 @@
   $(function () {
       new Chart(document.getElementById("line_chart").getContext("2d"), getChartJs('line'));
       new Chart(document.getElementById("bar_chart").getContext("2d"), getChartJs('bar'));
+      new Chart(document.getElementById("bar_d").getContext("2d"), getChartJs('bar_d'));
       new Chart(document.getElementById("linep").getContext("2d"), getChartJs('linep'));
       new Chart(document.getElementById("pie_chart").getContext("2d"), getChartJs('linewip'));
   });
@@ -221,6 +234,30 @@ for(var i= t_date.length-1 ; i >= 0; i--){
                     label: "Monthly Production",
                     data: t_prod,
                     backgroundColor: 'rgba(0, 188, 212, 0.8)'
+                }]
+            },
+            options: {
+                responsive: true,
+                legend: {
+                  display:true,
+                  position:'bottom'
+                },
+                scales: {
+                  yAxes:[{ticks:{min:0}}]
+                }
+            }
+        }
+    }
+
+    else if (type === 'bar_d') {
+        config = {
+            type: 'bar',
+            data: {
+                labels: date,
+                datasets: [{
+                    label: "Daily Production",
+                    data: actual,
+                    backgroundColor: 'rgba(160, 150, 212, 0.8)'
                 }]
             },
             options: {
