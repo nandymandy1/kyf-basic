@@ -66,16 +66,21 @@ Route::prefix('/master')->group(function(){
 
 // Admin Routes
 Route::prefix('/admin')->group(function () {
-  Route::get('/cutting', 'FactoryController@cutting');
-  Route::get('/sewing', 'FactoryController@sewing');
-  Route::get('/finishing', 'FactoryController@finishing');
-  Route::get('/quality', 'FactoryController@quality');
-  Route::get('/general', 'FactoryController@general');
-  Route::post('/factories', 'FactController@getFactory');
+
+  /*
+  Route::get('/factory/master/{id}', 'FactController@master');
+  Route::get('/factory/cutting/{id}', 'FactController@cutting');
+  Route::get('/factory/sewing/{id}', 'FactController@sewing');
+  Route::get('/factory/finishing/{id}', 'FactController@finishing');
+  Route::get('/factory/quality/{id}', 'FactController@quality');
+  Route::get('/factory/general/{id}', 'FactController@general');
+  */
+
   Route::post('/factory', 'FactController@store');
   Route::resource('/factory', 'FactController');
   Route::get('/factory/endis/{id}', 'FactController@enable_disable');
-  Route::get('/users', function(){
-    return view('admin.users');
-  });
+  Route::post('/factories', 'FactController@getFactory');
+  Route::get('/user/endis/{id}', 'FactController@endisUser');
+  Route::get('/users', function(){return view('admin.users');});
+  Route::post('/usersfetch', 'FactController@getUsers');
 });

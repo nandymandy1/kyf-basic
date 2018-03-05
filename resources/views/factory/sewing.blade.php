@@ -15,10 +15,10 @@
   <br>
 
   <div class="row">
-    <div class="col-md-6 mb-5">
+    <div class="col-md-6 mb-2">
       <div class="card">
-        <div class="card-header">
-          Target Vs Actual Vs Sent for Washingor or Finishing
+        <div class="card-header bg-blue">
+          Target Vs Actual Vs Sent for Washing or Finishing
         </div>
         <div class="card-body">
           <canvas id="line_chart" height="150"></canvas>
@@ -26,9 +26,9 @@
       </div>
     </div>
 
-    <div class="col-md-6 mb-5">
+    <div class="col-md-6 mb-2">
       <div class="card">
-        <div class="card-header">
+        <div class="card-header bg-green">
           Monthly Production
         </div>
         <div class="card-body">
@@ -37,9 +37,9 @@
       </div>
     </div>
 
-    <div class="col-md-6 mb-5">
+    <div class="col-md-6 mb-2">
       <div class="card">
-        <div class="card-header">
+        <div class="card-header bg-teal">
           Sewing Efficiency
         </div>
         <div class="card-body">
@@ -48,10 +48,10 @@
       </div>
     </div>
 
-    <div class="col-md-6 mb-5">
+    <div class="col-md-6 mb-2">
       <div class="card">
-        <div class="card-header">
-          Cutting Department WIP
+        <div class="card-header bg-light-blue">
+          Sewing Department WIP
         </div>
         <div class="card-body">
           <canvas id="pie_chart" height="150"></canvas>
@@ -100,6 +100,7 @@
   var monthly = [];
 
   @foreach ($reports as $report)
+  // To store all the data from the Controllers into the javascript objects
   t_income.push({{ $report->income }});
   t_sopr.push({{ $report->sopr }});
   t_kopr.push({{ $report->kopr }});
@@ -121,6 +122,7 @@
 @endforeach
 
 for(var i= t_date.length-1 ; i >= 0; i--){
+  // To store all the data from the Controllers into the javascript objects
   income.push(t_income[i]);
   sopr.push(t_sopr[i]);
   kopr.push(t_kopr[i]);
@@ -133,8 +135,6 @@ for(var i= t_date.length-1 ; i >= 0; i--){
   eff.push(t_eff[i]);
   wip.push(t_wip[i]);
 }
-
-
 
   function getChartJs(type) {
     var config = null;
@@ -164,10 +164,10 @@ for(var i= t_date.length-1 ; i >= 0; i--){
                     {
                       label: "Sent for Finishing or Washing",
                       data: outcome,
-                      borderColor: 'rgba(52, 152, 219, 0.75)',
-                      backgroundColor: 'rgba(93, 173, 226, 0.3)',
-                      pointBorderColor: 'rgba(93, 173, 226, 0)',
-                      pointBackgroundColor: 'rgba(93, 173, 226, 0.9)',
+                      borderColor: 'rgba(34, 153, 84, 0.75)',
+                      backgroundColor: 'rgba(82, 190, 128, 0.3)',
+                      pointBorderColor: 'rgba(82, 190, 128, 0)',
+                      pointBackgroundColor: 'rgba(34, 153, 84, 0.9)',
                       pointBorderWidth: 1
                     }
                   ]
@@ -263,17 +263,6 @@ for(var i= t_date.length-1 ; i >= 0; i--){
     return config;
 
 }
-
-function removeDuplicates(arr){
-    let unique_array = []
-    for(let i = 0;i < arr.length; i++){
-        if(unique_array.indexOf(arr[i]) == -1){
-            unique_array.push(arr[i])
-        }
-    }
-    return unique_array
-}
-
   </script>
 
 @endsection

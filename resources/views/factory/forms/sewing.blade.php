@@ -17,8 +17,9 @@
                               <label for="income" class="col-md-4 col-form-label text-md-right">Pieces Recieved From Cutting</label>
 
                               <div class="col-md-6">
+                                <div class="form-line">
                                   <input id="income" type="number" placeholder="Pieces Recieved From Cutting" class="form-control{{ $errors->has('income') ? ' is-invalid' : '' }}" name="income" value="{{ old('income') }}" required>
-
+                                </div>
                                   @if ($errors->has('income'))
                                       <span class="invalid-feedback">
                                           <strong>{{ $errors->first('income') }}</strong>
@@ -68,7 +69,7 @@
                               <label for="target" class="col-md-4 col-form-label text-md-right">Target Production</label>
 
                               <div class="col-md-6">
-                                  <input id="target" type="number" placeholder="Fusing Output" class="form-control{{ $errors->has('target') ? ' is-invalid' : '' }}" name="target" value="{{ old('target') }}" required>
+                                  <input id="target" type="number" placeholder="Target Production" class="form-control{{ $errors->has('target') ? ' is-invalid' : '' }}" name="target" value="{{ old('target') }}" required>
 
                                   @if ($errors->has('target'))
                                       <span class="invalid-feedback">
@@ -94,7 +95,7 @@
                               <label for="outcome" class="col-md-4 col-form-label text-md-right">Pieces Sent for Finishing or Washing</label>
 
                               <div class="col-md-6">
-                                  <input id="outcome" type="number" placeholder="People in Cutting Dept." class="form-control{{ $errors->has('outcome') ? ' is-invalid' : '' }}" name="outcome" value="{{ old('outcome') }}" required>
+                                  <input id="outcome" type="number" placeholder="Pieces Sent for Finishing or Washing" class="form-control{{ $errors->has('outcome') ? ' is-invalid' : '' }}" name="outcome" value="{{ old('outcome') }}" required>
 
                                   @if ($errors->has('outcome'))
                                       <span class="invalid-feedback">

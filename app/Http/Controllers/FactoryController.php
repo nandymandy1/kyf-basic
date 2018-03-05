@@ -16,7 +16,7 @@ use App\Models\Qkpi;
 use Illuminate\Support\Facades\DB;
 
 class FactoryController extends Controller
-{
+{ 
     public function cutting(){
       $factory = Factory::find(Auth::user()->factory_id);
       $reports = Ckpi::where('factory_id', $factory->id)->orderBy('created_at', 'DESC')->take(30)->get();

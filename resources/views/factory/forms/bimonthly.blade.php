@@ -8,7 +8,7 @@
       <div class="row justify-content-center">
           <div class="col-md-8">
               <div class="card">
-                  <div class="card-header">Enter Today's General Data</div>
+                  <div class="card-header">Enter Monthly General Data</div>
                   <div class="card-body">
                       <form method="POST" action="/factory/general/data">
                           @csrf

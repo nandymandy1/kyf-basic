@@ -115,6 +115,8 @@ class HomeController extends Controller
               $today = true;
             }
 
+
+
             //return response()->json($mmr);
             return view('factory.general', ['reports'=> $reports, 'today'=> $today, 'mmr'=> $mmr]);
 

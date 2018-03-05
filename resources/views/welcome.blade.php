@@ -5,98 +5,88 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>KYF App</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
-
+        <link rel="stylesheet" href="{{ asset('./css/app.css')}}">
+        <link rel="stylesheet" media="screen" href="{{ asset('./css/particle.css') }}">
+        <link href="{{ asset('./plugins/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
         <!-- Styles -->
-        <style>
-            html, body {
-                background-color: #000;
-                color: #636b6f;
-                font-family: 'Raleway', sans-serif;
-                font-weight: 100;
-                height: 100vh;
-                margin: 0;
+        <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="{{ asset('./css/materialize.css') }}">
+        <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+        <style media="screen">
+        .jumbotron {
+               background: rgb(200, 54, 54); /* This is for ie8 and below */
+               background: rgba(200, 54, 54, .0);
+               color: #fff;
             }
+        i {
+            display: block;
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            top: 30px;
+            left: 30px;
+            background: url(http://i.imgur.com/lOBxb.png);
+            -webkit-animation: barrelRoll 2s infinite linear;
+            -webkit-animation-play-state: paused;
+        }
 
-            .full-height {
-                height: 100vh;
-            }
+        i:last-of-type {
+            top: 22px;
+            left: 56px;
+            -webkit-animation-name: invertBarrelRoll;
+        }
 
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
+        div:hover > i {
+            -webkit-animation-play-state: running;
+        }
 
-            .position-ref {
-                position: relative;
-            }
+        @-webkit-keyframes barrelRoll {
+            0% { -webkit-transform: rotate(0deg); }
+            100% { -webkit-transform: rotate(360deg); }
+        }
 
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
-
-            .content {
-                text-align: center;
-            }
-
-            .title {
-                font-size: 50px;
-                color: #fff;
-            }
-
-            .links > a {
-                color: #fff;
-                padding: 0 25px;
-                font-size: 15px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
-
-            .subtitle > a {
-                color: #fff;
-                padding: 0 25px;
-                font-size: 20px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
-
-            .m-b-md {
-                margin-bottom: 30px;
-            }
+        @-webkit-keyframes invertBarrelRoll {
+            0% { -webkit-transform: rotate(0deg); }
+            100% { -webkit-transform: rotate(-360deg); }
+        }
         </style>
     </head>
     <body>
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
-                        <a href="{{ route('register') }}">Register</a>
-                    @endauth
-                </div>
-            @endif
-
-            <div class="content">
-                <div class="title m-b-md">
-                    <b>The Arvind App</b>
-                </div>
-
-                <div class="subtitle">
-                  <p><b>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</b></p>
+      <!-- particles.js container -->
+      <div id="particles-js">
+        <nav class="navbar navbar-expand-md navbar navbar-dark bg-dark fixed-top">
+            <div class="container">
+                <a class="navbar-brand" href="{{ url('/') }}">
+                    <b>Arvind App</b>
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ml-auto">
+                        <!-- Authentication Links -->
+                        @if (Route::has('login'))
+                                @auth
+                                    <a class="nav-link" href="{{ url('/home') }}">Home</a>
+                                @else
+                                    <a class="nav-link" href="{{ route('login') }}">Login</a>
+                                    <a class="nav-link" href="{{ route('register') }}">Register</a>
+                                @endauth
+                        @endif
+                    </ul>
                 </div>
             </div>
-        </div>
+        </nav>
+      </div><!-- Particle js DIV -->
+      <script src="{{ asset('./js/jquery-3.2.1.slim.min.js')}}" charset="utf-8"></script>
+      <script src="{{ asset('./js/popper.min.js')}}" charset="utf-8"></script>
+      <script src="{{ asset('./js/bootstrap.min.js') }}" charset="utf-8"></script>
+      <script src="{{ asset('./js/particles.js')}}"></script>
+      <script src="{{ asset('./js/particle.js')}}"></script>
     </body>
 </html>

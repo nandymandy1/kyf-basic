@@ -14,9 +14,9 @@
 @endif
 
   <div class="row">
-    <div class="col-md-6 mb-5">
+    <div class="col-md-6 mb-2">
       <div class="card">
-        <div class="card-header">
+        <div class="card-header bg-red">
           Target Vs Actual
         </div>
         <div class="card-body">
@@ -25,9 +25,9 @@
       </div>
     </div>
 
-    <div class="col-md-6 mb-5">
+    <div class="col-md-6 mb-2">
       <div class="card">
-        <div class="card-header">
+        <div class="card-header bg-blue">
           Pieces Sent to Sewing or Embroidary
         </div>
         <div class="card-body">
@@ -36,9 +36,9 @@
       </div>
     </div>
 
-    <div class="col-md-6 mb-5">
+    <div class="col-md-6 mb-2">
       <div class="card">
-        <div class="card-header">
+        <div class="card-header bg-green">
           Cutting Department Strength
         </div>
         <div class="card-body">
@@ -47,9 +47,9 @@
       </div>
     </div>
 
-    <div class="col-md-6 mb-5">
+    <div class="col-md-6 mb-2">
       <div class="card">
-        <div class="card-header">
+        <div class="card-header bg-light-blue">
           Cutting WIP
         </div>
         <div class="card-body">

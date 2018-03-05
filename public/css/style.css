@@ -1896,7 +1896,7 @@
     color: #fff !important; }
 
 .bg-cyan {
-  background-color: #00BCD4 !important;
+  background-color: #922B21 !important;
   color: #fff; }
   .bg-cyan .content .text,
   .bg-cyan .content .number {
@@ -2015,7 +2015,7 @@
   color: #03A9F4 !important; }
 
 .col-cyan {
-  color: #00BCD4 !important; }
+  color: #922B21 !important; }
 
 .col-teal {
   color: #009688 !important; }
@@ -2291,7 +2291,7 @@
   .demo-choose-skin .light-blue {
     background-color: #03A9F4; }
   .demo-choose-skin .cyan {
-    background-color: #00BCD4; }
+    background-color: #922B21; }
   .demo-choose-skin .teal {
     background-color: #009688; }
   .demo-choose-skin .green {
@@ -3469,8 +3469,8 @@ section.content {
   border-bottom: 2px solid #03A9F4; }
 
 [type="checkbox"]:checked.chk-col-cyan + label:before {
-  border-right: 2px solid #00BCD4;
-  border-bottom: 2px solid #00BCD4; }
+  border-right: 2px solid #922B21;
+  border-bottom: 2px solid #922B21; }
 
 [type="checkbox"]:checked.chk-col-teal + label:before {
   border-right: 2px solid #009688;
@@ -3565,8 +3565,8 @@ section.content {
   background-color: #03A9F4; }
 
 [type="checkbox"].filled-in:checked.chk-col-cyan + label:after {
-  border: 2px solid #00BCD4;
-  background-color: #00BCD4; }
+  border: 2px solid #922B21;
+  background-color: #922B21; }
 
 [type="checkbox"].filled-in:checked.chk-col-teal + label:after {
   border: 2px solid #009688;
@@ -3663,8 +3663,8 @@ section.content {
   border-color: #03A9F4; }
 
 [type="radio"].radio-col-cyan:checked + label:after {
-  background-color: #00BCD4;
-  border-color: #00BCD4; }
+  background-color: #922B21;
+  border-color: #922B21; }
 
 [type="radio"].radio-col-teal:checked + label:after {
   background-color: #009688;
@@ -3768,11 +3768,11 @@ section.content {
   border: 2px solid #03A9F4; }
 
 [type="radio"].with-gap.radio-col-cyan:checked + label:before {
-  border: 2px solid #00BCD4; }
+  border: 2px solid #922B21; }
 
 [type="radio"].with-gap.radio-col-cyan:checked + label:after {
-  background-color: #00BCD4;
-  border: 2px solid #00BCD4; }
+  background-color: #922B21;
+  border: 2px solid #922B21; }
 
 [type="radio"].with-gap.radio-col-teal:checked + label:before {
   border: 2px solid #009688; }
@@ -3918,7 +3918,7 @@ section.content {
   .switch label input[type=checkbox]:checked + .lever.switch-col-cyan {
     background-color: rgba(0, 188, 212, 0.5); }
     .switch label input[type=checkbox]:checked + .lever.switch-col-cyan:after {
-      background-color: #00BCD4; }
+      background-color: #922B21; }
   .switch label input[type=checkbox]:checked:not(:disabled) ~ .lever.switch-col-teal:active:after {
     box-shadow: 0 1px 3px 1px rgba(0, 0, 0, 0.4), 0 0 0 15px rgba(0, 150, 136, 0.1); }
   .switch label input[type=checkbox]:checked + .lever.switch-col-teal {
@@ -4179,7 +4179,7 @@ section.content {
   border-bottom: 2px solid #03A9F4; }
 
 .nav-tabs.tab-col-cyan > li > a:before {
-  border-bottom: 2px solid #00BCD4; }
+  border-bottom: 2px solid #922B21; }
 
 .nav-tabs.tab-col-teal > li > a:before {
   border-bottom: 2px solid #009688; }
@@ -4340,7 +4340,7 @@ section.content {
         background-color: rgba(0, 0, 0, 0.12); }
 
 .modal-col-cyan {
-  background-color: #00BCD4; }
+  background-color: #922B21; }
   .modal-col-cyan .modal-body,
   .modal-col-cyan .modal-title {
     color: #fff !important; }
@@ -4636,9 +4636,9 @@ section.content {
     border-top-color: transparent !important; }
 
 .panel-group .panel-col-cyan {
-  border: 1px solid #00BCD4; }
+  border: 1px solid #922B21; }
   .panel-group .panel-col-cyan .panel-title {
-    background-color: #00BCD4 !important;
+    background-color: #922B21 !important;
     color: #fff; }
   .panel-group .panel-col-cyan .panel-body {
     border-top-color: transparent !important; }
@@ -4830,7 +4830,7 @@ section.content {
 
 .full-body .panel-col-cyan .panel-body {
   border-top-color: #fff !important;
-  background-color: #00BCD4;
+  background-color: #922B21;
   color: #fff; }
 
 .full-body .panel-col-teal .panel-body {
@@ -5286,11 +5286,11 @@ fieldset[disabled] .form-control {
     color: #fff; }
 
 .breadcrumb-col-cyan li a {
-  color: #00BCD4 !important;
+  color: #922B21 !important;
   font-weight: bold; }
 
 .breadcrumb-bg-cyan {
-  background-color: #00BCD4 !important; }
+  background-color: #922B21 !important; }
   .breadcrumb-bg-cyan li {
     color: #fff !important; }
     .breadcrumb-bg-cyan li a {
@@ -5672,14 +5672,14 @@ fieldset[disabled] .form-control {
     opacity: 0.8; }
 
 .list-group .pl-cyan {
-  stroke: #00BCD4; }
+  stroke: #922B21; }
 
 .list-group .list-group-bg-cyan {
-  background-color: #00BCD4;
+  background-color: #922B21;
   border: none;
   color: #fff; }
   .list-group .list-group-bg-cyan:hover, .list-group .list-group-bg-cyan:focus {
-    background-color: #00BCD4;
+    background-color: #922B21;
     color: #fff;
     opacity: 0.8; }
 
@@ -6295,7 +6295,7 @@ fieldset[disabled] .form-control {
   stroke: #03A9F4; }
 
 .md-preloader .pl-cyan {
-  stroke: #00BCD4; }
+  stroke: #922B21; }
 
 .md-preloader .pl-teal {
   stroke: #009688; }
@@ -6387,7 +6387,7 @@ fieldset[disabled] .form-control {
   .spinner-layer.pl-light-blue {
     border-color: #03A9F4; }
   .spinner-layer.pl-cyan {
-    border-color: #00BCD4; }
+    border-color: #922B21; }
   .spinner-layer.pl-teal {
     border-color: #009688; }
   .spinner-layer.pl-green {
@@ -7720,7 +7720,7 @@ fieldset[disabled] .form-control {
 
 /* Login Page ================================== */
 .login-page {
-  background-color: #00BCD4;
+  background-color: #922B21;
   padding-left: 0;
   max-width: 360px;
   margin: 5% auto;
@@ -7732,7 +7732,7 @@ fieldset[disabled] .form-control {
   .login-page .login-box a {
     font-size: 14px;
     text-decoration: none;
-    color: #00BCD4; }
+    color: #922B21; }
   .login-page .login-box .logo {
     margin-bottom: 20px; }
     .login-page .login-box .logo a {
@@ -7750,7 +7750,7 @@ fieldset[disabled] .form-control {
 
 /* Sign Up Page ================================ */
 .signup-page {
-  background-color: #00BCD4;
+  background-color: #922B21;
   padding-left: 0;
   max-width: 360px;
   margin: 5% auto;
@@ -7762,7 +7762,7 @@ fieldset[disabled] .form-control {
   .signup-page .signup-box a {
     font-size: 14px;
     text-decoration: none;
-    color: #00BCD4; }
+    color: #922B21; }
   .signup-page .signup-box .logo {
     margin-bottom: 20px; }
     .signup-page .signup-box .logo a {
@@ -7780,7 +7780,7 @@ fieldset[disabled] .form-control {
 
 /* Forgot Password Page ======================== */
 .fp-page {
-  background-color: #00BCD4;
+  background-color: #922B21;
   padding-left: 0;
   max-width: 360px;
   margin: 5% auto;
@@ -7792,7 +7792,7 @@ fieldset[disabled] .form-control {
   .fp-page .fp-box a {
     font-size: 14px;
     text-decoration: none;
-    color: #00BCD4; }
+    color: #922B21; }
   .fp-page .fp-box .logo {
     margin-bottom: 20px; }
     .fp-page .fp-box .logo a {
@@ -8039,4 +8039,3 @@ html.ie11 .dropdown-menu ul.menu li a {
 
 html.ie11 .bs-searchbox .form-control {
   width: 90%; }
-

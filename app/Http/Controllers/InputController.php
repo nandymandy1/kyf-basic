@@ -120,17 +120,29 @@ class InputController extends Controller
     public function saveGeneral(Request $req){
       // ValidationData
       $validatedData = $req->validate([
-        'inspected' => 'required',
         'factory_id' => 'required',
-        'failed' => 'required',
+        'payrole'    => 'required',
+        'ppeople'    => 'required',
+        'cpeople'    => 'required',
+        'ocut'       => 'required',
+        'osew'       => 'required',
+        'ofin'       => 'required',
+        'abs'        => 'required',
+        'twf'        => 'required',
       ]);
 
       $c = new Gkpi;
-      $c->inspected = $req->input('inspected');
       $c->factory_id = $req->input('factory_id');
-      $c->failed = $req->input('failed');
+      $c->payrole = $req->input('payrole');
+      $c->ppeople = $req->input('ppeople');
+      $c->cpeople = $req->input('cpeople');
+      $c->ocut = $req->input('ocut');
+      $c->osew = $req->input('osew');
+      $c->ofin = $req->input('ofin');
+      $c->abs = $req->input('abs');
+      $c->twf = $req->input('twf');
       $c->save();
-      return redirect('/home')->with('success', 'Quality Data Saved');
+      return redirect('/home')->with('success', 'General Data Saved');
     }
 
 

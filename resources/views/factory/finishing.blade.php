@@ -15,9 +15,9 @@
   <br>
 
   <div class="row">
-    <div class="col-md-6 mb-5">
+    <div class="col-md-6 mb-2">
       <div class="card">
-        <div class="card-header">
+        <div class="card-header bg-blue">
           Sewing vs Packed
         </div>
         <div class="card-body">
@@ -26,9 +26,9 @@
       </div>
     </div>
 
-    <div class="col-md-6 mb-5">
+    <div class="col-md-6 mb-2">
       <div class="card">
-        <div class="card-header">
+        <div class="card-header bg-red">
           Fed into Finishing vs Finished Goods
         </div>
         <div class="card-body">
@@ -37,9 +37,9 @@
       </div>
     </div>
 
-    <div class="col-md-6 mb-5">
+    <div class="col-md-6 mb-2">
       <div class="card">
-        <div class="card-header">
+        <div class="card-header bg-light-green">
           Finished Goods
         </div>
         <div class="card-body">
@@ -48,9 +48,9 @@
       </div>
     </div>
 
-    <div class="col-md-6 mb-5">
+    <div class="col-md-6 mb-2">
       <div class="card">
-        <div class="card-header">
+        <div class="card-header bg-light-blue">
           Finishing WIP
         </div>
         <div class="card-body">
@@ -176,11 +176,11 @@ var wip = [];
             data: {
                 labels: date,
                 datasets: [{
-                    label: "Pieces Pakced",
+                    label: "Pieces fed into finishing",
                     data: feed,
                     backgroundColor: 'rgba(0, 188, 212, 0.8)'
                 }, {
-                        label: "Pieces Packed",
+                        label: "Packed pieces",
                         data: pkd,
                         backgroundColor: 'rgba(233, 30, 99, 0.8)'
                     }]

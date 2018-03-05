@@ -1,7 +1,7 @@
 @extends('auth.app')
 
 @section('content')
-  <body class="login-page">
+  <body class="login-page"  id="particles-js">
       <div class="login-box">
           <div class="logo">
               <a href="javascript:void(0);">Arvind<b> KYF</b></a>
@@ -13,7 +13,7 @@
                     @csrf
                     <div class="input-group">
                         <span class="input-group-addon">
-                            <i class="material-icons">person</i>
+                            <i class="fa fa-at"></i>
                         </span>
                         <div class="form-line">
                           <input id="email" type="email" placeholder="Email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required autofocus>
@@ -27,7 +27,7 @@
                     </div>
                     <div class="input-group">
                         <span class="input-group-addon">
-                            <i class="material-icons">person</i>
+                            <i class="fa fa-user"></i>
                         </span>
                         <div class="form-line">
                           <input id="username" type="text" placeholder="Username" class="form-control{{ $errors->has('username') ? ' is-invalid' : '' }}" name="username" value="{{ old('username') }}" required autofocus>
@@ -40,7 +40,7 @@
                     </div>
                     <div class="input-group">
                         <span class="input-group-addon">
-                            <i class="material-icons">person</i>
+                            <i class="fa fa-user"></i>
                         </span>
                         <div class="form-line">
                           <input id="name" type="text" placeholder="Name" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ old('name') }}" required autofocus>
@@ -54,7 +54,7 @@
                     </div>
                     <div class="input-group">
                         <span class="input-group-addon">
-                            <i class="material-icons">lock</i>
+                            <i class="fa fa-lock"></i>
                         </span>
                         <div class="form-line">
                           <input id="password" type="password" placeholder="Password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" value="{{ old('password') }}" required autofocus>
@@ -68,7 +68,7 @@
                     </div>
                     <div class="input-group">
                         <span class="input-group-addon">
-                            <i class="material-icons">lock</i>
+                            <i class="fa fa-lock"></i>
                         </span>
                         <div class="form-line">
                           <input id="password-confirm" type="password" placeholder="Confirm Password" class="form-control{{ $errors->has('password-confirm') ? ' is-invalid' : '' }}" name="password_confirmation" value="{{ old('password-confirm') }}" required autofocus>
@@ -82,7 +82,7 @@
                     </div>
                     <div class="input-group">
                         <span class="input-group-addon">
-                            <i class="fas fa fa-industry"></i>
+                            <i class="fa fa-industry"></i>
                         </span>
                         <div class="form-line">
                           <select id="factory" class="form-control{{ $errors->has('factory') ? ' is-invalid' : '' }}" name="factory" value="{{ old('factory') }}">
@@ -96,7 +96,7 @@
                     </div>
                     <div class="input-group">
                         <span class="input-group-addon">
-                            <i class="fas fa fa-wrench"></i>
+                            <i class="fa fa-wrench"></i>
                         </span>
                         <div class="form-line">
                           <select id="job" class="form-control{{ $errors->has('job') ? ' is-invalid' : '' }}" name="job" value="{{ old('job') }}">

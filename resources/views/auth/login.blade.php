@@ -2,6 +2,7 @@
 
 @section('content')
   <body class="login-page">
+
       <div class="login-box">
           <div class="logo">
               <a href="javascript:void(0);">Arvind<b> KYF</b></a>
@@ -14,7 +15,7 @@
                       <div class="msg">Login</div>
                       <div class="input-group">
                           <span class="input-group-addon">
-                              <i class="material-icons">person</i>
+                              <i class="fa fa-user"></i>
                           </span>
                           <div class="form-line">
                             <input id="email" type="email" placeholder="Email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required autofocus>
@@ -28,7 +29,7 @@
                       </div>
                       <div class="input-group">
                           <span class="input-group-addon">
-                              <i class="material-icons">lock</i>
+                              <i class="fa fa-lock"></i>
                           </span>
                           <div class="form-line">
                             <input id="password" type="password" placeholder="Password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
@@ -60,5 +61,7 @@
       </div>
 @endsection
 @section('scripts')
+  <script src="{{ asset('./js/particles.js')}}"></script>
+  <script src="{{ asset('./js/particle.js')}}"></script>
   <script src="{{ asset('./js/pages/examples/sign-in.js')}}"></script>
 @endsection

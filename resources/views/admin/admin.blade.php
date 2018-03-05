@@ -24,8 +24,8 @@
           <div class="pull-right">
             <button type="button" @click="disable_enable(key, factory)" class="btn btn-sm btn-success ml-auto" v-if="factory.isActive == 1"  name="button">Disable</button>
             <button type="button" @click="disable_enable(key, factory)" class="btn btn-sm ml-auto" v-else name="button">Enable</button>
-            <a class="btn btn-primary btn-sm mr-auto" name="button" href="" >View Reports</a>
-            <button type="button" class="btn btn-info btn-sm" name="button">Edit Factory</button>
+            <a class="btn btn-primary btn-sm mr-auto" name="button" :href="'/admin/factory/master/' + factory.id">View Reports</a>
+            <button type="button" class="btn btn-info btn-sm" name="button" data-toggle="modal" data-target="#exampleModal">Edit Factory</button>
             <button type="button" class="btn btn-danger btn-sm" @click="del(key, factory.id)" name="button">Delete Factory</button>
           </div>
         </li>
@@ -64,10 +64,7 @@
 
 @endsection
 
-
 @section('scripts')
-  <script src="{{ asset('./js/vue.js') }}" charset="utf-8"></script>
-  <script src="{{ asset('./js/axios.js') }}" charset="utf-8"></script>
   <script type="text/javascript">
   var app = new Vue({
     el: '#app',
@@ -106,9 +103,8 @@
       disable_enable(key, id){
         this.loading = !this.loading
         var factory = this.factories[key]
-        console.log(factory)
         if(this.factories[key].isActive == 1){
-          if(confirm("Are you sure, You want to revoke all the rights from the factory")){
+          if(confirm("Are you sure, You want to revoke all the rights from this factory")){
             factory.isActive = 0
             axios.get(`/admin/factory/endis/${factory.id}`)
             .then((response) => console.log(response))
@@ -146,7 +142,6 @@
       addFactory(){
         axios.post('/admin/factory', this.$data.newfactory).then((response) => {
           this.newfactory.name = '';
-          this.newfactory.isActive = '';
           this.factories.push(response.data);
           this.factories.sort(function(a, b){
             if(a.name > b.name){
@@ -159,5 +154,5 @@
       }
     }
   });
-  </script>
+</script>
 @endsection

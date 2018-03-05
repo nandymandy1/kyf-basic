@@ -1,12 +1,7 @@
 @extends('layouts.app')
-
 @section('content')
-<div class="container">
-  <h3>All Factory Owners</h3>
-  <div class="" id="app">
-    <span class="pull-right" v-if="loading">
-      <i class="fa fa-refresh fa-spin fa-1x fs-fw"></i>
-    </span>
+  <div class="container" id="app">
+    <h3>@{{ layout }}</h3>
     <br>
     <div class="row">
       <div class="col-md-4 col-sm-6 mr-auto">
@@ -14,30 +9,78 @@
       </div>
     </div>
     <br>
-    
+    <ul class="list-group">
+      <li v-for="user, key in temp" class="list-group-item">
+        @{{ user.name }}<br>
+        <b>@{{ user.factory }}</b>
+        <div class="pull-right">
+          <button type="button" @click="disable_enable(key, user)" class="btn btn-sm btn-success ml-auto" v-if="user.isActive == 1"  name="button">Disable</button>
+          <button type="button" @click="disable_enable(key, user)" class="btn btn-sm ml-auto" v-else name="button">Enable</button>
+        </div>
+      </li>
+    </ul>
   </div>
-</div>
 @endsection
-
 @section('scripts')
-  <script src="{{ asset('./js/vue.js') }}" charset="utf-8"></script>
-  <script src="{{ asset('./js/axios.js') }}" charset="utf-8"></script>
-  <script type="text/javascript">
+<script type="text/javascript">
   var app = new Vue({
-    el: '#app'
+    el: '#app',
     data(){
       return{
-
+        layout: 'Factory Owners',
+        users:[],
+        temp:{},
+        searchQuery:''
       }
     },
-    methods:{
-
-    },
     created(){
-
+      // at the runitime initial method
+      this.fetchUsers()
     },
-    watch{
-        // Search Query Goes here
+    methods:{
+      fetchUsers(){
+        // fetch users
+        axios.post('/admin/usersfetch').then((response) => {
+          this.users = this.temp = response.data
+          console.log(this.users);
+        })
+        .catch((error) => this.errors = error.response.data.errors)
+      },
+      disable_enable(key, id){
+        var user = this.users[key]
+        if(this.users[key].isActive == 1){
+          if(confirm("Are you sure, You want to revoke all the rights from this User?")){
+            user.isActive = 0
+            axios.get(`/admin/user/endis/${user.id}`)
+            .then((response) => console.log(response))
+            .catch((error) => this.errors = error.response.data.errors)
+          }
+        }
+        else{
+          if(confirm("Are you sure, You want to Activate this User?")){
+            user.isActive = 1
+            axios.get(`/admin/user/endis/${user.id}`)
+            .then((response) => console.log(response))
+            .catch((error) => this.errors = error.response.data.errors)
+          }
+        }
+        this.fetchUsers();
+      }
+    },
+    watch:{
+      searchQuery(){
+        if(this.searchQuery.length > 0){
+          this.temp = this.users.filter((user) => {
+            return Object.keys(user).some((key) => {
+              let string = String(user[key])
+              return string.toLowerCase().indexOf(this.searchQuery.toLowerCase()) > -1
+            })
+          });
+        } else {
+          this.temp = this.users
+        }
+      }
     }
   });
+</script>
 @endsection

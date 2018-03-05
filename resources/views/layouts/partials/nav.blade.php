@@ -26,7 +26,8 @@
                     <li><a class="nav-link" href="/master/finishing">Finishing</a></li>
                     <li><a class="nav-link" href="/master/quality">Quality</a></li>
                     <li><a class="nav-link" href="/master/general">General</a></li>
-                  @elseif (Auth::user()->type = 'admin')
+                  @elseif (Auth::user()->type == 'admin')
+                    <li><a class="nav-link" href="/home">Factory</a></li>
                     <li><a class="nav-link" href="/admin/users">Users</a></li>
                   @endif
                     <li class="nav-item dropdown">
@@ -40,7 +41,6 @@
                                              document.getElementById('logout-form').submit();">
                                 Logout
                             </a>
-
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                 @csrf
                             </form>

@@ -15,9 +15,9 @@
   <br>
 
   <div class="row">
-    <div class="col-md-6 mb-5">
+    <div class="col-md-6 mb-2">
       <div class="card">
-        <div class="card-header">
+        <div class="card-header bg-blue">
           Overtime In Departments
         </div>
         <div class="card-body">
@@ -26,9 +26,9 @@
       </div>
     </div>
 
-    <div class="col-md-6 mb-5">
+    <div class="col-md-6 mb-2">
       <div class="card">
-        <div class="card-header">
+        <div class="card-header bg-red">
           Absenteeism
         </div>
         <div class="card-body">
@@ -37,9 +37,9 @@
       </div>
     </div>
 
-    <div class="col-md-6 mb-5">
+    <div class="col-md-6 mb-2">
       <div class="card">
-        <div class="card-header">
+        <div class="card-header bg-light-green">
           Man Machine Ratio
         </div>
         <div class="card-body">
@@ -48,7 +48,7 @@
       </div>
     </div>
 
-    <div class="col-md-6 mb-5">
+    <!--<div class="col-md-6 mb-5">
       <div class="card">
         <div class="card-header">
           Cutting Department WIP
@@ -57,7 +57,8 @@
           <canvas id="pie_chart" height="150"></canvas>
         </div>
       </div>
-    </div>
+    </div>-->
+
   </div>
 </div>
 
@@ -71,11 +72,9 @@
       new Chart(document.getElementById("line_chart").getContext("2d"), getChartJs('line'));
       // new Chart(document.getElementById("bar_chart").getContext("2d"), getChartJs('bar'));
       new Chart(document.getElementById("linep").getContext("2d"), getChartJs('linep'));
-      new Chart(document.getElementById("pie_chart").getContext("2d"), getChartJs('linewip'));
+      // new Chart(document.getElementById("pie_chart").getContext("2d"), getChartJs('linewip'));
       new Chart(document.getElementById("abs").getContext("2d"), getChartJs('abs'));
   });
-
-
   var t_payrole = [];
   var t_ppeople = [];
   var t_cpeople = [];
@@ -85,7 +84,6 @@
   var t_date = [];
   var t_abs = [];
   var t_twf = [];
-
   var payrole = [];
   var ppeople = [];
   var cpeople = [];
@@ -95,24 +93,17 @@
   var date = [];
   var abs = [];
   var twf = [];
-
   var abse = [];
   var tabse = [];
-
   var mmr = [];
-
   var kopr = [];
   var tkopr = [];
-
   var sopr = [];
   var tsopr = [];
-
   var topr = [];
   var opr = [];
-
   var tdm = [];
   var dm = [];
-
   @foreach ($reports as $report)
   t_payrole.push({{ $report->payrole }});
   t_ppeople.push({{ $report->ppeople }});
@@ -125,16 +116,12 @@
   tabse.push((({{ $report->abs }})/({{ $report->twf }})*100).toFixed(2));
   t_date.push("{{ date('d-m-Y', strtotime($report->created_at)) }}");
   @endforeach
-
   @foreach ($mmr as $m)
   tdm.push("{{ date('d-m-Y', strtotime($m->created_at)) }}");
   tkopr.push({{ $m->kopr }});
   tsopr.push({{ $m->sopr }});
   topr.push({{ $m->kopr + $m->sopr }});
   @endforeach
-
-
-
 for(var i= t_date.length-1 ; i >= 0; i--){
   date.push(t_date[i]);
   payrole.push(t_payrole[i]);
@@ -147,24 +134,17 @@ for(var i= t_date.length-1 ; i >= 0; i--){
   abs.push(t_abs[i]);
   abse.push(tabse[i]);
 }
-
 for(var j=tdm.length-1; j >=0; j--){
   kopr.push(tkopr[j]);
   dm.push(tdm[j]);
   sopr.push(tsopr[j]);
   opr.push(topr[j]);
 }
-
-
  for(var k=twf.length-1; k >=0; k--){
    mmr.push(((twf[k]/(kopr[k]+ sopr[k]))).toFixed(2));
  }
-
-
-
   function getChartJs(type) {
     var config = null;
-
     if (type === 'line') {
         config = {
             type: 'bar',
@@ -210,7 +190,6 @@ for(var j=tdm.length-1; j >=0; j--){
             }
         }
     }
-
     else if (type === 'linep') {
         config = {
             type: 'line',
@@ -238,7 +217,6 @@ for(var j=tdm.length-1; j >=0; j--){
             }
         }
     }
-
     else if (type === 'abs') {
         config = {
             type: 'line',
@@ -290,7 +268,6 @@ for(var j=tdm.length-1; j >=0; j--){
             }
         }
     }
-
     else if (type === 'linewip') {
         config = {
           type: 'bar',
@@ -316,9 +293,7 @@ for(var j=tdm.length-1; j >=0; j--){
     }
     */
     return config;
-
 }
-
 function removeDuplicates(arr){
     let unique_array = []
     for(let i = 0;i < arr.length; i++){
@@ -328,7 +303,6 @@ function removeDuplicates(arr){
     }
     return unique_array
 }
-
   </script>
 
 @endsection
