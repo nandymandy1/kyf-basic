@@ -12,7 +12,7 @@
     </div>
   @endif
 @endif
-
+  <h2>Cutting Dashboard</h2>
   <div class="row">
     <div class="col-md-6 mb-2">
       <div class="card">
@@ -92,9 +92,10 @@
   var t_wip = [];
 
 
+
   @foreach ($reports as $report)
     t_cqty.push({{ $report->cqty }});
-    t_date.push("{{ date('d-m-Y', strtotime($report->created_at)) }}");
+    t_date.push("{{ date('d-M', strtotime($report->created_at)) }}");
     t_psew.push({{ $report->psew }});
     t_pemb.push({{ $report->pemb }});
     t_fout.push({{ $report->fout }});
@@ -150,7 +151,19 @@
                   position:'bottom'
                 },
                 scales: {
-                  yAxes:[{ticks:{min:0}}]
+                  yAxes:[{
+                    ticks:{min:0},
+                    scaleLabel:{
+                      display:true,
+                      labelString:'Pieces'
+                    }
+                  }],
+                  xAxes:[{
+                    scaleLabel:{
+                      display:true,
+                      labelString:'Dates'
+                    }
+                  }]
                 }
             }
         }
@@ -177,7 +190,9 @@
                   position:'bottom'
                 },
                 scales: {
-                  yAxes:[{ticks:{min:0}}]
+                  yAxes:[{
+                    ticks:{min:0}
+                  }]
                 }
             }
         }
@@ -204,7 +219,19 @@
                   position:'bottom'
                 },
                 scales: {
-                  yAxes:[{ticks:{min:0}}]
+                  yAxes:[{
+                    ticks:{min:0},
+                    scaleLabel:{
+                      display:true,
+                      labelString:'Pieces'
+                    }
+                  }],
+                  xAxes:[{
+                    scaleLabel:{
+                      display:true,
+                      labelString:'Dates'
+                    }
+                  }]
                 }
             }
         }
@@ -227,7 +254,19 @@
                 position:'bottom'
               },
               scales: {
-                yAxes:[{ticks:{min:0}}]
+                yAxes:[{
+                  ticks:{min:0},
+                  scaleLabel:{
+                    display:true,
+                    labelString:'Pieces'
+                  }
+                }],
+                xAxes:[{
+                  scaleLabel:{
+                    display:true,
+                    labelString:'Dates'
+                  }
+                }]
               }
           }
         }

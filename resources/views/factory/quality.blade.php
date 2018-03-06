@@ -13,7 +13,7 @@
     @endif
   @endif
   <br>
-
+  <h2>Quality Dashboard</h2>
   <div class="row">
     <div class="col-md-6 mb-2">
       <div class="card">
@@ -65,7 +65,7 @@ var dhu = [];
 
 
   @foreach ($reports as $report)
-    t_date.push("{{ date('d-m-Y', strtotime($report->created_at)) }}");
+    t_date.push("{{ date('d-M', strtotime($report->created_at)) }}");
     t_inspected.push({{ $report->inspected }});
     t_failed.push({{ $report->failed }});
     t_dhu.push(({{ (($report->failed)/($report->inspected))*100 }}).toFixed(2));
@@ -103,7 +103,19 @@ var dhu = [];
                   position:'bottom'
                 },
                 scales: {
-                  yAxes:[{ticks:{min:0}}]
+                  yAxes:[{
+                    ticks:{min:0},
+                    scaleLabel:{
+                      display:true,
+                      labelString:'DHU%'
+                    }
+                  }],
+                  xAxes:[{
+                    scaleLabel:{
+                      display:true,
+                      labelString:'Dates'
+                    }
+                  }]
                 }
             }
         }
@@ -131,7 +143,19 @@ var dhu = [];
                   position:'bottom'
                 },
                 scales: {
-                  yAxes:[{ticks:{min:0}}]
+                  yAxes:[{
+                    ticks:{min:0},
+                    scaleLabel:{
+                      display:true,
+                      labelString:'Pieces'
+                    }
+                  }],
+                  xAxes:[{
+                    scaleLabel:{
+                      display:true,
+                      labelString:'Dates'
+                    }
+                  }]
                 }
             }
         }

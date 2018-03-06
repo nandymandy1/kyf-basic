@@ -13,7 +13,7 @@
     @endif
   @endif
   <br>
-
+  <h2>General Dashboard</h2>
   <div class="row">
     <div class="col-md-6 mb-2">
       <div class="card">
@@ -114,10 +114,10 @@
   t_abs.push({{ $report->abs }});
   t_twf.push({{ $report->twf }});
   tabse.push((({{ $report->abs }})/({{ $report->twf }})*100).toFixed(2));
-  t_date.push("{{ date('d-m-Y', strtotime($report->created_at)) }}");
+  t_date.push("{{ date('d-M', strtotime($report->created_at)) }}");
   @endforeach
   @foreach ($mmr as $m)
-  tdm.push("{{ date('d-m-Y', strtotime($m->created_at)) }}");
+  tdm.push("{{ date('d-M', strtotime($m->created_at)) }}");
   tkopr.push({{ $m->kopr }});
   tsopr.push({{ $m->sopr }});
   topr.push({{ $m->kopr + $m->sopr }});
@@ -185,7 +185,19 @@ for(var j=tdm.length-1; j >=0; j--){
                   position:'bottom'
                 },
                 scales: {
-                  yAxes:[{ticks:{min:0}}]
+                  yAxes:[{
+                    ticks:{min:0},
+                    scaleLabel:{
+                      display:true,
+                      labelString:'Overtime in Hrs.'
+                    }
+                  }],
+                  xAxes:[{
+                    scaleLabel:{
+                      display:true,
+                      labelString:'Dates'
+                    }
+                  }]
                 }
             }
         }
@@ -212,7 +224,13 @@ for(var j=tdm.length-1; j >=0; j--){
                   position:'bottom'
                 },
                 scales: {
-                  yAxes:[{ticks:{min:0}}]
+                  yAxes:[{
+                    ticks:{min:0},
+                    scaleLabel:{
+                      display:true,
+                      labelString:'MMR'
+                    }
+                  }]
                 }
             }
         }
@@ -239,7 +257,19 @@ for(var j=tdm.length-1; j >=0; j--){
                   position:'bottom'
                 },
                 scales: {
-                  yAxes:[{ticks:{min:0}}]
+                  yAxes:[{
+                    ticks:{min:0},
+                    scaleLabel:{
+                      display:true,
+                      labelString:'Absenteeism%'
+                    }
+                  }],
+                  xAxes:[{
+                    scaleLabel:{
+                      display:true,
+                      labelString:'Dates'
+                    }
+                  }]
                 }
             }
         }

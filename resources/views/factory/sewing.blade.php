@@ -13,7 +13,7 @@
     @endif
   @endif
   <br>
-
+  <h2>Sewing Dashboard</h2>
   <div class="row">
     <div class="col-md-6 mb-2">
       <div class="card">
@@ -122,7 +122,7 @@
   t_actual.push({{ $report->actual }});
   t_outcome.push({{ $report->outcome }});
   t_sam.push({{ $report->sam }});
-  t_date.push("{{ date('d-m-Y', strtotime($report->created_at)) }}");
+  t_date.push("{{ date('d-M', strtotime($report->created_at)) }}");
   t_eff.push((({{ (($report->prod)*($report->sam))/(($report->kopr + $report->sopr)*480) }})*100).toFixed(2));
   t_wip.push({{ $report->prod - $report->outcome }})
   @endforeach
@@ -192,7 +192,19 @@ for(var i= t_date.length-1 ; i >= 0; i--){
                   position:'bottom'
                 },
                 scales: {
-                  yAxes:[{ticks:{min:0}}]
+                  yAxes:[{
+                    ticks:{min:0},
+                    scaleLabel:{
+                      display:true,
+                      labelString:'Pieces'
+                    }
+                  }],
+                  xAxes:[{
+                    scaleLabel:{
+                      display:true,
+                      labelString:'Dates'
+                    }
+                  }]
                 }
             }
         }
@@ -243,7 +255,19 @@ for(var i= t_date.length-1 ; i >= 0; i--){
                   position:'bottom'
                 },
                 scales: {
-                  yAxes:[{ticks:{min:0}}]
+                  yAxes:[{
+                    ticks:{min:0},
+                    scaleLabel:{
+                      display:true,
+                      labelString:'Pieces'
+                    }
+                  }],
+                  xAxes:[{
+                    scaleLabel:{
+                      display:true,
+                      labelString:'Dates'
+                    }
+                  }]
                 }
             }
         }
@@ -267,7 +291,19 @@ for(var i= t_date.length-1 ; i >= 0; i--){
                   position:'bottom'
                 },
                 scales: {
-                  yAxes:[{ticks:{min:0}}]
+                  yAxes:[{
+                    ticks:{min:0},
+                    scaleLabel:{
+                      display:true,
+                      labelString:'Pieces'
+                    }
+                  }],
+                  xAxes:[{
+                    scaleLabel:{
+                      display:true,
+                      labelString:'Dates'
+                    }
+                  }]
                 }
             }
         }
@@ -291,7 +327,19 @@ for(var i= t_date.length-1 ; i >= 0; i--){
                 position:'bottom'
               },
               scales: {
-                yAxes:[{ticks:{min:0}}]
+                yAxes:[{
+                  ticks:{min:0},
+                  scaleLabel:{
+                    display:true,
+                    labelString:'Pieces'
+                  }
+                }],
+                xAxes:[{
+                  scaleLabel:{
+                    display:true,
+                    labelString:'Dates'
+                  }
+                }]
               }
           }
         }

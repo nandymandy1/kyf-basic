@@ -2,17 +2,17 @@
 
 @section('content')
   <body class="login-page">
-
+    <div class="" id="particles-js">
       <div class="login-box">
           <div class="logo">
-              <a href="javascript:void(0);">Arvind<b> KYF</b></a>
-              <small>Get to know about your factory</small>
+            <a href="javascript:void(0);">Arvind<b> KYF</b></a>
+            <small>Powered by - <img src="{{ asset('logo.png')}}" alt="" height="15px"></small>
           </div>
           <div class="card">
               <div class="body">
                   <form id="sign_in" method="POST" action="{{ route('login') }}">
+                    <div class="msg"><h5>Login to get to know your factory</h5></div>
                     @csrf
-                      <div class="msg">Login</div>
                       <div class="input-group">
                           <span class="input-group-addon">
                               <i class="fa fa-user"></i>
@@ -59,6 +59,7 @@
               </div>
           </div>
       </div>
+    </div>
 @endsection
 @section('scripts')
   <script src="{{ asset('./js/particles.js')}}"></script>

@@ -13,7 +13,7 @@
   @endif
 @endif
   <br>
-
+  <h2>Finishing Dashboard</h2>
   <div class="row">
     <div class="col-md-6 mb-2">
       <div class="card">
@@ -88,7 +88,7 @@ var wip = [];
 
 
   @foreach ($reports as $report)
-  t_date.push("{{ date('d-m-Y', strtotime($report->created_at)) }}");
+  t_date.push("{{ date('d-M', strtotime($report->created_at)) }}");
   t_pkd.push({{ $report->pkd }});
   t_income.push({{ $report->income }});
   t_feed.push({{ $report->feed }});
@@ -136,7 +136,19 @@ var wip = [];
                   position:'bottom'
                 },
                 scales: {
-                  yAxes:[{ticks:{min:0}}]
+                  yAxes:[{
+                    ticks:{min:0},
+                    scaleLabel:{
+                      display:true,
+                      labelString:'Pieces'
+                    }
+                  }],
+                  xAxes:[{
+                    scaleLabel:{
+                      display:true,
+                      labelString:'Dates'
+                    }
+                  }]
                 }
             }
         }
@@ -164,7 +176,19 @@ var wip = [];
                   position:'bottom'
                 },
                 scales: {
-                  yAxes:[{ticks:{min:0}}]
+                  yAxes:[{
+                    ticks:{min:0},
+                    scaleLabel:{
+                      display:true,
+                      labelString:'Pieces'
+                    }
+                  }],
+                  xAxes:[{
+                    scaleLabel:{
+                      display:true,
+                      labelString:'Dates'
+                    }
+                  }]
                 }
             }
         }
@@ -192,7 +216,19 @@ var wip = [];
                   position:'bottom'
                 },
                 scales: {
-                  yAxes:[{ticks:{min:0}}]
+                  yAxes:[{
+                    ticks:{min:0},
+                    scaleLabel:{
+                      display:true,
+                      labelString:'Pieces'
+                    }
+                  }],
+                  xAxes:[{
+                    scaleLabel:{
+                      display:true,
+                      labelString:'Dates'
+                    }
+                  }]
                 }
             }
         }
@@ -216,7 +252,19 @@ var wip = [];
                 position:'bottom'
               },
               scales: {
-                yAxes:[{ticks:{min:0}}]
+                yAxes:[{
+                  ticks:{min:0},
+                  scaleLabel:{
+                    display:true,
+                    labelString:'Pieces'
+                  }
+                }],
+                xAxes:[{
+                  scaleLabel:{
+                    display:true,
+                    labelString:'Dates'
+                  }
+                }]
               }
           }
         }

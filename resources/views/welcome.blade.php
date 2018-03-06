@@ -6,7 +6,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title>KYF App</title>
-
+        <!--Favicon-->
+        <link rel="shortcut icon" type="image/png" href="{{ asset('favicon.png')}}"/>
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="{{ asset('./css/app.css')}}">
@@ -61,9 +62,11 @@
       <div id="particles-js">
         <nav class="navbar navbar-expand-md navbar navbar-dark bg-dark fixed-top">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    <b>Arvind App</b>
-                </a>
+                <div class="container text-center">
+                  <a class="navbar-brand mx-auto" href="{{ url('/') }}">
+                      Arvind-Kyf
+                  </a>
+                </div>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -82,6 +85,12 @@
                 </div>
             </div>
         </nav>
+        <br><br><br><br><br><br><br><br><br>
+        <div class="container">
+          <div class="pull-right">
+            <img src="{{ asset('logo.png')}}" alt="Arvind Automate" height="70px">
+          </div>
+        </div>
       </div><!-- Particle js DIV -->
       <script src="{{ asset('./js/jquery-3.2.1.slim.min.js')}}" charset="utf-8"></script>
       <script src="{{ asset('./js/popper.min.js')}}" charset="utf-8"></script>
