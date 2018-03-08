@@ -8,7 +8,7 @@
     <link rel="shortcut icon" type="image/png" href="{{ asset('favicon.png')}}"/>
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Arvind App</title>
+    <title>Arvind- KYF</title>
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('./css/materialize.css') }}">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">

@@ -20,13 +20,13 @@ class InputController extends Controller
     public function saveCutting(Request $req){
       // ValidationData
       $validatedData = $req->validate([
-        'cqty' => 'required',
-        'tpeople' => 'required',
-        'psew' => 'required',
-        'factory_id' => 'required',
-        'fout' => 'required',
-        'pcut' => 'required',
-        'pemb' => 'required'
+        'cqty'        => 'required',
+        'tpeople'     => 'required',
+        'psew'        => 'required',
+        'factory_id'  => 'required',
+        'fout'        => 'required',
+        'pcut'        => 'required',
+        'pemb'        => 'required'
       ]);
 
 
@@ -48,15 +48,15 @@ class InputController extends Controller
     public function saveSewing(Request $req){
       // ValidationData
       $validatedData = $req->validate([
-        'income' => 'required',
-        'sopr' => 'required',
-        'kopr' => 'required',
-        'factory_id' => 'required',
-        'prod' => 'required',
-        'target' => 'required',
-        'actual' => 'required',
-        'outcome' => 'required',
-        'sam' => 'required',
+        'income'      => 'required',
+        'sopr'        => 'required',
+        'kopr'        => 'required',
+        'factory_id'  => 'required',
+        'prod'        => 'required',
+        'target'      => 'required',
+        'actual'      => 'required',
+        'outcome'     => 'required',
+        'sam'         => 'required',
       ]);
 
 
@@ -81,10 +81,10 @@ class InputController extends Controller
     public function saveFinishing(Request $req){
       // ValidationData
       $validatedData = $req->validate([
-        'income' => 'required',
-        'factory_id' => 'required',
-        'feed' => 'required',
-        'pkd' => 'required',
+        'income'      => 'required',
+        'factory_id'  => 'required',
+        'feed'        => 'required',
+        'pkd'         => 'required',
       ]);
 
 
@@ -102,9 +102,9 @@ class InputController extends Controller
     public function saveQuality(Request $req){
       // ValidationData
       $validatedData = $req->validate([
-        'inspected' => 'required',
-        'factory_id' => 'required',
-        'failed' => 'required',
+        'inspected'   => 'required',
+        'factory_id'  => 'required',
+        'failed'      => 'required',
       ]);
 
 
@@ -144,6 +144,5 @@ class InputController extends Controller
       $c->save();
       return redirect('/home')->with('success', 'General Data Saved');
     }
-
 
 }

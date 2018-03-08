@@ -231,7 +231,19 @@ for(var i= t_date.length-1 ; i >= 0; i--){
                   position:'bottom'
                 },
                 scales: {
-                  yAxes:[{ticks:{min:0}}]
+                  yAxes:[{
+                    ticks:{min:0},
+                    scaleLabel:{
+                      display:true,
+                      labelString:'Efficiency%'
+                    }
+                  }],
+                  xAxes:[{
+                    scaleLabel:{
+                      display:true,
+                      labelString:'Dates'
+                    }
+                  }]
                 }
             }
         }
