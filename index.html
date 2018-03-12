@@ -1,0 +1,296 @@
+@extends('layouts.app')
+
+
+@section('content')
+<div class="container" id="app">
+  <h4>@{{ factory.name }}</h4>
+  <div class="card">
+    <div class="card-header bg-red">
+      Cutting
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="card">
+            <div class="card-body">
+              <div id="cwip" style="height: 250px; max-width: 250px; margin: 0px auto;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card">
+            <div class="card-body">
+              <div id="targetvActual" style="height: 250px; max-width: 250px; margin: 0px auto;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card">
+            <div class="card-body">
+              <div id="ceffi" style="height: 250px; max-width: 250px; margin: 0px auto;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header bg-blue">
+      Sewing
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-4">
+
+        </div>
+        <div class="col-md-4">
+
+        </div>
+        <div class="col-md-4">
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header bg-green">
+      Finishing
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-4">
+
+        </div>
+        <div class="col-md-4">
+
+        </div>
+        <div class="col-md-4">
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header bg-light-blue">
+      Quality
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-4">
+
+        </div>
+        <div class="col-md-4">
+
+        </div>
+        <div class="col-md-4">
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header bg-teal">
+      General
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-4">
+
+        </div>
+        <div class="col-md-4">
+
+        </div>
+        <div class="col-md-4">
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+@endsection
+
+@section('scripts')
+
+<script type="text/javascript">
+  var app = new Vue({
+    el: '#app',
+    data(){
+      return{
+        factory:{
+          name:'',
+          id: ''
+        },
+        cutting:{},
+        sewing:{},
+        finishing:{},
+        quality:{},
+        dGeneral:{},
+        temp:{},
+        errors:{},
+        id: {{$req}}
+
+      }
+    },
+    created(){
+      // console.log(this.id);
+      this.fetchReport();
+    },
+    methods:{
+
+      fetchReport(){
+        axios.post(`/admin/factory/reports/${this.id}`).then((response) => {
+
+          console.log(response.data)
+          this.factory.name = response.data.factory[0].name
+          this.factory.id = response.data.factory[0].id
+          this.cutting = response.data.reports.cutting
+          console.log(this.cutting)
+          this.sewing = response.data.reports.sewing
+          console.log(this.sewing)
+          this.finishing = response.data.reports.finishing
+          console.log(this.finishing)
+          this.quality = response.data.reports.quality
+          console.log(this.quality)
+          this.dGeneral = response.data.reports.d_general
+          console.log(this.dGeneral)
+
+          var cwip = [];
+          var actualC = [];
+          var targetC = [];
+          var effiCut = [];
+
+          for (var i = 0; i < this.cutting.length; i++) {
+            dates = new Date(this.cutting[i].created_at);
+            cwip.push({
+              x: dates,
+              y: this.cutting[i].pcut - this.cutting[i].psew
+            });
+            actualC.push({
+              x: dates,
+              y: this.cutting[i].pcut
+            });
+            targetC.push({
+              x: dates,
+              y: this.cutting[i].cqty
+            });
+
+            kopr = this.sewing[i].kopr;
+            sopr = this.sewing[i].sopr;
+            sam = this.sewing[i].sam;
+
+            effiCut.push({
+              x: dates ,
+              y: parseFloat((this.cutting[i].pcut / (((kopr + sopr)*480)/sam) *100).toFixed(2))
+            });
+
+          } // OBJECTS PREPARATION FOR THE CHARTS TO RENDER
+
+          // For Avarage Efficiency
+          avgEffiCut = 0;
+          for(j = 0; j < effiCut.length; j++){
+            avgEffiCut += effiCut[j].y;
+          }
+          avgEffiCut = (avgEffiCut/effiCut.length).toFixed(2);
+          console.log(avgEffiCut);
+
+          // Daily Cutting WIP
+          cwip = new CanvasJS.Chart("cwip", {
+            animationEnabled: true,
+            theme: "light1",
+            title: {
+              text: "Daily WIP"
+            },
+            axisY: {
+              title: "WIP",
+              titleFontSize: 15
+            },
+            axisX: {
+          		valueFormatString: "DD MMM"
+          	},
+            data: [{
+              type: "column",
+              yValueFormatString: "#,### WIP",
+              dataPoints: cwip
+            }]
+          })
+          cwip.render();
+          // Daily Cutting Target vs Actual
+          var ctva = new CanvasJS.Chart("targetvActual", {
+          	animationEnabled: true,
+          	title:{
+          		text: "Target vs Actual Cutting"
+          	},
+          	axisX: {
+          		valueFormatString: "DD MMM"
+          	},
+          	axisY: {
+          		title: "Pieces Cut",
+          		includeZero: true
+          	},
+          	toolTip:{
+          		shared: true
+          	},
+          	data: [{
+          		name: "Target",
+          		type: "spline",
+          		// yValueFormatString: "#0.## °C",
+          		showInLegend: true,
+          		dataPoints: targetC
+          	},
+          	{
+          		name: "Actual",
+          		type: "spline",
+          		// yValueFormatString: "#0.## °C",
+          		showInLegend: true,
+          		dataPoints: actualC
+          	}]
+          });
+          ctva.render();
+          // Daily Cutting Efficiency
+          var ceffi = new CanvasJS.Chart("ceffi", {
+          	animationEnabled: true,
+          	title:{
+          		text: "Efficiency"
+          	},
+          	axisY: {
+          		title: "Efficiency (%)",
+          		suffix: "%",
+              stripLines: [{
+          			value: avgEffiCut,
+          			label: "Average Efficiency (%)"
+          		}]
+          	},
+            axisX: {
+          		valueFormatString: "DD MMM"
+          	},
+          	data: [{
+              yValueFormatString: "#,### (%)",
+          		type: "spline",
+          		dataPoints: effiCut
+          	}]
+          });
+          ceffi.render();
+
+          // SEWING SECTION
+
+
+
+
+
+        })//axios Call
+      }// fetch Factory Report
+
+
+    }// Methods
+    // Vue Instance
+  });
+</script>
+
+<script type="text/javascript">
+
+
+
+</script>
+
+
+@endsection

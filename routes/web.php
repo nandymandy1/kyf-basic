@@ -63,18 +63,12 @@ Route::prefix('/master')->group(function(){
 });
 
 
-
 // Admin Routes
 Route::prefix('/admin')->group(function () {
 
-  /*
-  Route::get('/factory/master/{id}', 'FactController@master');
-  Route::get('/factory/cutting/{id}', 'FactController@cutting');
-  Route::get('/factory/sewing/{id}', 'FactController@sewing');
-  Route::get('/factory/finishing/{id}', 'FactController@finishing');
-  Route::get('/factory/quality/{id}', 'FactController@quality');
-  Route::get('/factory/general/{id}', 'FactController@general');
-  */
+  // View reports routes for the factories
+  Route::get('/factory/master/{id}', 'AdminFactoryController@factoryDashboard');
+  Route::post('/factory/reports/{req}', 'AdminFactoryController@master');
 
   Route::post('/factory', 'FactController@store');
   Route::resource('/factory', 'FactController');

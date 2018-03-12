@@ -24,8 +24,10 @@ class FactoryController extends Controller
       $reports = Ckpi::where('factory_id', $factory->id)->orderBy('created_at', 'DESC')->take(30)->get();
 
       return view('factory.cutting', ['reports'=> $reports]);
+
     }
     public function sewing(){
+
       $factory = Factory::find(Auth::user()->factory_id);
       $reports = Skpi::where('factory_id', $factory->id)->orderBy('created_at', 'DESC')->take(30)->get();
 
@@ -37,6 +39,7 @@ class FactoryController extends Controller
 
     }
     public function finishing(){
+
       $factory = Factory::find(Auth::user()->factory_id);
 
       $reports = Fkpi::where('factory_id', $factory->id)->orderBy('created_at', 'DESC')->take(30)->get();
@@ -44,6 +47,7 @@ class FactoryController extends Controller
       return view('factory.finishing', ['reports'=> $reports]);
     }
     public function quality(){
+
       $factory = Factory::find(Auth::user()->factory_id);
 
       $reports = Qkpi::where('factory_id', $factory->id)->orderBy('created_at', 'DESC')->take(30)->get();
@@ -51,6 +55,7 @@ class FactoryController extends Controller
       return view('factory.quality', ['reports'=> $reports]);
     }
     public function general(){
+
       $factory = Factory::find(Auth::user()->factory_id);
 
       $reports = Gkpi::where('factory_id', $factory->id)->orderBy('created_at', 'DESC')->take(30)->get();

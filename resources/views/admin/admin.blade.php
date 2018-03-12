@@ -18,6 +18,7 @@
         </div>
       </div>
       <br>
+      <!--Start of Factories list-->
       <ul class="list-group">
         <li v-for="factory, key in temp" class="list-group-item">
           @{{ factory.name }}
@@ -30,6 +31,8 @@
           </div>
         </li>
       </ul>
+      <!--End of Factories list-->
+      <!--Modal-->
       <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
@@ -59,6 +62,7 @@
           </div>
         </div>
       </div>
+      <!--Modal-->
     </div>
   </div>
 

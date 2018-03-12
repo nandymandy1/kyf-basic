@@ -136,4 +136,9 @@ class FactController extends Controller
         Factory::where('id', $id)->delete();
     }
 
+
+    public function master($id){
+      
+    }
+
 }

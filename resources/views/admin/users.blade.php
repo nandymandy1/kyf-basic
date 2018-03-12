@@ -9,6 +9,7 @@
       </div>
     </div>
     <br>
+    <!--Starting of Users list-->
     <ul class="list-group">
       <li v-for="user, key in temp" class="list-group-item">
         @{{ user.name }}<br>
@@ -18,7 +19,7 @@
           <button type="button" @click="disable_enable(key, user)" class="btn btn-sm ml-auto" v-else name="button">Enable</button>
         </div>
       </li>
-    </ul>
+    </ul><!--End of Users list-->
   </div>
 @endsection
 @section('scripts')
