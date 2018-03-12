@@ -10,21 +10,21 @@
         <div class="col-md-4">
           <div class="card">
             <div class="card-body">
-              <div id="cwip" style="height: 250px; max-width: 250px; margin: 0px auto;"></div>
+              <div class="" id="cwip"></div>
             </div>
           </div>
         </div>
         <div class="col-md-4">
           <div class="card">
             <div class="card-body">
-              <div id="targetvActual" style="height: 250px; max-width: 250px; margin: 0px auto;"></div>
+              <div class="" id="tvac"></div>
             </div>
           </div>
         </div>
         <div class="col-md-4">
           <div class="card">
             <div class="card-body">
-              <div id="ceffi" style="height: 250px; max-width: 250px; margin: 0px auto;"></div>
+              <div class="" id="ceffi"></div>
             </div>
           </div>
         </div>
@@ -32,7 +32,7 @@
     </div>
   </div>
   <div class="card">
-    <div class="card-header bg-red">
+    <div class="card-header bg-light-blue">
       Sewing
     </div>
     <div class="card-body">
@@ -40,21 +40,28 @@
         <div class="col-md-4">
           <div class="card">
             <div class="card-body">
-              <div id="seffi" style="height: 250px; max-width: 250px; margin: 0px auto;"></div>
+              <div class="" id="seffi"></div>
             </div>
           </div>
         </div>
         <div class="col-md-4">
           <div class="card">
             <div class="card-body">
-              <div id="mp" style="height: 250px; max-width: 250px; margin: 0px auto;"></div>
+              <div class="" id="mp"></div>
             </div>
           </div>
         </div>
         <div class="col-md-4">
           <div class="card">
             <div class="card-body">
-              <!--<div id="ceffi" style="height: 250px; max-width: 250px; margin: 0px auto;"></div>-->
+              <div class="" id="dp"></div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card">
+            <div class="card-body">
+              <div class="" id="swip"></div>
             </div>
           </div>
         </div>
@@ -117,12 +124,14 @@
   </div>
 </div>
 @endsection @section('scripts')
+  <script src="{{ asset('./js/highcharts.src.js')}}" charset="utf-8"></script>
+  <script src="{{ asset('./plugins/momentjs/moment.js')}}" charset="utf-8"></script>
 
 <script type="text/javascript">
   var app = new Vue({
     el: '#app',
-    data() {
-      return {
+    data(){
+      return{
         factory: {
           name: '',
           id: ''
@@ -138,20 +147,23 @@
         id: {{$req}}
       }
     },
-    created() {
-      // console.log(this.id);
-      this.fetchReport();
+
+    created(){
+      this.fetchReport()
     },
-    methods: {
 
+    methods:{
       fetchReport() {
-        axios.post(`/admin/factory/reports/${this.id}`).then((response) => {
-
+        axios.post(`/admin/factory/reports/${this.id}`)
+        .then((response) => {
           console.log(response.data)
           this.production = response.data.production
+          console.log(this.production);
           this.factory.name = response.data.factory[0].name
+          console.log(this.factory.name);
           this.factory.id = response.data.factory[0].id
           this.cutting = response.data.reports.cutting
+          console.log(this.cutting);
           this.sewing = response.data.reports.sewing
           console.log(this.sewing)
           this.finishing = response.data.reports.finishing
@@ -162,215 +174,276 @@
           console.log(this.dGeneral)
 
           var cwip = [];
+          var swip = [];
+          var dates = [];
           var actualC = [];
           var targetC = [];
           var effiCut = [];
           var effiSew = [];
           var monthlyProd = [];
-          var months = ['Jan', 'Feb', 'Mar', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+          var months = [];
+          var production = [];
 
+          // For initializing the Data objects for the Carts
+          for(i = this.cutting.length-1; i >= 0; i--){
 
-
-          // LOOP FOR OBJECTS PREPARATION FOR THE CHARTS TO RENDER
-
-          // For Monthly Production reports
-          for (var j = 0; j < this.production.length; j++){
-            monthlyProd.push({
-              label: months[this.production[j].month - 1],
-              y: parseInt(this.production[j].t_prod)
-            });
-          }
-
-          // FOR DAILY REPORTS OBJECTS PREPARATION
-          for (var i = 0; i < this.cutting.length; i++) {
-            dates = new Date(this.cutting[i].created_at);
-            cwip.push({
-              x: dates,
-              y: this.cutting[i].pcut - this.cutting[i].psew
-            });
-            actualC.push({
-              x: dates,
-              y: this.cutting[i].pcut
-            });
-            targetC.push({
-              x: dates,
-              y: this.cutting[i].cqty
-            });
-
+            dates.push(moment(new Date(this.cutting[i].created_at)).format("D-MMM"));
+            cwip.push(this.cutting[i].pcut - this.cutting[i].psew);
+            actualC.push(this.cutting[i].pcut);
+            targetC.push(this.cutting[i].cqty);
             kopr = this.sewing[i].kopr;
             sopr = this.sewing[i].sopr;
             sam = this.sewing[i].sam;
             prod = this.sewing[i].prod;
+            effiCut.push(parseFloat((this.cutting[i].pcut / (((kopr + sopr) * 480) / sam) * 100).toFixed(2)));
+            effiSew.push(parseFloat((((prod*sam)/((kopr + sopr)*480))*100).toFixed(2)));
+            production.push(prod);
+            swip.push(this.sewing[i].prod - this.sewing[i].outcome);
 
-            effiCut.push({
-              x: dates,
-              y: parseFloat((this.cutting[i].pcut / (((kopr + sopr) * 480) / sam) * 100).toFixed(2))
-            });
-
-            effiSew.push({
-              x: dates,
-              y: parseFloat((((prod*sam)/((kopr + sopr)*480))*100).toFixed(2))
-            });
-
-
-
-          } // OBJECTS PREPARATION FOR THE CHARTS TO RENDER
-
-          // CUTTING METHODS GOES HERE
-          // For Avarage Efficiency
-
-          // CUTTING
-          avgEffiCut = 0;
-          for (j = 0; j < effiCut.length; j++) {
-            avgEffiCut += effiCut[j].y;
           }
-          avgEffiCut = (avgEffiCut / effiCut.length).toFixed(2);
-          // SEWING
-          avgEffiSew = 0;
-          for (j = 0; j < effiSew.length; j++) {
-            avgEffiSew += effiSew[j].y;
+
+          for(i=0; i < this.production.length; i++){
+            monthlyProd.push(parseInt(this.production[i].t_prod))
+            months.push(moment(this.production[i].month, 'MM').format('MMM'))
           }
-          avgEffiSew = (avgEffiSew / effiSew.length).toFixed(2);
-          // Average Efficiency Calucation Ends Here
+          console.log(monthlyProd)
+          console.log(months)
 
-
-          // Daily Cutting WIP
-          cwip = new CanvasJS.Chart("cwip", {
-            animationEnabled: true,
-            theme: "light2",
-            title: {
-              text: "Daily WIP"
-            },
-            axisY: {
-              title: "WIP",
-              titleFontSize: 15
-            },
-            axisX: {
-              valueFormatString: "DD MMM"
-            },
-            data: [{
-              type: "column",
-              yValueFormatString: "#,### WIP",
-              dataPoints: cwip
-            }]
-          })
-          cwip.render();
-          // Daily Cutting Target vs Actual
-          var ctva = new CanvasJS.Chart("targetvActual", {
-            animationEnabled: true,
-            theme: "light2",
-            title: {
-              text: "Target vs Actual Cutting"
-            },
-            axisX: {
-              valueFormatString: "DD MMM"
-            },
-            axisY: {
-              title: "Pieces Cut",
-              includeZero: true
-            },
-            toolTip: {
-              shared: true
-            },
-            data: [{
-                name: "Target",
-                type: "spline",
-                showInLegend: true,
-                dataPoints: targetC
+          // Cutting WIP
+          var cwip = Highcharts.chart('cwip', {
+              title: {
+                  text: 'Cutting WIP'
               },
-              {
-                name: "Actual",
-                type: "spline",
-                showInLegend: true,
-                dataPoints: actualC
-              }
-            ]
-          });
-          ctva.render();
-          // Daily Cutting Efficiency
-          var ceffi = new CanvasJS.Chart("ceffi", {
-            animationEnabled: true,
-            theme: "light2",
-            title: {
-              text: "Efficiency"
-            },
-            axisY: {
-              title: "Efficiency (%)",
-              suffix: "%",
-              stripLines: [{
-                value: avgEffiCut,
-                label: "Average Efficiency (%)"
+              subtitle: {
+                  text: 'WIP'
+              },
+              xAxis: {
+                  categories: dates
+              },
+              yAxis: {
+                  title: {
+                      text: 'Number of Pieces'
+                  }
+              },
+              plotOptions: {
+                  line: {
+                      dataLabels: {
+                          enabled: true
+                      },
+                      enableMouseTracking: true
+                  }
+              },
+              series: [{
+                  type: 'column',
+                  colorByPoint: true,
+                  data: cwip,
+                  showInLegend: false
               }]
-            },
-            axisX: {
-              valueFormatString: "DD MMM"
-            },
-            data: [{
-              type: "spline",
-              dataPoints: effiCut
-            }]
           });
-          ceffi.render();
+          // Cutting WIP
+          // Cutting Target Vs Actual
+          var tvac = Highcharts.chart('tvac', {
+              chart: {
+                  type: 'line'
+              },
+              title: {
+                  text: 'Target Vs Actual'
+              },
+              subtitle: {
+                  text: 'Target vs Actual Cutting Quantity'
+              },
+              xAxis: {
+                  categories: dates
+              },
+              yAxis: {
+                  title: {
+                      text: 'Number of Pieces'
+                  }
+              },
+              plotOptions: {
+                  line: {
+                      dataLabels: {
+                          enabled: true
+                      },
+                      enableMouseTracking: true
 
-          // SEWING METHODS GOES HERE
-          /* Sewing Efficiency*/
 
-          var seffi = new CanvasJS.Chart("seffi", {
-            animationEnabled: true,
-            theme: "light2",
-            title: {
-              text: "Efficiency"
-            },
-            axisY: {
-              title: "Efficiency (%)",
-              suffix: "%",
-              stripLines: [{
-                value: avgEffiSew,
-                label: "Average Efficiency (%)"
+                  }
+              },
+              series: [{
+                  name: 'Actual',
+                  data: actualC
+              }, {
+                  name: 'Target',
+                  data: targetC
               }]
-            },
-            axisX: {
-              valueFormatString: "DD MMM"
-            },
-            data: [{
-              type: "spline",
-              dataPoints: effiSew
-            }]
           });
-          seffi.render();
+          // Cutting target Vs Actual
+          // Cutting Efficiency
+          var ceffi = Highcharts.chart('ceffi', {
+              chart: {
+                  type: 'line'
+              },
+              title: {
+                  text: 'Efficiency'
+              },
+              subtitle: {
+                  text: 'Cutting Efficiency w.r.t Sewing'
+              },
+              xAxis: {
+                  categories: dates
+              },
+              yAxis: {
+                  title: {
+                      text: 'Efficiency(%)'
+                  }
+              },
+              plotOptions: {
+                  line: {
+                      dataLabels: {
+                          enabled: true
+                      },
+                      enableMouseTracking: true
+                  }
+              },
+              series: [{
+                  name: 'Efficiency',
+                  data: effiCut
+              }]
+          });
+          // Cutting Efficiency
+          // Sewing Efficiency
+          var seffi = Highcharts.chart('seffi', {
+              chart: {
+                  type: 'line'
+              },
+              title: {
+                  text: 'Efficiency'
+              },
+              subtitle: {
+                  text: 'Sewing Efficiency'
+              },
+              xAxis: {
+                  categories: dates
+              },
+              yAxis: {
+                  title: {
+                      text: 'Efficiency(%)'
+                  }
+              },
+              plotOptions: {
+                  line: {
+                      dataLabels: {
+                          enabled: true
+                      },
+                      enableMouseTracking: true
+                  }
+              },
+              series: [{
+                  name: 'Efficiency',
+                  data: effiSew
+              }]
+          });
+          // Sewing Efficiency
+          // Monthly production
+          var mp = Highcharts.chart('mp', {
+              title: {
+                  text: 'Monthly Production'
+              },
+              xAxis: {
+                  categories: months
+              },
+              yAxis: {
+                  title: {
+                      text: 'Pieces Produced'
+                  }
+              },
+              plotOptions: {
+                  line: {
+                      dataLabels: {
+                          enabled: true
+                      },
+                      enableMouseTracking: true
+                  }
+              },
+              series: [{
+                  type: 'column',
+                  colorByPoint: true,
+                  data: monthlyProd,
+                  showInLegend: false
+              }]
+          });
+          // Monthly Production
+          // Daily production
+          var dp = Highcharts.chart('dp', {
+              title: {
+                  text: 'Daily Production'
+              },
+              xAxis: {
+                  categories: dates
+              },
+              yAxis: {
+                  title: {
+                      text: 'Pieces Produced'
+                  }
+              },
+              plotOptions: {
+                  line: {
+                      dataLabels: {
+                          enabled: true
+                      },
+                      enableMouseTracking: true
+                  }
+              },
+              series: [{
+                  type: 'column',
+                  colorByPoint: true,
+                  data: production,
+                  showInLegend: false
+              }]
+          });
+          // Daily Production
+          // Daily Sewing WIP
+          var swip = Highcharts.chart('swip', {
+              title: {
+                  text: 'Sewing WIP'
+              },
+              subtitle: {
+                  text: 'WIP'
+              },
+              xAxis: {
+                  categories: dates
+              },
+              yAxis: {
+                  title: {
+                      text: 'Number of Pieces'
+                  }
+              },
+              plotOptions: {
+                  line: {
+                      dataLabels: {
+                          enabled: true
+                      },
+                      enableMouseTracking: true
+                  }
+              },
+              series: [{
+                  type: 'column',
+                  colorByPoint: true,
+                  data: swip,
+                  showInLegend: false
+              }]
+          });
+          // Daily Sewing WIP
+          
 
-          // Monthly Production reports
-          mp = new CanvasJS.Chart("mp", {
-            animationEnabled: true,
-          	theme: "light2", // "light1", "light2", "dark1", "dark2"
-          	title:{
-          		text: "Monthly Production"
-          	},
-          	axisY: {
-          		title: "Production Qty."
-          	},
-          	data: [{
-          		type: "column",
-          		dataPoints: monthlyProd
-          	}]
-          })
-          mp.render();
-          /* Sewing Target vs Actual*/
 
 
 
+        })// Promise function
+      }
+    }
 
-
-
-
-
-
-        }) //axios Call
-      } // fetch Factory Report
-
-
-    } // Methods
-    // Vue Instance
   });
 </script>
 

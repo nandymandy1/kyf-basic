@@ -28,7 +28,7 @@
     <div class="col-md-6 mb-2">
       <div class="card">
         <div class="card-header bg-blue">
-          Pieces Sent to Sewing or Embroidary
+          Pieces Sent to Sewing or Embroidery
         </div>
         <div class="card-body">
           <canvas id="bar_chart" height="150"></canvas>
@@ -207,7 +207,7 @@
                     data: psew,
                     backgroundColor: 'rgba(0, 188, 212, 0.8)'
                 }, {
-                        label: "Pieces Sent for Embroidary",
+                        label: "Pieces Sent for Embroidery",
                         data: pemb,
                         backgroundColor: 'rgba(233, 30, 99, 0.8)'
                     }]
