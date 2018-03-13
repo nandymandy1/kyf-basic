@@ -15,7 +15,7 @@
     <link href="{{ asset('./css/app.css')}}" rel="stylesheet">
 
     <!-- Waves Effect Css -->
-    <link href="{{ asset('./plugins/node-waves/waves.css')}}" rel="stylesheet" />
+    <link href="{{ asset('./css/waves.min.css')}}" rel="stylesheet" />
 
     <!-- Custom Css -->
     <link href="{{ asset('./css/style.css')}}" rel="stylesheet">
@@ -36,13 +36,13 @@
     </div>
 
     <!-- Jquery Core Js -->
-    <script src="{{ asset('./plugins/jquery/jquery.min.js')}}"></script>
+    <script src="{{ asset('./js/jquery.min.js')}}"></script>
 
     <!-- Bootstrap Core Js -->
-    <script src="{{ asset('./plugins/bootstrap/js/bootstrap.js')}}"></script>
+    <script src="{{ asset('./js/bootstrap1.min.js')}}"></script>
 
     <!-- Waves Effect Plugin Js -->
-    <script src="{{ asset('./plugins/node-waves/waves.js')}}"></script>
+    <script src="{{ asset('./js/waves.min.js')}}"></script>
 </body>
 
 </html>

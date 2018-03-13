@@ -12,13 +12,13 @@
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('./css/materialize.css') }}">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('./plugins/font-awesome/css/font-awesome.css') }}">
+    <link rel="stylesheet" href="{{ asset('./css/font-awesome.min.css') }}">
     <link rel="stylesheet" href="{{ asset('./css/materialize.css') }}">
     <!-- Animation Css -->
-    <link href="{{ asset('./plugins/animate-css/animate.css')}}" rel="stylesheet" />
+    <link href="{{ asset('./css/animate.min.css')}}" rel="stylesheet" />
     <link href="{{ asset('./css/style.css') }}" rel="stylesheet">
     <!-- Waves Effect Css -->
-    <link href="{{ asset('./plugins/node-waves/waves.css')}}" rel="stylesheet" />
+    <link href="{{ asset('./css/waves.min.css')}}" rel="stylesheet" />
 </head>
 <body>
     <div id="app">
@@ -37,7 +37,7 @@
     <script src="{{ asset('./js/bootstrap.min.js') }}" charset="utf-8"></script>
     <script src="{{ asset('./js/vue.js') }}" charset="utf-8"></script>
     <script src="{{ asset('./js/axios.js') }}" charset="utf-8"></script>
-    <script src="{{ asset('./plugins/chartjs/Chart.min.js')}}" charset="utf-8"></script>
+    <script src="{{ asset('./js/Chart.min.js')}}" charset="utf-8"></script>
     @yield('scripts')
 </body>
 </html>

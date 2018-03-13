@@ -12,13 +12,12 @@
         <link rel="stylesheet" media="screen" href="{{ asset('./css/particle.css') }}">
         <link rel="stylesheet" href="{{ asset('./css/materialize.css') }}">
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-        <link rel="stylesheet" href="{{ asset('./plugins/font-awesome/css/font-awesome.css') }}">
-        <link rel="stylesheet" href="{{ asset('./css/materialize.css') }}">
+        <link rel="stylesheet" href="{{ asset('./css/font-awesome.min.css') }}">
         <!-- Animation Css -->
-        <link href="{{ asset('./plugins/animate-css/animate.css')}}" rel="stylesheet" />
+        <link href="{{ asset('./css/animate/min.css')}}" rel="stylesheet" />
         <link href="{{ asset('./css/style.css') }}" rel="stylesheet">
         <!-- Waves Effect Css -->
-        <link href="{{ asset('./plugins/node-waves/waves.css')}}" rel="stylesheet" />
+        <link href="{{ asset('./css/waves.min.css')}}" rel="stylesheet" />
     </head>
     <body>
       <!-- particles.js container -->

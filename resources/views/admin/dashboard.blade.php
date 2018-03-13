@@ -147,7 +147,7 @@
 </div>
 @endsection @section('scripts')
   <script src="{{ asset('./js/highcharts.src.js')}}" charset="utf-8"></script>
-  <script src="{{ asset('./plugins/momentjs/moment.js')}}" charset="utf-8"></script>
+  <script src="{{ asset('./js/moment.js')}}" charset="utf-8"></script>
 
 <script type="text/javascript">
   var app = new Vue({

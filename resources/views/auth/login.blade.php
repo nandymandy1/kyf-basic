@@ -62,7 +62,5 @@
     </div>
 @endsection
 @section('scripts')
-  <script src="{{ asset('./js/particles.js')}}"></script>
-  <script src="{{ asset('./js/particle.js')}}"></script>
-  <script src="{{ asset('./js/pages/examples/sign-in.js')}}"></script>
+  
 @endsection

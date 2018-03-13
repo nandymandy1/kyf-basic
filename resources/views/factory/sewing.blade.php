@@ -77,7 +77,6 @@
 @endsection
 
 @section('scripts')
-  <script src="{{ asset('./plugins/chartjs/Chart.min.js')}}" charset="utf-8"></script>
   <script type="text/javascript">
   $(function () {
       new Chart(document.getElementById("line_chart").getContext("2d"), getChartJs('line'));

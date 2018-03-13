@@ -134,7 +134,6 @@
 @endsection
 
 @section('scripts')
-  <script src="{{ asset('./js/pages/examples/sign-in.js')}}"></script>
   <script type="text/javascript">
   $(document).ready(function(){
     factoryValue();
