@@ -67,8 +67,8 @@ Route::prefix('/master')->group(function(){
 Route::prefix('/admin')->group(function () {
 
   // View reports routes for the factories
-  Route::get('/factory/master/{id}', 'AdminFactoryController@factoryDashboard');
-  Route::post('/factory/reports/{req}', 'AdminFactoryController@master');
+  Route::get('/factory/master/{id}', 'OutputController@factoryDashboard');
+  Route::post('/factory/reports/{req}', 'OutputController@master');
 
   Route::post('/factory', 'FactController@store');
   Route::resource('/factory', 'FactController');
