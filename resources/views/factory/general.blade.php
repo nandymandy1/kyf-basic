@@ -144,7 +144,7 @@ for(var j=tdm.length-1; j >=0; j--){
  for(var k = twf.length-1; k >= 0; k--){
    mmr.push(((twf[k]/(kopr[k]+ sopr[k]))).toFixed(2));
  }
- 
+
 
   function getChartJs(type) {
     var config = null;
@@ -277,64 +277,7 @@ for(var j=tdm.length-1; j >=0; j--){
             }
         }
     }
-    /*
-    else if (type === 'bar') {
-        config = {
-            type: 'bar',
-            data: {
-                labels: month,
-                datasets: [{
-                    label: "Monthly Production",
-                    data: t_prod,
-                    backgroundColor: 'rgba(0, 188, 212, 0.8)'
-                }]
-            },
-            options: {
-                responsive: true,
-                legend: {
-                  display:true,
-                  position:'bottom'
-                },
-                scales: {
-                  yAxes:[{ticks:{min:0}}]
-                }
-            }
-        }
-    }
-    else if (type === 'linewip') {
-        config = {
-          type: 'bar',
-          data: {
-              labels: date,
-              datasets: [{
-                  label: "Sewing WIP",
-                  data: wip,
-                  backgroundColor: 'rgba(0, 188, 212, 0.8)'
-              }]
-          },
-          options: {
-              responsive: true,
-              legend: {
-                display:true,
-                position:'bottom'
-              },
-              scales: {
-                yAxes:[{ticks:{min:0}}]
-              }
-          }
-        }
-    }
-    */
     return config;
-}
-function removeDuplicates(arr){
-    let unique_array = []
-    for(let i = 0;i < arr.length; i++){
-        if(unique_array.indexOf(arr[i]) == -1){
-            unique_array.push(arr[i])
-        }
-    }
-    return unique_array
 }
   </script>
 

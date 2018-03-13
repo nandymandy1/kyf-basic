@@ -178,7 +178,6 @@
       fetchReport() {
         axios.post(`/admin/factory/reports/${this.id}`)
         .then((response) => {
-          console.log(response.data)
           this.production = response.data.production
           this.factory.name = response.data.factory[0].name
           this.factory.id = response.data.factory[0].id
@@ -189,16 +188,18 @@
           this.dGeneral = response.data.reports.d_general
           console.log(this.dGeneral)
 
+          // Cutting Variables
           var cwip = [];
-          var swip = [];
           var dates = [];
           var actualC = [];
           var targetC = [];
           var effiCut = [];
+          // Sewing Variables
+          var swip = [];
           var effiSew = [];
           var monthlyProd = [];
-          var months = [];
           var production = [];
+          var months = [];
           // Finishing Variables
           var feed = [];
           var pkd = [];
@@ -209,6 +210,7 @@
           var insp = [];
           var failed = [];
           var passed = [];
+          // General Data Variables
 
 
           // For initializing the Data objects for the Carts
@@ -225,16 +227,16 @@
             effiCut.push(parseFloat((this.cutting[i].pcut / (((kopr + sopr) * 480) / sam) * 100).toFixed(2)));
             effiSew.push(parseFloat((((prod*sam)/((kopr + sopr)*480))*100).toFixed(2)));
             production.push(prod);
-            if(j == 0){
-              cwip.push(this.cutting[i].pcut - this.cutting[i].psew);
-              swip.push(this.sewing[i].prod - this.sewing[i].outcome);
-              fwip.push(this.finishing[i].income - this.finishing[i].pkd);
-            } else {
-              cwip.push(this.cutting[i].pcut - this.cutting[i].psew + cwip[j-1]);
-              swip.push(this.sewing[i].prod - this.sewing[i].outcome + swip[j-1]);
-              fwip.push(this.finishing[i].income - this.finishing[i].pkd + fwip[j-1]);
-            }
-              j++;
+              if(j == 0){
+                cwip.push(this.cutting[i].pcut - this.cutting[i].psew);
+                swip.push(this.sewing[i].prod - this.sewing[i].outcome);
+                fwip.push(this.finishing[i].income - this.finishing[i].pkd);
+              } else {
+                cwip.push(this.cutting[i].pcut - this.cutting[i].psew + cwip[j-1]);
+                swip.push(this.sewing[i].prod - this.sewing[i].outcome + swip[j-1]);
+                fwip.push(this.finishing[i].income - this.finishing[i].pkd + fwip[j-1]);
+              }
+            j++;
             income.push(this.finishing[i].income);
             pkd.push(this.finishing[i].pkd);
             dhu.push(parseFloat(((this.quality[i].failed/this.quality[i].inspected)*100).toFixed(2)));
@@ -244,6 +246,7 @@
 
           }
 
+          // To fill the Monthly Production Objects for the Charts to Render
           for(i=0; i < this.production.length; i++){
             monthlyProd.push(parseInt(this.production[i].t_prod))
             months.push(moment(this.production[i].month, 'MM').format('MMM'))
@@ -646,11 +649,6 @@
                 }]
           });
           // Failed vs passed
-
-
-
-
-
 
 
 
