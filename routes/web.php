@@ -75,6 +75,10 @@ Route::prefix('/admin')->group(function () {
   Route::get('/factory/endis/{id}', 'FactController@enable_disable');
   Route::post('/factories', 'FactController@getFactory');
   Route::get('/user/endis/{id}', 'FactController@endisUser');
-  Route::get('/users', function(){return view('admin.users');});
+
+  Route::get('/users', function(){
+    return view('admin.users');
+  });
+
   Route::post('/usersfetch', 'FactController@getUsers');
 });
