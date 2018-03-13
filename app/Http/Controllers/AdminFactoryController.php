@@ -20,7 +20,12 @@ class AdminFactoryController extends Controller
 
     public function factoryDashboard($req){
 
-      return view('admin.dashboard', ['req' => $req]);
+      if(isset(Auth::user()->id)){
+          return view('admin.dashboard', ['req' => $req]);
+      }
+      else {
+          return redirect('/login');
+      }
 
     }
 
@@ -29,22 +34,23 @@ class AdminFactoryController extends Controller
 
       $factory = Factory::where('id',$req)->get(['name', 'id']);
 
-      $reports['cutting'] = Ckpi::where('factory_id', $req)->orderBy('created_at', 'DESC')->take(30)->get();
-      $reports['sewing'] = Skpi::where('factory_id', $req)->orderBy('created_at', 'DESC')->take(30)->get();
+      $reports['cutting'] = Ckpi::where('factory_id', $req)->orderBy('created_at', 'DESC')->take(10)->get();
+      $reports['sewing'] = Skpi::where('factory_id', $req)->orderBy('created_at', 'DESC')->take(10)->get();
+
 
       $production = DB::table('skpis')->where('factory_id', $req)
       ->select(DB::raw('SUM(prod) as t_prod, MONTH(created_at) as month, YEAR(created_at) as year'))
-      ->groupBy(DB::raw('YEAR(created_at) ASC, MONTH(created_at) ASC'))->get();
+      ->groupBy(DB::raw('YEAR(created_at) ASC, MONTH(created_at) ASC'))
+      ->get();
 
-      $reports['finishing'] = Fkpi::where('factory_id', $req)->orderBy('created_at', 'DESC')->take(30)->get();
 
-      $reports['quality'] = Qkpi::where('factory_id', $req)->orderBy('created_at', 'DESC')->take(30)->get();
+      $reports['finishing'] = Fkpi::where('factory_id', $req)->orderBy('created_at', 'DESC')->take(10)->get();
 
-      $reports['d_general'] = Gkpi::where('factory_id', $req)->orderBy('created_at', 'DESC')->take(30)->get();
+      $reports['quality'] = Qkpi::where('factory_id', $req)->orderBy('created_at', 'DESC')->take(10)->get();
+
+      $reports['d_general'] = Gkpi::where('factory_id', $req)->orderBy('created_at', 'DESC')->take(10)->get();
 
       return response()->json([ 'factory' => $factory, 'reports' => $reports, 'production' => $production]);
-
-      // return view('admin.dashboard', ['reports'=> $reports, 'production' => $production]);
 
     }
 

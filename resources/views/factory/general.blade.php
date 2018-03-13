@@ -140,12 +140,11 @@ for(var j=tdm.length-1; j >=0; j--){
   sopr.push(tsopr[j]);
   opr.push(topr[j]);
 }
-console.log(kopr);
-console.log(sopr);
-console.log(twf);
+
  for(var k = twf.length-1; k >= 0; k--){
    mmr.push(((twf[k]/(kopr[k]+ sopr[k]))).toFixed(2));
  }
+ 
 
   function getChartJs(type) {
     var config = null;

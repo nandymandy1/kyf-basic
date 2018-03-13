@@ -43,7 +43,7 @@ class HomeController extends Controller
 
         } else {
           // Get the factory of the logged in user
-          
+
           $factory = Factory::find(Auth::user()->factory_id);
           // now check if the factory is enabled of disbaled by the super admin
 
@@ -122,15 +122,7 @@ class HomeController extends Controller
 
             } elseif (Auth::user()->job == 'master') {
 
-              $reports['c'] = Ckpi::where('factory_id', $factory->id)->orderBy('created_at', 'DESC')->take(30)->get();
-              $reports['s'] = Skpi::where('factory_id', $factory->id)->orderBy('created_at', 'DESC')->take(30)->get();
-              $reports['q'] = Qkpi::where('factory_id', $factory->id)->orderBy('created_at', 'DESC')->take(30)->get();
-              $reports['f'] = Fkpi::where('factory_id', $factory->id)->orderBy('created_at', 'DESC')->take(30)->get();
-              $reports['g'] = Gkpi::where('factory_id', $factory->id)->orderBy('created_at', 'DESC')->take(30)->get();
-              $reports['b'] = Bkpi::where('factory_id', $factory->id)->orderBy('created_at', 'DESC')->take(30)->get();
-
-              // return view('factory.master',['reports' => $reports]);
-              return redirect('/master/cutting');
+              return redirect('/admin/factory/master/'. Auth::user()->factory_id);
 
             } else{
 

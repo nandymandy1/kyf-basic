@@ -37,8 +37,7 @@
     <script src="{{ asset('./js/bootstrap.min.js') }}" charset="utf-8"></script>
     <script src="{{ asset('./js/vue.js') }}" charset="utf-8"></script>
     <script src="{{ asset('./js/axios.js') }}" charset="utf-8"></script>
-    <script src="{{ asset('./js/jquery.canvasjs.min.js') }}" charset="utf-8"></script>
-    <script src="{{ asset('./js/canvasjs.min.js')}}" charset="utf-8"></script>
+    <script src="{{ asset('./plugins/chartjs/Chart.min.js')}}" charset="utf-8"></script>
     @yield('scripts')
 </body>
 </html>

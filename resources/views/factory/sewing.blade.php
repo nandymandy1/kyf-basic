@@ -146,7 +146,16 @@ for(var i= t_date.length-1 ; i >= 0; i--){
   sam.push(t_sam[i]);
   date.push(t_date[i]);
   eff.push(t_eff[i]);
-  wip.push(t_wip[i]);
+}
+
+var k = 0;
+for(j = t_wip.length-1; j >= 0; j--){
+  if(k == 0){
+    wip.push(t_wip[j]);
+  } else {
+    wip.push(t_wip[j] + wip[k-1]);
+  }
+  k++;
 }
 
   function getChartJs(type) {

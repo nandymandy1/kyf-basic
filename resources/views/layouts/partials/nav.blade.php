@@ -20,6 +20,7 @@
                     <li><a class="nav-link" href="{{ route('register') }}">Register</a></li>
                 @else
                   @if (Auth::user()->job == 'master')
+                    <li><a class="nav-link" href="/admin/factory/master/{{Auth::user()->factory_id}}">Dashboard</a></li>
                     <li><a class="nav-link" href="/master/cutting">Cutting</a></li>
                     <li><a class="nav-link" href="/master/sewing">Sewing</a></li>
                     <li><a class="nav-link" href="/master/finishing">Finishing</a></li>
@@ -36,8 +37,7 @@
 
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="{{ route('logout') }}"
-                               onclick="event.preventDefault();
-                                             document.getElementById('logout-form').submit();">
+                               onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                 Logout
                             </a>
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

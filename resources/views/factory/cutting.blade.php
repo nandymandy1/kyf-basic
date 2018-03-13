@@ -104,8 +104,6 @@
     t_wip.push({{ $report->pcut - $report->psew }});
   @endforeach
 
-
-
   for(var i= t_date.length-1 ; i >= 0; i--){
     cqty.push(t_cqty[i]);
     date.push(t_date[i]);
@@ -114,9 +112,17 @@
     fout.push(t_fout[i]);
     pcut.push(t_pcut[i]);
     tpeople.push(t_tpeople[i]);
-    wip.push(t_wip[i]);
   }
 
+  var k = 0;
+  for(j = t_wip.length-1; j >= 0; j--){
+    if(k == 0){
+      wip.push(t_wip[j]);
+    } else {
+      wip.push(t_wip[j] + wip[k-1]);
+    }
+    k++;
+  }
 
   function getChartJs(type) {
     var config = null;

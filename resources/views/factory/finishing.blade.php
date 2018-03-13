@@ -100,7 +100,16 @@ var wip = [];
     pkd.push(t_pkd[i]);
     income.push(t_income[i]);
     feed.push(t_feed[i]);
-    wip.push(t_wip[i]);
+  }
+
+  var k = 0;
+  for(j = t_wip.length-1; j >= 0; j--){
+    if(k == 0){
+      wip.push(t_wip[j]);
+    } else {
+      wip.push(t_wip[j] + wip[k-1]);
+    }
+    k++;
   }
 
   function getChartJs(type) {

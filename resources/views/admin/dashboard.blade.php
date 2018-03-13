@@ -37,28 +37,28 @@
     </div>
     <div class="card-body">
       <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-6">
           <div class="card">
             <div class="card-body">
               <div class="" id="seffi"></div>
             </div>
           </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-6">
           <div class="card">
             <div class="card-body">
               <div class="" id="mp"></div>
             </div>
           </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-6">
           <div class="card">
             <div class="card-body">
               <div class="" id="dp"></div>
             </div>
           </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-6">
           <div class="card">
             <div class="card-body">
               <div class="" id="swip"></div>
@@ -74,14 +74,19 @@
     </div>
     <div class="card-body">
       <div class="row">
-        <div class="col-md-4">
-
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-body">
+              <div class="" id="fwip"></div>
+            </div>
+          </div>
         </div>
-        <div class="col-md-4">
-
-        </div>
-        <div class="col-md-4">
-
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-body">
+              <div class="" id="fedvpkd"></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -92,14 +97,19 @@
     </div>
     <div class="card-body">
       <div class="row">
-        <div class="col-md-4">
-
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-body">
+              <div class="" id="dhu"></div>
+            </div>
+          </div>
         </div>
-        <div class="col-md-4">
-
-        </div>
-        <div class="col-md-4">
-
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-body">
+              <div class="" id="invfa"></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -111,13 +121,25 @@
     <div class="card-body">
       <div class="row">
         <div class="col-md-4">
+          <div class="card">
+            <div class="card-body">
 
+            </div>
+          </div>
         </div>
         <div class="col-md-4">
+          <div class="card">
+            <div class="card-body">
 
+            </div>
+          </div>
         </div>
         <div class="col-md-4">
+          <div class="card">
+            <div class="card-body">
 
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -158,18 +180,12 @@
         .then((response) => {
           console.log(response.data)
           this.production = response.data.production
-          console.log(this.production);
           this.factory.name = response.data.factory[0].name
-          console.log(this.factory.name);
           this.factory.id = response.data.factory[0].id
           this.cutting = response.data.reports.cutting
-          console.log(this.cutting);
           this.sewing = response.data.reports.sewing
-          console.log(this.sewing)
           this.finishing = response.data.reports.finishing
-          console.log(this.finishing)
           this.quality = response.data.reports.quality
-          console.log(this.quality)
           this.dGeneral = response.data.reports.d_general
           console.log(this.dGeneral)
 
@@ -183,12 +199,23 @@
           var monthlyProd = [];
           var months = [];
           var production = [];
+          // Finishing Variables
+          var feed = [];
+          var pkd = [];
+          var income = [];
+          var fwip = [];
+          // Quality Variables
+          var dhu = [];
+          var insp = [];
+          var failed = [];
+          var passed = [];
+
 
           // For initializing the Data objects for the Carts
+          var j = 0;
           for(i = this.cutting.length-1; i >= 0; i--){
 
             dates.push(moment(new Date(this.cutting[i].created_at)).format("D-MMM"));
-            cwip.push(this.cutting[i].pcut - this.cutting[i].psew);
             actualC.push(this.cutting[i].pcut);
             targetC.push(this.cutting[i].cqty);
             kopr = this.sewing[i].kopr;
@@ -198,7 +225,22 @@
             effiCut.push(parseFloat((this.cutting[i].pcut / (((kopr + sopr) * 480) / sam) * 100).toFixed(2)));
             effiSew.push(parseFloat((((prod*sam)/((kopr + sopr)*480))*100).toFixed(2)));
             production.push(prod);
-            swip.push(this.sewing[i].prod - this.sewing[i].outcome);
+            if(j == 0){
+              cwip.push(this.cutting[i].pcut - this.cutting[i].psew);
+              swip.push(this.sewing[i].prod - this.sewing[i].outcome);
+              fwip.push(this.finishing[i].income - this.finishing[i].pkd);
+            } else {
+              cwip.push(this.cutting[i].pcut - this.cutting[i].psew + cwip[j-1]);
+              swip.push(this.sewing[i].prod - this.sewing[i].outcome + swip[j-1]);
+              fwip.push(this.finishing[i].income - this.finishing[i].pkd + fwip[j-1]);
+            }
+              j++;
+            income.push(this.finishing[i].income);
+            pkd.push(this.finishing[i].pkd);
+            dhu.push(parseFloat(((this.quality[i].failed/this.quality[i].inspected)*100).toFixed(2)));
+            insp.push(this.quality[i].inspected)
+            failed.push(this.quality[i].failed)
+            passed.push(this.quality[i].inspected - this.quality[i].failed)
 
           }
 
@@ -206,8 +248,6 @@
             monthlyProd.push(parseInt(this.production[i].t_prod))
             months.push(moment(this.production[i].month, 'MM').format('MMM'))
           }
-          console.log(monthlyProd)
-          console.log(months)
 
           // Cutting WIP
           var cwip = Highcharts.chart('cwip', {
@@ -235,12 +275,14 @@
               },
               series: [{
                   type: 'column',
+                  name: 'Cutting WIP',
                   colorByPoint: true,
                   data: cwip,
                   showInLegend: false
               }]
           });
           // Cutting WIP
+
           // Cutting Target Vs Actual
           var tvac = Highcharts.chart('tvac', {
               chart: {
@@ -267,7 +309,6 @@
                       },
                       enableMouseTracking: true
 
-
                   }
               },
               series: [{
@@ -279,6 +320,7 @@
               }]
           });
           // Cutting target Vs Actual
+
           // Cutting Efficiency
           var ceffi = Highcharts.chart('ceffi', {
               chart: {
@@ -312,6 +354,7 @@
               }]
           });
           // Cutting Efficiency
+
           // Sewing Efficiency
           var seffi = Highcharts.chart('seffi', {
               chart: {
@@ -345,6 +388,7 @@
               }]
           });
           // Sewing Efficiency
+
           // Monthly production
           var mp = Highcharts.chart('mp', {
               title: {
@@ -368,12 +412,14 @@
               },
               series: [{
                   type: 'column',
+                  name: 'Pieces Produced',
                   colorByPoint: true,
                   data: monthlyProd,
                   showInLegend: false
               }]
           });
           // Monthly Production
+
           // Daily production
           var dp = Highcharts.chart('dp', {
               title: {
@@ -397,12 +443,14 @@
               },
               series: [{
                   type: 'column',
+                  name: 'Pieces Produced',
                   colorByPoint: true,
                   data: production,
                   showInLegend: false
               }]
           });
           // Daily Production
+
           // Daily Sewing WIP
           var swip = Highcharts.chart('swip', {
               title: {
@@ -429,13 +477,179 @@
               },
               series: [{
                   type: 'column',
+                  name: 'Sewing WIP',
                   colorByPoint: true,
                   data: swip,
                   showInLegend: false
               }]
           });
           // Daily Sewing WIP
-          
+
+          // Finishing wip
+          var fwip = Highcharts.chart('fwip', {
+              title: {
+                  text: 'Finishing WIP'
+              },
+              xAxis: {
+                  categories: dates
+              },
+              yAxis: {
+                  title: {
+                      text: 'Pieces'
+                  }
+              },
+              plotOptions: {
+                  line: {
+                      dataLabels: {
+                          enabled: true
+                      },
+                      enableMouseTracking: true
+                  }
+              },
+              series: [{
+                  type: 'column',
+                  colorByPoint: true,
+                  name: 'Finishing WIP',
+                  data: fwip,
+                  showInLegend: false
+              }]
+          });
+          // Finishing wip
+
+          // Finishing Income vs Finished Goods
+          var fedvpkd = Highcharts.chart('fedvpkd', {
+              chart: {
+                  type: 'line'
+              },
+              title: {
+                  text: 'Finishing Income vs Finished Goods'
+              },
+              subtitle: {
+                  text: 'Pieces Fed into finishig and Packed Goods'
+              },
+              xAxis: {
+                  categories: dates
+              },
+              yAxis: {
+                  title: {
+                      text: 'Number of Pieces'
+                  }
+              },
+              plotOptions: {
+                  line: {
+                      dataLabels: {
+                          enabled: true
+                      },
+                      enableMouseTracking: true
+
+
+                  }
+              },
+              series: [{
+                  name: 'Packed Goods',
+                  data: pkd
+              }, {
+                  name: 'Fed into Finishing',
+                  data: income
+              }]
+          });
+          // Finishing Income vs Finished Goods
+
+          // DHU
+          var dhuchart = Highcharts.chart('dhu', {
+              chart: {
+                  type: 'line'
+              },
+              title: {
+                  text: 'DHU'
+              },
+              subtitle: {
+                  text: 'Daily DHU Report'
+              },
+              xAxis: {
+                  categories: dates
+              },
+              yAxis: {
+                  title: {
+                      text: 'DHU(%)'
+                  }
+              },
+              plotOptions: {
+                  line: {
+                      dataLabels: {
+                          enabled: true
+                      },
+                      enableMouseTracking: true
+                  }
+              },
+              series: [{
+                  name: 'DHU',
+                  data: dhu
+              }]
+          });
+          // DHU
+
+          // Failed vs passed
+          var invfa = Highcharts.chart('invfa', {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: 'Failed Vs Passed'
+                },
+                xAxis: {
+                    categories: dates
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'Total Inspected Quantity'
+                    },
+                    stackLabels: {
+                        enabled: true,
+                        style: {
+                            fontWeight: 'bold',
+                            color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+                        }
+                    }
+                },
+                legend: {
+                    align: 'right',
+                    x: -30,
+                    verticalAlign: 'top',
+                    y: 25,
+                    floating: true,
+                    backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+                    borderColor: '#CCC',
+                    borderWidth: 1,
+                    shadow: false
+                },
+                tooltip: {
+                    headerFormat: '<b>{point.x}</b><br/>',
+                    pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+                },
+                plotOptions: {
+                    column: {
+                        stacking: 'normal',
+                        dataLabels: {
+                            enabled: true,
+                            color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
+                        }
+                    }
+                },
+                series: [{
+                    name: 'Failed Quantity',
+                    data: failed
+                }, {
+                    name: 'Passed Quantity',
+                    data: passed
+                }]
+          });
+          // Failed vs passed
+
+
+
+
 
 
 
@@ -446,9 +660,4 @@
 
   });
 </script>
-
-<script type="text/javascript">
-</script>
-
-
 @endsection
