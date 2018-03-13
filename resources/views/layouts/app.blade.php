@@ -19,6 +19,7 @@
     <link href="{{ asset('./css/style.css') }}" rel="stylesheet">
     <!-- Waves Effect Css -->
     <link href="{{ asset('./css/waves.min.css')}}" rel="stylesheet" />
+    @yield('css')
 </head>
 <body>
     <div id="app">

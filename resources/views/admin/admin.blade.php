@@ -12,12 +12,16 @@
         <i class="fa fa-refresh fa-spin fa-1x fs-fw"></i>
       </span>
       <br>
-      <div class="row">
+      <div class="row mb-3">
         <div class="col-md-4 col-sm-6 mr-auto">
           <input type="text" name="search" placeholder="Search" v-model="searchQuery" class="form-control" value="">
         </div>
       </div>
-      <br>
+      <!--Success Message-->
+      <div class="alert bg-green alert-dismissible" role="alert" v-if="success.length > 0">
+        <button type="button" class="close" @click="hideMsg"><span aria-hidden="true">&times;</span></button>
+          @{{ success }}
+      </div>
       <!--Start of Factories list-->
       <ul class="list-group">
         <li v-for="factory, key in temp" class="list-group-item">
@@ -36,16 +40,19 @@
       <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header bg-blue">
               <h5 class="modal-title" id="exampleModalLabel">Add Factory</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body bg-grey">
+              <div class="alert alert-danger" v-if="error.length !=0">
+                  @{{ error }}
+              </div>
               <div class="form-group">
                 <label for="name">Factory Name</label>
-                <input type="text" v-model="newfactory.name" name="name" value="" placeholder="Factory Name" class="form-control">
+                <input type="text" v-model="newfactory.name" name="name" placeholder="Factory Name" class="form-control">
               </div>
               <div class="form-group">
                 <label for="name">Active</label>
@@ -55,9 +62,9 @@
                 </select>
               </div>
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer bg-blue">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary" @click="addFactory" data-dismiss="modal">Add</button>
+              <button type="button" class="btn bg-default wave-effect" @click="addFactory" data-dismiss="modal">Add</button>
             </div>
           </div>
         </div>
@@ -78,11 +85,13 @@
         temp:{},
         loading: false,
         errors:{},
+        error:'',
         newfactory:{
           name:'',
           isActive:''
         },
-        searchQuery:''
+        searchQuery:'',
+        success: ''
       }
     },
     watch:{
@@ -131,7 +140,8 @@
         if(confirm("Are you sure to delete this factory?")){
           axios.delete(`/admin/factory/${id}`)
           .then((response) => {
-            this.factories.splice(key, 1);
+            this.factories.splice(key, 1)
+            this.success = 'Factory deleted from the list successfully'
           }).catch((error) => {
             this.errors = error.response.data.errors
           })
@@ -144,17 +154,28 @@
         .catch((error) => this.errors = error.response.data.errors)
       },
       addFactory(){
-        axios.post('/admin/factory', this.$data.newfactory).then((response) => {
-          this.newfactory.name = '';
-          this.factories.push(response.data);
-          this.factories.sort(function(a, b){
-            if(a.name > b.name){
-              return 1;
-            } else {
-              return -1;
-            }
-          })
-        }).catch((error) => this.errors = error.response.data.errors)
+        if(this.newfactory.isActive != '' && this.newfactory.name != ''){
+          axios.post('/admin/factory', this.$data.newfactory).then((response) => {
+            this.newfactory.name = '';
+            this.newfactory.isActive = '';
+            console.log(response.data);
+            this.factories.push(response.data);
+            this.factories.sort(function(a, b){
+              if(a.name > b.name){
+                return 1;
+              } else {
+                return -1;
+              }
+            })
+          }).catch((error) => this.errors = error.response.data.errors)
+          this.error = ''
+          this.success = 'Factory added in the list Successfully'
+        } else {
+          this.error = "Either you activate or deactivate the factory but it cannot be empty"
+        }
+      },
+      hideMsg(){
+        this.success = ''
       }
     }
   });

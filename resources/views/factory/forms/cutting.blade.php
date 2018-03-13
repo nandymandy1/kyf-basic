@@ -1,15 +1,19 @@
 @extends('layouts.app')
 
+@section('css')
+  <!--<link rel="stylesheet" href="{{ asset('./css/bootstrap.min.css')}}">-->
+@endsection
+
 @section('content')
   <div class="container">
-    <div class="row">
+    <div class="row mb-2 ml-2">
       <a href="/home" class="btn btn-md btn-primary">Go Back</a>
     </div>
       <div class="row justify-content-center">
           <div class="col-md-8">
               <div class="card">
-                  <div class="card-header">Enter Today's Cutting Data</div>
-                  <div class="card-body">
+                  <div class="card-header bg-blue">Enter Today's Cutting Data</div>
+                  <div class="card-body bg-grey">
                       <form method="POST" action="/factory/cutting/data">
                           @csrf
                           <input type="hidden" name="factory_id" value="{{ Auth::user()->factory_id }}">
