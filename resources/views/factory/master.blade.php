@@ -194,7 +194,8 @@
         tCut:0,
         pkd:0,
         tPkd:0,
-        avgPkd:0
+        avgPkd:0,
+        mmr:0
       }
     },
     created(){
@@ -207,6 +208,7 @@
       fetchReport() {
         axios.post(`/admin/factory/reportsmaster/${this.id}`)
         .then((response) => {
+          // Filling of the Global Objects for the page and its functions from the fetched data
           this.production = response.data.production
           this.factory.name = response.data.factory[0].name
           this.factory.id = response.data.factory[0].id
@@ -215,117 +217,114 @@
           this.finishing = response.data.reports.finishing
           this.quality = response.data.reports.quality
           this.dGeneral = response.data.reports.d_general
-          console.log(this.dGeneral)
+          // Variables preprations for the Computing
+          this.variablePrep()
+        })// Promise function
+      },
 
-          // Cutting Variables
-          var cwip = [];
-          var dates = [];
-          var actualC = [];
-          var targetC = [];
-          var effiCut = [];
-          var psew = [];
-          // Sewing Variables
-          var swip = [];
-          var effiSew = [];
-          var monthlyProd = [];
-          var production = [];
-          var months = [];
-          // Finishing Variables
-          var feed = [];
-          var pkd = [];
-          var income = [];
-          var fwip = [];
-          // Quality Variables
-          var dhu = [];
-          var insp = [];
-          var failed = [];
-          var passed = [];
-          // General Data Variables
+      variablePrep(){
+        // Cutting Variables
+        var cwip = [];
+        var dates = [];
+        var actualC = [];
+        var targetC = [];
+        var effiCut = [];
+        var psew = [];
+        // Sewing Variables
+        var swip = [];
+        var effiSew = [];
+        var monthlyProd = [];
+        var production = [];
+        var months = [];
+        // Finishing Variables
+        var feed = [];
+        var pkd = [];
+        var income = [];
+        var fwip = [];
+        // Quality Variables
+        var dhu = [];
+        var insp = [];
+        var failed = [];
+        var passed = [];
 
-          // For initializing the Data objects for the Carts
-          var j = 0;
-          for(i = this.cutting.length-1; i >= 0; i--){
+        // For initializing the Data objects for the Carts
+        var j = 0;
+        for(i = this.cutting.length-1; i >= 0; i--){
 
-            dates.push(moment(new Date(this.cutting[i].created_at)).format("D-MMM"));
-            actualC.push(this.cutting[i].pcut);
-            targetC.push(this.cutting[i].cqty);
-            kopr = this.sewing[i].kopr;
-            sopr = this.sewing[i].sopr;
-            sam = this.sewing[i].sam;
-            prod = this.sewing[i].prod;
-            effiCut.push(parseFloat((this.cutting[i].pcut / (((kopr + sopr) * 480) / sam) * 100).toFixed(2)));
-            effiSew.push(parseFloat((((prod*sam)/((kopr + sopr)*480))*100).toFixed(2)));
-            production.push(prod);
-              if(j == 0){
-                cwip.push(this.cutting[i].pcut - this.cutting[i].psew);
-                swip.push(this.sewing[i].prod - this.sewing[i].outcome);
-                fwip.push(this.finishing[i].income - this.finishing[i].pkd);
-              } else {
-                cwip.push(this.cutting[i].pcut - this.cutting[i].psew + cwip[j-1]);
-                swip.push(this.sewing[i].prod - this.sewing[i].outcome + swip[j-1]);
-                fwip.push(this.finishing[i].income - this.finishing[i].pkd + fwip[j-1]);
-              }
-            j++;
-            psew.push(this.cutting[i].psew);
-            income.push(this.finishing[i].income);
-            pkd.push(this.finishing[i].pkd);
-            dhu.push(parseFloat(((this.quality[i].failed/this.quality[i].inspected)*100).toFixed(2)));
-            insp.push(this.quality[i].inspected)
-            failed.push(this.quality[i].failed)
-            passed.push(this.quality[i].inspected - this.quality[i].failed)
+          dates.push(moment(new Date(this.cutting[i].created_at)).format("D-MMM"));
+          actualC.push(this.cutting[i].pcut);
+          targetC.push(this.cutting[i].cqty);
+          kopr = this.sewing[i].kopr;
+          sopr = this.sewing[i].sopr;
+          sam = this.sewing[i].sam;
+          prod = this.sewing[i].prod;
+          effiCut.push(parseFloat((this.cutting[i].pcut / (((kopr + sopr) * 480) / sam) * 100).toFixed(2)));
+          effiSew.push(parseFloat((((prod*sam)/((kopr + sopr)*480))*100).toFixed(2)));
+          production.push(prod);
+            if(j == 0){
+              cwip.push(this.cutting[i].pcut - this.cutting[i].psew);
+              swip.push(this.sewing[i].prod - this.sewing[i].outcome);
+              fwip.push(this.finishing[i].income - this.finishing[i].pkd);
+            } else {
+              cwip.push(this.cutting[i].pcut - this.cutting[i].psew + cwip[j-1]);
+              swip.push(this.sewing[i].prod - this.sewing[i].outcome + swip[j-1]);
+              fwip.push(this.finishing[i].income - this.finishing[i].pkd + fwip[j-1]);
+            }
+          j++;
+          psew.push(this.cutting[i].psew);
+          income.push(this.finishing[i].income);
+          pkd.push(this.finishing[i].pkd);
+          dhu.push(parseFloat(((this.quality[i].failed/this.quality[i].inspected)*100).toFixed(2)));
+          insp.push(this.quality[i].inspected)
+          failed.push(this.quality[i].failed)
+          passed.push(this.quality[i].inspected - this.quality[i].failed)
 
-          }
+        }
 
-          console.log(this.cutting);
-          console.log(this.sewing);
-          console.log(this.finishing);
-          console.log(this.quality);
+        // To fill the Monthly Production Objects for the Charts to Render
+        for(i=0; i < this.production.length; i++){
+          monthlyProd.push(parseInt(this.production[i].t_prod))
+          months.push(moment(this.production[i].month, 'MM').format('MMM'))
+        }
 
-          // To fill the Monthly Production Objects for the Charts to Render
-          for(i=0; i < this.production.length; i++){
-            monthlyProd.push(parseInt(this.production[i].t_prod))
-            months.push(moment(this.production[i].month, 'MM').format('MMM'))
-          }
+        // Average DHU and Yesterday's DHU
+            this.dhu = dhu[dhu.length-1];
+            var sum = dhu.reduce((a, b) => a + b, 0);
+            this.avgDhu = sum/dhu.length
 
-          // Average DHU and Yesterday's DHU
-              this.dhu = dhu[dhu.length-1];
-              var sum = dhu.reduce((a, b) => a + b, 0);
-              this.avgDhu = sum/dhu.length
 
-          // AVERAGE CUTTING SEWING AND FINISHING
-              // Cutting
-              var sum = psew.reduce((a, b) => a + b, 0);
-              this.tCut = sum;
-              this.cavg = parseInt((sum/psew.length).toFixed(0));
-              // Sewing
-              var sum = production.reduce((a, b) => a + b, 0);
-              this.tProd = sum;
-              this.avgProd = parseInt((sum/production.length).toFixed(0));
-              // FINISHING
-              var sum = pkd.reduce((a, b) => a + b, 0);
-              this.tPkd = sum
-              this.avgPkd = parseInt((sum/pkd.length).toFixed(0));
+        // AVERAGE CUTTING SEWING AND FINISHING
+            // Cutting
+            var sum = psew.reduce((a, b) => a + b, 0);
+            this.tCut = sum;
+            this.cavg = parseInt((sum/psew.length).toFixed(0));
+            // Sewing
+            var sum = production.reduce((a, b) => a + b, 0);
+            this.tProd = sum;
+            this.avgProd = parseInt((sum/production.length).toFixed(0));
+            // FINISHING
+            var sum = pkd.reduce((a, b) => a + b, 0);
+            this.tPkd = sum
+            this.avgPkd = parseInt((sum/pkd.length).toFixed(0));
 
-          // Yesterday's production
+        // Yesterday's production
             this.psew = this.cutting[0].psew;
             this.outcome = production[production.length - 1];
             this.pkd = pkd[pkd.length - 1];
-          // WIP for All the DEPTS
+        // WIP for All the DEPTS
             this.cwip = cwip[cwip.length -1]
             this.swip = swip[swip.length -1]
             this.fwip = fwip[fwip.length -1]
-          // MMR Daily
+        // MMR Daily
 
-          // Efficiency of al the DEPT.
+        // Efficiency of al the DEPT.
 
-          //
+        //
+
+      } // Variable Prep Method
 
 
 
-
-
-        })// Promise function
-      }
     }
   });
 </script>
