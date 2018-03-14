@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-md navbar navbar-dark bg-dark fixed-top">
     <div class="container">
-        <a class="navbar-brand mx-auto" href="{{ url('/') }}">
+        <a class="navbar-brand mx-auto" href="{{ url('/home') }}">
             Arvind-Kyf
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -11,7 +11,6 @@
             <ul class="navbar-nav mr-auto">
 
             </ul>
-
             <!-- Right Side Of Navbar -->
             <ul class="navbar-nav ml-auto">
                 <!-- Authentication Links -->
@@ -34,7 +33,6 @@
                         <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             {{ Auth::user()->name }} <span class="caret"></span>
                         </a>
-
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="{{ route('logout') }}"
                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

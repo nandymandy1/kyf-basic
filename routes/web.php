@@ -1,5 +1,6 @@
 <?php
 use Illuminate\Notifications\RoutesNotifications;
+use SebastianBergmann\CodeCoverage\Report\Xml\Report;
 
 /*
 |--------------------------------------------------------------------------
@@ -69,6 +70,8 @@ Route::prefix('/admin')->group(function () {
   // View reports routes for the factories
   Route::get('/factory/master/{id}', 'OutputController@factoryDashboard');
   Route::post('/factory/reports/{req}', 'OutputController@master');
+  // For the Crisp Industry Report
+  Route::post('/factory/reportsmaster/{req}', 'OutputController@maindashboard');
 
   Route::post('/factory', 'FactController@store');
   Route::resource('/factory', 'FactController');
@@ -81,4 +84,9 @@ Route::prefix('/admin')->group(function () {
   });
 
   Route::post('/usersfetch', 'FactController@getUsers');
+});
+
+// Testing of the Pages routes
+Route::get('/test', function() {
+  return view('factory.master');
 });

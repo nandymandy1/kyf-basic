@@ -25,7 +25,7 @@
         <nav class="navbar navbar-expand-md navbar navbar-dark bg-dark fixed-top">
             <div class="container">
                 <div class="container text-center logo">
-                  <a class="navbar-brand mx-auto" href="{{ url('/') }}">
+                  <a class="navbar-brand mx-auto" href="{{ url('/home') }}">
                       <b>Arvind-KYF</b>
                   </a>
                 </div>

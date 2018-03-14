@@ -30,14 +30,14 @@ class InputController extends Controller
       ]);
 
 
-      $c = new Ckpi;
-      $c->cqty = $req->input('cqty');
-      $c->tpeople = $req->input('tpeople');
-      $c->factory_id = $req->input('factory_id');
-      $c->psew = $req->input('psew');
-      $c->pcut = $req->input('pcut');
-      $c->pemb = $req->input('pemb');
-      $c->fout = $req->input('fout');
+      $c                = new Ckpi;
+      $c->cqty          = $req->input('cqty');
+      $c->tpeople       = $req->input('tpeople');
+      $c->factory_id    = $req->input('factory_id');
+      $c->psew          = $req->input('psew');
+      $c->pcut          = $req->input('pcut');
+      $c->pemb          = $req->input('pemb');
+      $c->fout          = $req->input('fout');
       $c->save();
 
       return redirect('/home')->with('success', 'Cutting Data Saved');
@@ -60,16 +60,16 @@ class InputController extends Controller
       ]);
 
 
-      $c = new Skpi;
-      $c->income = $req->input('income');
-      $c->sopr = $req->input('sopr');
-      $c->factory_id = $req->input('factory_id');
-      $c->kopr = $req->input('kopr');
-      $c->prod = $req->input('prod');
-      $c->target = $req->input('target');
-      $c->actual = $req->input('actual');
-      $c->outcome = $req->input('outcome');
-      $c->sam = $req->input('sam');
+      $c                = new Skpi;
+      $c->income        = $req->input('income');
+      $c->sopr          = $req->input('sopr');
+      $c->factory_id    = $req->input('factory_id');
+      $c->kopr          = $req->input('kopr');
+      $c->prod          = $req->input('prod');
+      $c->target        = $req->input('target');
+      $c->actual        = $req->input('actual');
+      $c->outcome       = $req->input('outcome');
+      $c->sam           = $req->input('sam');
       $c->save();
 
       return redirect('/home')->with('success', 'Sewing Data Saved');
@@ -88,11 +88,11 @@ class InputController extends Controller
       ]);
 
 
-      $c = new Fkpi;
-      $c->income = $req->input('income');
-      $c->factory_id = $req->input('factory_id');
-      $c->pkd = $req->input('pkd');
-      $c->feed = $req->input('feed');
+      $c              = new Fkpi;
+      $c->income      = $req->input('income');
+      $c->factory_id  = $req->input('factory_id');
+      $c->pkd         = $req->input('pkd');
+      $c->feed        = $req->input('feed');
       $c->save();
 
       return redirect('/home')->with('success', 'Finishing Data Saved');
@@ -108,10 +108,10 @@ class InputController extends Controller
       ]);
 
 
-      $c = new Qkpi;
-      $c->inspected = $req->input('inspected');
-      $c->factory_id = $req->input('factory_id');
-      $c->failed = $req->input('failed');
+      $c                  = new Qkpi;
+      $c->inspected       = $req->input('inspected');
+      $c->factory_id      = $req->input('factory_id');
+      $c->failed          = $req->input('failed');
       $c->save();
       return redirect('/home')->with('success', 'Quality Data Saved');
     }
@@ -131,16 +131,16 @@ class InputController extends Controller
         'twf'        => 'required',
       ]);
 
-      $c = new Gkpi;
+      $c             = new Gkpi;
       $c->factory_id = $req->input('factory_id');
-      $c->payrole = $req->input('payrole');
-      $c->ppeople = $req->input('ppeople');
-      $c->cpeople = $req->input('cpeople');
-      $c->ocut = $req->input('ocut');
-      $c->osew = $req->input('osew');
-      $c->ofin = $req->input('ofin');
-      $c->abs = $req->input('abs');
-      $c->twf = $req->input('twf');
+      $c->payrole    = $req->input('payrole');
+      $c->ppeople    = $req->input('ppeople');
+      $c->cpeople    = $req->input('cpeople');
+      $c->ocut       = $req->input('ocut');
+      $c->osew       = $req->input('osew');
+      $c->ofin       = $req->input('ofin');
+      $c->abs        = $req->input('abs');
+      $c->twf        = $req->input('twf');
       $c->save();
       return redirect('/home')->with('success', 'General Data Saved');
     }

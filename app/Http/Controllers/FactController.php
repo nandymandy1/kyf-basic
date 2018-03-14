@@ -132,13 +132,12 @@ class FactController extends Controller
      */
     public function destroy($id)
     {
-        //
         Factory::where('id', $id)->delete();
     }
 
 
     public function master($id){
-      
+
     }
 
 }

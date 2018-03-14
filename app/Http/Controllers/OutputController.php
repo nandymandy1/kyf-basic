@@ -45,18 +45,40 @@ class OutputController extends Controller
         $reports['cutting'] = Ckpi::where('factory_id', $req)->orderBy('created_at', 'DESC')->take(10)->get();
         $reports['sewing'] = Skpi::where('factory_id', $req)->orderBy('created_at', 'DESC')->take(10)->get();
 
-
+        // Monthly Production Report
         $production = DB::table('skpis')->where('factory_id', $req)
         ->select(DB::raw('SUM(prod) as t_prod, MONTH(created_at) as month, YEAR(created_at) as year'))
         ->groupBy(DB::raw('YEAR(created_at) ASC, MONTH(created_at) ASC'))
         ->get();
-
 
         $reports['finishing'] = Fkpi::where('factory_id', $req)->orderBy('created_at', 'DESC')->take(10)->get();
 
         $reports['quality'] = Qkpi::where('factory_id', $req)->orderBy('created_at', 'DESC')->take(10)->get();
 
         $reports['d_general'] = Gkpi::where('factory_id', $req)->orderBy('created_at', 'DESC')->take(10)->get();
+
+        return response()->json([ 'factory' => $factory, 'reports' => $reports, 'production' => $production]);
+      }
+
+      public function maindashboard($req){
+        // to fetch all the cutting reports from the datatabse for the admin view
+
+        $factory = Factory::where('id',$req)->get(['name', 'id']);
+
+        $reports['cutting'] = Ckpi::where('factory_id', $req)->orderBy('created_at', 'DESC')->take(7)->get();
+        $reports['sewing'] = Skpi::where('factory_id', $req)->orderBy('created_at', 'DESC')->take(7)->get();
+
+        // Monthly Production Report
+        $production = DB::table('skpis')->where('factory_id', $req)
+        ->select(DB::raw('SUM(prod) as t_prod, MONTH(created_at) as month, YEAR(created_at) as year'))
+        ->groupBy(DB::raw('YEAR(created_at) ASC, MONTH(created_at) ASC'))
+        ->get();
+
+        $reports['finishing'] = Fkpi::where('factory_id', $req)->orderBy('created_at', 'DESC')->take(7)->get();
+
+        $reports['quality'] = Qkpi::where('factory_id', $req)->orderBy('created_at', 'DESC')->take(7)->get();
+
+        $reports['d_general'] = Gkpi::where('factory_id', $req)->orderBy('created_at', 'DESC')->take(7)->get();
 
         return response()->json([ 'factory' => $factory, 'reports' => $reports, 'production' => $production]);
       }

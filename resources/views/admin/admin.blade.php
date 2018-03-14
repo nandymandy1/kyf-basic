@@ -154,6 +154,7 @@
         .catch((error) => this.errors = error.response.data.errors)
       },
       addFactory(){
+        // To add any factory in the system by the admin
         if(this.newfactory.isActive != '' && this.newfactory.name != ''){
           axios.post('/admin/factory', this.$data.newfactory).then((response) => {
             this.newfactory.name = '';
