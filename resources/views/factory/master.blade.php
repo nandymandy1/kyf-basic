@@ -60,15 +60,19 @@
                   <ul class="dashboard-stat-list">
                       <li>
                           YESTERDAY
-                          <span class="pull-right"><b>@{{ cutting[0].psew }}</b> <small>PIECES</small></span>
+                          <span class="pull-right"><b>@{{ psew }}</b> <small>PIECES</small></span>
                       </li>
                       <li>
-                          WEEKLY AVERAGE
-                          <span class="pull-right"><b></b> <small>PIECES</small></span>
+                          DAILY AVERAGE
+                          <span class="pull-right"><b>@{{ cavg }}</b> <small>PIECES</small></span>
                       </li>
                       <li>
-                          LAST WEEK
-                          <span class="pull-right"><b>26 582</b> <small>PIECES</small></span>
+                          THIS WEEK
+                          <span class="pull-right"><b>@{{ tCut }}</b> <small>PIECES</small></span>
+                      </li>
+                      <li>
+                          CURRENT WIP
+                          <span class="pull-right"><b>@{{ cwip }}</b> <small>PIECES</small></span>
                       </li>
                   </ul>
               </div>
@@ -83,15 +87,19 @@
                   <ul class="dashboard-stat-list">
                       <li>
                           YESTERDAY
-                          <span class="pull-right"><b>@{{ sewing[0].outcome }}</b> <small>PIECES</small></span>
+                          <span class="pull-right"><b>@{{ outcome }}</b> <small>PIECES</small></span>
                       </li>
                       <li>
-                          WEEKLY AVERAGE
-                          <span class="pull-right"><b>3 872</b> <small>PIECES</small></span>
+                          DAILY PRODUCTION RATE
+                          <span class="pull-right"><b>@{{ avgProd }}</b> <small>PIECES</small></span>
                       </li>
                       <li>
-                          LAST WEEK
-                          <span class="pull-right"><b>26 582</b> <small>PIECES</small></span>
+                          THIS WEEK
+                          <span class="pull-right"><b>@{{ tProd }}</b> <small>PIECES</small></span>
+                      </li>
+                      <li>
+                          CURRENT WIP
+                          <span class="pull-right"><b>@{{ swip }}</b> <small>PIECES</small></span>
                       </li>
                   </ul>
               </div>
@@ -106,15 +114,19 @@
                   <ul class="dashboard-stat-list">
                       <li>
                           YESTERDAY
-                          <span class="pull-right"><b>1 200</b> <small>PIECES</small></span>
+                          <span class="pull-right"><b>@{{ pkd }}</b> <small>PIECES</small></span>
                       </li>
                       <li>
-                          WEEKLY AVERAGE
-                          <span class="pull-right"><b>3 872</b> <small>PIECES</small></span>
+                          DAILY AVERAGE
+                          <span class="pull-right"><b>@{{ avgPkd }}</b> <small>PIECES</small></span>
                       </li>
                       <li>
-                          LAST WEEK
-                          <span class="pull-right"><b>26 582</b> <small>PIECES</small></span>
+                          THIS WEEK
+                          <span class="pull-right"><b>@{{ tPkd }}</b> <small>PIECES</small></span>
+                      </li>
+                      <li>
+                          CURRENT WIP
+                          <span class="pull-right"><b>@{{ fwip }}</b> <small>PIECES</small></span>
                       </li>
                   </ul>
               </div>
@@ -128,16 +140,15 @@
                 <div class="m-b--35 font-bold">QUALITY</div>
                   <ul class="dashboard-stat-list">
                       <li>
-                          YESTERDAY
+                          YESTERDAY DHU
                           <span class="pull-right"><b>@{{ dhu }}</b> <small>%</small></span>
                       </li>
                       <li>
-                          AVERAGE
+                          AVERAGE DHU
                           <span class="pull-right"><b>@{{ avgDhu }}</b> <small>%</small></span>
                       </li>
                       <li>
-                          LAST WEEK
-                          <span class="pull-right"><b>26 582</b> <small>PIECES</small></span>
+
                       </li>
                   </ul>
               </div>
@@ -175,7 +186,15 @@
         cavg:0,
         savg:0,
         avgDhu:0.0,
-        dhu:0.0
+        dhu:0.0,
+        avgProd:0,
+        psew:0,
+        outcome: 0,
+        tProd:0,
+        tCut:0,
+        pkd:0,
+        tPkd:0,
+        avgPkd:0
       }
     },
     created(){
@@ -198,14 +217,13 @@
           this.dGeneral = response.data.reports.d_general
           console.log(this.dGeneral)
 
-          console.log(this.cutting)
-
           // Cutting Variables
           var cwip = [];
           var dates = [];
           var actualC = [];
           var targetC = [];
           var effiCut = [];
+          var psew = [];
           // Sewing Variables
           var swip = [];
           var effiSew = [];
@@ -248,6 +266,7 @@
                 fwip.push(this.finishing[i].income - this.finishing[i].pkd + fwip[j-1]);
               }
             j++;
+            psew.push(this.cutting[i].psew);
             income.push(this.finishing[i].income);
             pkd.push(this.finishing[i].pkd);
             dhu.push(parseFloat(((this.quality[i].failed/this.quality[i].inspected)*100).toFixed(2)));
@@ -257,15 +276,50 @@
 
           }
 
+          console.log(this.cutting);
+          console.log(this.sewing);
+          console.log(this.finishing);
+          console.log(this.quality);
+
           // To fill the Monthly Production Objects for the Charts to Render
           for(i=0; i < this.production.length; i++){
             monthlyProd.push(parseInt(this.production[i].t_prod))
             months.push(moment(this.production[i].month, 'MM').format('MMM'))
           }
 
-          this.dhu = dhu[dhu.length-1];
-          var sum = dhu.reduce((a, b) => a + b, 0);
-          this.avgDhu = sum/dhu.length
+          // Average DHU and Yesterday's DHU
+              this.dhu = dhu[dhu.length-1];
+              var sum = dhu.reduce((a, b) => a + b, 0);
+              this.avgDhu = sum/dhu.length
+
+          // AVERAGE CUTTING SEWING AND FINISHING
+              // Cutting
+              var sum = psew.reduce((a, b) => a + b, 0);
+              this.tCut = sum;
+              this.cavg = parseInt((sum/psew.length).toFixed(0));
+              // Sewing
+              var sum = production.reduce((a, b) => a + b, 0);
+              this.tProd = sum;
+              this.avgProd = parseInt((sum/production.length).toFixed(0));
+              // FINISHING
+              var sum = pkd.reduce((a, b) => a + b, 0);
+              this.tPkd = sum
+              this.avgPkd = parseInt((sum/pkd.length).toFixed(0));
+
+          // Yesterday's production
+            this.psew = this.cutting[0].psew;
+            this.outcome = production[production.length - 1];
+            this.pkd = pkd[pkd.length - 1];
+          // WIP for All the DEPTS
+            this.cwip = cwip[cwip.length -1]
+            this.swip = swip[swip.length -1]
+            this.fwip = fwip[fwip.length -1]
+          // MMR Daily
+
+          // Efficiency of al the DEPT.
+
+          //
+
 
 
 
