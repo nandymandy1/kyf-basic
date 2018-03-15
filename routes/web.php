@@ -61,6 +61,10 @@ Route::prefix('/master')->group(function(){
   Route::get('/finishing', 'FactoryController@finishing');
   Route::get('/quality', 'FactoryController@quality');
   Route::get('/general', 'FactoryController@general');
+  // For crisp report 
+  Route::get('/factory/main/dashboard', function() {
+    return view('factory.master');
+  });
 });
 
 
@@ -84,9 +88,4 @@ Route::prefix('/admin')->group(function () {
   });
 
   Route::post('/usersfetch', 'FactController@getUsers');
-});
-
-// Testing of the Pages routes
-Route::get('/test', function() {
-  return view('factory.master');
 });

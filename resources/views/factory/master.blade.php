@@ -323,8 +323,6 @@
 
       } // Variable Prep Method
 
-
-
     }
   });
 </script>
