@@ -26,10 +26,13 @@
                     <li><a class="nav-link" href="/master/finishing">Finishing</a></li>
                     <li><a class="nav-link" href="/master/quality">Quality</a></li>
                     <li><a class="nav-link" href="/master/general">General</a></li>
-                    
-                  @elseif (Auth::user()->type == 'admin')
+
+                  @elseif (Auth::user()->type == 'admin' || Auth::user()->type == 'superadmin')
                     <li><a class="nav-link" href="/home">Factory</a></li>
                     <li><a class="nav-link" href="/admin/users">Users</a></li>
+                    @if (Auth::user()->type == 'superadmin')
+                      <li><a class="nav-link" href="/admin/getadmins">Admin Manager</a></li>
+                    @endif
                   @endif
                     <li class="nav-item dropdown">
                         <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

@@ -37,7 +37,7 @@ class HomeController extends Controller
       // Check if the user is Active or not
       if(Auth::user()->isActive){
         // Check if the user is of type admin or apache_note
-        if(Auth::user()->type == 'admin'){
+        if(Auth::user()->type == 'admin' || Auth::user()->type == 'superadmin'){
 
           return view('admin.admin');
 

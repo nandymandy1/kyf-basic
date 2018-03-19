@@ -10,7 +10,7 @@
         <div class="col-md-4">
           <div class="card">
             <div class="card-body">
-              <div class="" id="cwip"></div>
+              <div class="" id="ceffi"></div>
             </div>
           </div>
         </div>
@@ -24,7 +24,7 @@
         <div class="col-md-4">
           <div class="card">
             <div class="card-body">
-              <div class="" id="ceffi"></div>
+              <div class="" id="cwip"></div>
             </div>
           </div>
         </div>
@@ -114,7 +114,7 @@
       </div>
     </div>
   </div>
-  <div class="card">
+  <!--<div class="card">
     <div class="card-header bg-teal">
       General
     </div>
@@ -143,7 +143,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div>-->
 </div>
 @endsection @section('scripts')
   <script src="{{ asset('./js/highcharts.src.js')}}" charset="utf-8"></script>

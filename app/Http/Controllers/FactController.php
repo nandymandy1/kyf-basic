@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Factory;
+use Illuminate\Support\Facades\Hash;
 use App\User;
 
 class FactController extends Controller
@@ -43,6 +44,12 @@ class FactController extends Controller
         }
       }
       return response()->json($users);
+    }
+
+    public function getAdmins()
+    {
+        $admins = User::where('type','admin')->orderBy('name', 'ASC')->get();
+        return response()->json($admins);
     }
 
     /**
@@ -139,5 +146,20 @@ class FactController extends Controller
     public function master($id){
 
     }
+
+    // To create Super Admin
+    public function createAdmin(){
+        return User::create([
+            'name' => 'Ajay Ravuri',
+            'email' => 'ajay.ravuri@arvindbrands.com',
+            'username' => 'ajay_ravuri',
+            'password' => Hash::make('password123'),
+            'factory_id' => '',
+            'job' => '',
+            'isActive' => 1,
+            'type' => 'admin',
+        ]);
+    }
+
 
 }

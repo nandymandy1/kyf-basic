@@ -120,7 +120,10 @@
           if(confirm("Are you sure, You want to revoke all the rights from this factory")){
             factory.isActive = 0
             axios.get(`/admin/factory/endis/${factory.id}`)
-            .then((response) => console.log(response))
+            .then((response) => {
+              console.log(response)
+              this.fetchFactory()
+            })
             .catch((error) => this.errors = error.response.data.errors)
           }
         }
@@ -128,11 +131,13 @@
           if(confirm("Are you sure, You want to Activate this factory?")){
             factory.isActive = 1
             axios.get(`/admin/factory/endis/${factory.id}`)
-            .then((response) => console.log(response))
+            .then((response) => {
+              console.log(response)
+              this.fetchFactory()
+            })
             .catch((error) => this.errors = error.response.data.errors)
           }
         }
-        this.fetchFactory();
         this.loading = !this.loading
       },
       del(key, id){
@@ -142,6 +147,7 @@
           .then((response) => {
             this.factories.splice(key, 1)
             this.success = 'Factory deleted from the list successfully'
+            this.fetchFactory()
           }).catch((error) => {
             this.errors = error.response.data.errors
           })

@@ -61,7 +61,7 @@ Route::prefix('/master')->group(function(){
   Route::get('/finishing', 'FactoryController@finishing');
   Route::get('/quality', 'FactoryController@quality');
   Route::get('/general', 'FactoryController@general');
-  // For crisp report 
+  // For crisp report
   Route::get('/factory/main/dashboard', function() {
     return view('factory.master');
   });
@@ -87,5 +87,17 @@ Route::prefix('/admin')->group(function () {
     return view('admin.users');
   });
 
+  // To fetch all the factory owners to the super user
   Route::post('/usersfetch', 'FactController@getUsers');
+  // To fetch all the admins to the super user
+  Route::post('/adminsfetch', 'FactController@getAdmins');
+
+  // Create super Admin
+  // Route::get('/create/superuser', 'FactController@createAdmin');
+
+  // To get the View for the admins
+  Route::get('/getadmins', function(){
+    return view('admin.admins');
+  });
+
 });
