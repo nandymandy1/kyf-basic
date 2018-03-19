@@ -4,9 +4,11 @@
 
   <div class="container">
     <h3>Factory List</h3>
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-      Add New Factory
-    </button>
+    @if (Auth::user()->type == 'superadmin')
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+        Add New Factory
+      </button>
+    @endif
     <div class="" id="app">
       <span class="pull-right" v-if="loading">
         <i class="fa fa-refresh fa-spin fa-1x fs-fw"></i>
@@ -30,8 +32,9 @@
             <button type="button" @click="disable_enable(key, factory)" class="btn btn-sm btn-success ml-auto" v-if="factory.isActive == 1"  name="button">Disable</button>
             <button type="button" @click="disable_enable(key, factory)" class="btn btn-sm ml-auto" v-else name="button">Enable</button>
             <a class="btn btn-primary btn-sm mr-auto" name="button" :href="'/admin/factory/master/' + factory.id">View Reports</a>
-            <button type="button" class="btn btn-info btn-sm" name="button" data-toggle="modal" data-target="#exampleModal">Edit Factory</button>
-            <button type="button" class="btn btn-danger btn-sm" @click="del(key, factory.id)" name="button">Delete Factory</button>
+            @if (Auth::user()->type == 'superadmin')
+              <button type="button" class="btn btn-danger btn-sm" @click="del(key, factory.id)" name="button">Delete Factory</button>
+            @endif
           </div>
         </li>
       </ul>

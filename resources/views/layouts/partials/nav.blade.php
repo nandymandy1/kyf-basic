@@ -29,7 +29,7 @@
 
                   @elseif (Auth::user()->type == 'admin' || Auth::user()->type == 'superadmin')
                     <li><a class="nav-link" href="/home">Factory</a></li>
-                    <li><a class="nav-link" href="/admin/users">Users</a></li>
+                    <li><a class="nav-link" href="/admin/users">Factory Owners</a></li>
                     @if (Auth::user()->type == 'superadmin')
                       <li><a class="nav-link" href="/admin/getadmins">Admin Manager</a></li>
                     @endif
