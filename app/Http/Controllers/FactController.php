@@ -147,6 +147,7 @@ class FactController extends Controller
 
     }
 
+    /*
     // To create Super Admin
     public function createAdmin(){
         return User::create([
@@ -160,6 +161,14 @@ class FactController extends Controller
             'type' => 'admin',
         ]);
     }
+    */
+    // Factory owners to maintain the users
+    public function getFactoryUsers($id){
+      $users = User::where('factory_id', $id)->get();
+      return response()->json($users);
+    }
+
+
 
 
 }

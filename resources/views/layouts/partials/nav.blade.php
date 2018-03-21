@@ -26,7 +26,7 @@
                     <li><a class="nav-link" href="/master/finishing">Finishing</a></li>
                     <li><a class="nav-link" href="/master/quality">Quality</a></li>
                     <li><a class="nav-link" href="/master/general">General</a></li>
-
+                    <li><a class="nav-link" href="/master/users/{{ Auth::user()->factory_id }}">Users</a></li>
                   @elseif (Auth::user()->type == 'admin' || Auth::user()->type == 'superadmin')
                     <li><a class="nav-link" href="/home">Factory</a></li>
                     <li><a class="nav-link" href="/admin/users">Factory Owners</a></li>

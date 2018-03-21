@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="container">
+<div class="container" id="app">
   @if(Auth::user()->job !='master')
     @if($today)
       <div class="row">
@@ -21,7 +21,7 @@
           Target Vs Actual Vs Sent for Washing or Finishing
         </div>
         <div class="card-body">
-          <canvas id="line_chart" height="150"></canvas>
+          <canvas id="divtva" height="150"></canvas>
         </div>
       </div>
     </div>
@@ -32,7 +32,7 @@
           Daily Production
         </div>
         <div class="card-body">
-          <canvas id="bar_d" height="150"></canvas>
+          <canvas id="divdp" height="150"></canvas>
         </div>
       </div>
     </div>
@@ -43,7 +43,7 @@
           Monthly Production
         </div>
         <div class="card-body">
-          <canvas id="bar_chart" height="150"></canvas>
+          <canvas id="divmonthly" height="150"></canvas>
         </div>
       </div>
     </div>
@@ -54,7 +54,7 @@
           Sewing Efficiency
         </div>
         <div class="card-body">
-          <canvas id="linep" height="150"></canvas>
+          <canvas id="diveff" height="150"></canvas>
         </div>
       </div>
     </div>
@@ -65,7 +65,7 @@
           Sewing Department WIP
         </div>
         <div class="card-body">
-          <canvas id="pie_chart" height="150"></canvas>
+          <canvas id="divwip" height="150"></canvas>
         </div>
       </div>
     </div>
@@ -77,297 +77,305 @@
 @endsection
 
 @section('scripts')
+  <script src="{{ asset('./js/moment.js')}}" charset="utf-8"></script>
   <script type="text/javascript">
-  $(function () {
-      new Chart(document.getElementById("line_chart").getContext("2d"), getChartJs('line'));
-      new Chart(document.getElementById("bar_chart").getContext("2d"), getChartJs('bar'));
-      new Chart(document.getElementById("bar_d").getContext("2d"), getChartJs('bar_d'));
-      new Chart(document.getElementById("linep").getContext("2d"), getChartJs('linep'));
-      new Chart(document.getElementById("pie_chart").getContext("2d"), getChartJs('linewip'));
-  });
-
-  var t_income = [];
-  var t_sopr = [];
-  var t_kopr = [];
-  var t_prod = [];
-  var t_target = [];
-  var t_actual = [];
-  var t_outcome = [];
-  var t_sam = [];
-  var t_date = [];
-  var t_eff = [];
-  var t_wip = [];
-
-  var income = [];
-  var sopr = [];
-  var kopr = [];
-  var prod = [];
-  var target = [];
-  var actual = [];
-  var outcome = [];
-  var sam = [];
-  var date = [];
-  var eff = [];
-  var wip = [];
-  var monthly = [];
-
-  @foreach ($reports as $report)
-  // To store all the data from the Controllers into the javascript objects
-  t_income.push({{ $report->income }});
-  t_sopr.push({{ $report->sopr }});
-  t_kopr.push({{ $report->kopr }});
-  t_prod.push({{ $report->prod }});
-  t_target.push({{ $report->target }});
-  t_actual.push({{ $report->actual }});
-  t_outcome.push({{ $report->outcome }});
-  t_sam.push({{ $report->sam }});
-  t_date.push("{{ date('d-M', strtotime($report->created_at)) }}");
-  t_eff.push((({{ (($report->prod)*($report->sam))/(($report->kopr + $report->sopr)*480) }})*100).toFixed(2));
-  t_wip.push({{ $report->prod - $report->outcome }})
-  @endforeach
-  var months = ['0','Jan', 'Feb','Mar', 'April', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
-  var month = [];
-  var t_prod = [];
-@foreach ($production as $month)
-  month.push(months[{{ $month->month }}])
-  t_prod.push({{$month->t_prod }});
-@endforeach
-
-for(var i= t_date.length-1 ; i >= 0; i--){
-  // To store all the data from the Controllers into the javascript objects
-  income.push(t_income[i]);
-  sopr.push(t_sopr[i]);
-  kopr.push(t_kopr[i]);
-  prod.push(t_prod[i]);
-  target.push(t_target[i]);
-  actual.push(t_actual[i]);
-  outcome.push(t_outcome[i]);
-  sam.push(t_sam[i]);
-  date.push(t_date[i]);
-  eff.push(t_eff[i]);
-}
-
-var k = 0;
-for(j = t_wip.length-1; j >= 0; j--){
-  if(k == 0){
-    wip.push(t_wip[j]);
-  } else {
-    wip.push(t_wip[j] + wip[k-1]);
-  }
-  k++;
-}
-
-  function getChartJs(type) {
-    var config = null;
-
-    if (type === 'line') {
-        config = {
-            type: 'line',
-            data: {
-                labels: date,
-                datasets: [{
-                    label: "Actual",
-                    data: actual,
-                    borderColor: 'rgba(0, 188, 212, 0.75)',
-                    backgroundColor: 'rgba(0, 188, 212, 0.3)',
-                    pointBorderColor: 'rgba(0, 188, 212, 0)',
-                    pointBackgroundColor: 'rgba(0, 188, 212, 0.9)',
-                    pointBorderWidth: 1
-                }, {
-                        label: "Target",
-                        data: target,
-                        borderColor: 'rgba(233, 30, 99, 0.75)',
-                        backgroundColor: 'rgba(233, 30, 99, 0.3)',
-                        pointBorderColor: 'rgba(233, 30, 99, 0)',
-                        pointBackgroundColor: 'rgba(233, 30, 99, 0.9)',
-                        pointBorderWidth: 1
-                    },
-                    {
-                      label: "Sent for Finishing or Washing",
-                      data: outcome,
-                      borderColor: 'rgba(34, 153, 84, 0.75)',
-                      backgroundColor: 'rgba(82, 190, 128, 0.3)',
-                      pointBorderColor: 'rgba(82, 190, 128, 0)',
-                      pointBackgroundColor: 'rgba(34, 153, 84, 0.9)',
-                      pointBorderWidth: 1
-                    }
-                  ]
-            },
-            options: {
-                responsive: true,
-                legend: {
-                  display:true,
-                  position:'bottom'
-                },
-                scales: {
-                  yAxes:[{
-                    ticks:{min:0},
-                    scaleLabel:{
-                      display:true,
-                      labelString:'Pieces'
-                    }
-                  }],
-                  xAxes:[{
-                    scaleLabel:{
-                      display:true,
-                      labelString:'Dates'
-                    }
-                  }]
-                }
-            }
+    var app = new Vue({
+      el: '#app',
+      data(){
+        return {
+          factory_id: {{Auth::user()->factory_id}},
+          report:{},
+          temp:{},
+          errors:{},
+          monthlyProd:{}
         }
-    }
-    else if (type === 'linep') {
-        config = {
-            type: 'line',
-            data: {
-                labels: date,
-                datasets: [{
-                    label: "Efficiency",
-                    data: eff,
-                    borderColor: 'rgba(0, 188, 212, 0.75)',
-                    backgroundColor: 'rgba(0, 188, 212, 0.3)',
-                    pointBorderColor: 'rgba(0, 188, 212, 0)',
-                    pointBackgroundColor: 'rgba(0, 188, 212, 0.9)',
-                    pointBorderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                legend: {
-                  display:true,
-                  position:'bottom'
-                },
-                scales: {
-                  yAxes:[{
-                    ticks:{min:0},
-                    scaleLabel:{
-                      display:true,
-                      labelString:'Efficiency%'
-                    }
-                  }],
-                  xAxes:[{
-                    scaleLabel:{
-                      display:true,
-                      labelString:'Dates'
-                    }
-                  }]
-                }
-            }
-        }
-    }
+      },
+      methods:{
+        fetchSewing(){
+          axios.post(`/reports/sewing/${this.factory_id}`)
+          .then(
+            (response) => {
+              this.report = this.temp = response.data.reports
+              this.monthlyProd = response.data.prod
+              console.log(this.report);
+              var income = [];
+              var sopr = [];
+              var kopr = [];
+              var prod = [];
+              var target = [];
+              var actual = [];
+              var outcome = [];
+              var sam = [];
+              var dates = [];
+              var eff = [];
+              var wip = [];
+              var twip = [];
+              var month = [];
+              var product = [];
+              var months = ['','Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
 
-    else if (type === 'bar') {
-        config = {
-            type: 'bar',
-            data: {
-                labels: month,
-                datasets: [{
-                    label: "Monthly Production",
-                    data: t_prod,
-                    backgroundColor: 'rgba(0, 188, 212, 0.8)'
-                }]
-            },
-            options: {
-                responsive: true,
-                legend: {
-                  display:true,
-                  position:'bottom'
-                },
-                scales: {
-                  yAxes:[{
-                    ticks:{min:0},
-                    scaleLabel:{
-                      display:true,
-                      labelString:'Pieces'
-                    }
-                  }],
-                  xAxes:[{
-                    scaleLabel:{
-                      display:true,
-                      labelString:'Dates'
-                    }
-                  }]
-                }
-            }
-        }
-    }
+              console.log(this.monthlyProd);
 
-    else if (type === 'bar_d') {
-        config = {
-            type: 'bar',
-            data: {
-                labels: date,
-                datasets: [{
-                    label: "Daily Production",
-                    data: actual,
-                    backgroundColor: 'rgba(160, 150, 212, 0.8)'
-                }]
-            },
-            options: {
-                responsive: true,
-                legend: {
-                  display:true,
-                  position:'bottom'
-                },
-                scales: {
-                  yAxes:[{
-                    ticks:{min:0},
-                    scaleLabel:{
-                      display:true,
-                      labelString:'Pieces'
-                    }
-                  }],
-                  xAxes:[{
-                    scaleLabel:{
-                      display:true,
-                      labelString:'Dates'
-                    }
-                  }]
-                }
-            }
-        }
-    }
+              for(i = this.report.length -1; i >=0 ; i--){
+                dates.push(moment(new Date(this.report[i].created_at)).format("D-MMM"));
+                income.push(parseInt(this.report[i].income));
+                sopr.push(parseInt(this.report[i].sopr));
+                kopr.push(this.report[i].kor);
+                prod.push(this.report[i].prod);
+                target.push(this.report[i].target);
+                actual.push(this.report[i].actual);
+                outcome.push(this.report[i].outcome);
+                sam.push(this.report[i].sam);
 
-    else if (type === 'linewip') {
-        config = {
-          type: 'bar',
-          data: {
-              labels: date,
-              datasets: [{
-                  label: "Sewing WIP",
-                  data: wip,
-                  backgroundColor: 'rgba(0, 188, 212, 0.8)'
-              }]
-          },
-          options: {
-              responsive: true,
-              legend: {
-                display:true,
-                position:'bottom'
-              },
-              scales: {
-                yAxes:[{
-                  ticks:{min:0},
-                  scaleLabel:{
-                    display:true,
-                    labelString:'Pieces'
-                  }
-                }],
-                xAxes:[{
-                  scaleLabel:{
-                    display:true,
-                    labelString:'Dates'
-                  }
-                }]
+                var nr = parseFloat(this.report[i].prod) * parseFloat(this.report[i].sam);
+                var dr = parseFloat(this.report[i].kopr) + parseFloat(this.report[i].sopr) *480;
+                eff.push((nr/dr*100).toFixed(2));
+                if(i == this.report.length -1){
+                  twip.push(parseInt(this.report[i].prod - this.report[i].outcome));
+                } else {
+                  twip.push(twip[twip.length -1] + parseInt(this.report[i].prod - this.report[i].outcome));
+                }
+                wip.push(parseInt(this.report[i].prod - this.report[i].outcome));
+
               }
-          }
+
+              var k = 0;
+
+              for (var property in this.monthlyProd) {
+                product[k] = 0;
+                  if (this.monthlyProd.hasOwnProperty(property)) {
+                    month.push(months[parseInt(property)]);
+                    // console.log(this.monthlyProd[property]);
+                    for(i = 0; i < this.monthlyProd[property].length; i++){
+                      product[k] += parseInt(this.monthlyProd[property][i].prod);
+                    }
+                  }
+                  k++;
+              }
+
+              console.log(month);
+              console.log(product);
+
+
+
+              var tvaChart = document.getElementById("divtva").getContext('2d');
+              var myTva = new Chart(tvaChart, {
+                type: 'line',
+                data: {
+                    labels: dates,
+                    datasets: [{
+                        label: "Actual",
+                        data: actual,
+                        borderColor: 'rgba(0, 188, 212, 0.75)',
+                        backgroundColor: 'rgba(0, 188, 212, 0.3)',
+                        pointBorderColor: 'rgba(0, 188, 212, 0)',
+                        pointBackgroundColor: 'rgba(0, 188, 212, 0.9)',
+                        pointBorderWidth: 1
+                    }, {
+                            label: "Target",
+                            data: target,
+                            borderColor: 'rgba(233, 30, 99, 0.75)',
+                            backgroundColor: 'rgba(233, 30, 99, 0.3)',
+                            pointBorderColor: 'rgba(233, 30, 99, 0)',
+                            pointBackgroundColor: 'rgba(233, 30, 99, 0.9)',
+                            pointBorderWidth: 1
+                        },
+                        {
+                          label: "Sent for Finishing or Washing",
+                          data: outcome,
+                          borderColor: 'rgba(34, 153, 84, 0.75)',
+                          backgroundColor: 'rgba(82, 190, 128, 0.3)',
+                          pointBorderColor: 'rgba(82, 190, 128, 0)',
+                          pointBackgroundColor: 'rgba(34, 153, 84, 0.9)',
+                          pointBorderWidth: 1
+                        }
+                      ]
+                },
+                options: {
+                    responsive: true,
+                    legend: {
+                      display:true,
+                      position:'bottom'
+                    },
+                    scales: {
+                      yAxes:[{
+                        ticks:{min:0},
+                        scaleLabel:{
+                          display:true,
+                          labelString:'Pieces'
+                        }
+                      }],
+                      xAxes:[{
+                        scaleLabel:{
+                          display:true,
+                          labelString:'Dates'
+                        }
+                      }]
+                    }
+                }
+              });
+
+              var effChart = document.getElementById("diveff").getContext('2d');
+              var myEff = new Chart(effChart, {
+                type: 'line',
+                data: {
+                    labels: dates,
+                    datasets: [{
+                        label: "Efficiency",
+                        data: eff,
+                        borderColor: 'rgba(0, 188, 212, 0.75)',
+                        backgroundColor: 'rgba(0, 188, 212, 0.3)',
+                        pointBorderColor: 'rgba(0, 188, 212, 0)',
+                        pointBackgroundColor: 'rgba(0, 188, 212, 0.9)',
+                        pointBorderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    legend: {
+                      display:true,
+                      position:'bottom'
+                    },
+                    scales: {
+                      yAxes:[{
+                        ticks:{min:0},
+                        scaleLabel:{
+                          display:true,
+                          labelString:'Efficiency%'
+                        }
+                      }],
+                      xAxes:[{
+                        scaleLabel:{
+                          display:true,
+                          labelString:'Dates'
+                        }
+                      }]
+                    }
+                }
+              })
+
+              var dpChart = document.getElementById("divdp").getContext('2d');
+              var myDp = new Chart(dpChart, {
+                type: 'bar',
+                 data: {
+                     labels: dates,
+                     datasets: [{
+                         label: "Daily Production",
+                         data: actual,
+                         backgroundColor: 'rgba(160, 150, 212, 0.8)'
+                     }]
+                 },
+                 options: {
+                     responsive: true,
+                     legend: {
+                       display:true,
+                       position:'bottom'
+                     },
+                     scales: {
+                       yAxes:[{
+                         ticks:{min:0},
+                         scaleLabel:{
+                           display:true,
+                           labelString:'Pieces'
+                         }
+                       }],
+                       xAxes:[{
+                         scaleLabel:{
+                           display:true,
+                           labelString:'Dates'
+                         }
+                       }]
+                     }
+                 }
+              })
+
+              var wipChart = document.getElementById("divwip").getContext('2d');
+              var myWip = new Chart(wipChart, {
+                type: 'bar',
+                data: {
+                    labels: dates,
+                    datasets: [{
+                        label: "Daily WIP",
+                        data: wip,
+                        backgroundColor: 'rgba(0, 188, 212, 0.8)'
+                    },{
+                      label: "Cumulative WIP",
+                      data: twip,
+                      backgroundColor: 'rgba(231, 76, 60, 0.8)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    legend: {
+                      display:true,
+                      position:'bottom'
+                    },
+                    scales: {
+                      yAxes:[{
+                        ticks:{min:0},
+                        scaleLabel:{
+                          display:true,
+                          labelString:'Pieces'
+                        }
+                      }],
+                      xAxes:[{
+                        scaleLabel:{
+                          display:true,
+                          labelString:'Dates'
+                        }
+                      }]
+                    }
+                }
+              })
+
+              // For monthly Production we have to see this later
+
+              var monthlyChart = document.getElementById("divmonthly").getContext('2d');
+              var myMonthly = new Chart(monthlyChart, {
+                type: 'bar',
+                data: {
+                    labels: month,
+                    datasets: [{
+                        label: "Monthly Production",
+                        data: product ,
+                        backgroundColor: 'rgba(0, 188, 212, 0.8)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    legend: {
+                      display:true,
+                      position:'bottom'
+                    },
+                    scales: {
+                      yAxes:[{
+                        ticks:{min:0},
+                        scaleLabel:{
+                          display:true,
+                          labelString:'Pieces'
+                        }
+                      }],
+                      xAxes:[{
+                        scaleLabel:{
+                          display:true,
+                          labelString:'Dates'
+                        }
+                      }]
+                    }
+                }
+              })
+
+
+
+            })
+            .catch((error) => this.errors = error.response.data.errors);
         }
-    }
 
-    return config;
-
-}
+      },
+      created(){
+        this.fetchSewing();
+      }
+    });
   </script>
 
 @endsection

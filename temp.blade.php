@@ -68,3 +68,15 @@
     </div>
 </div>
 @endsection
+
+
+@foreach ($reports as $report)
+  t_cqty.push({{ $report->cqty }});
+  t_date.push("{{ date('d-M', strtotime($report->created_at)) }}");
+  t_psew.push({{ $report->psew }});
+  t_pemb.push({{ $report->pemb }});
+  t_fout.push({{ $report->fout }});
+  t_pcut.push({{ $report->pcut }});
+  t_tpeople.push({{ $report->tpeople }});
+  t_wip.push({{ $report->pcut - $report->psew }});
+@endforeach

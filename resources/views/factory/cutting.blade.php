@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="container">
+<div class="container" id="app">
 @if(Auth::user()->job != 'master')
   @if($today)
     <div class="row">
@@ -20,7 +20,7 @@
           Target Vs Actual
         </div>
         <div class="card-body">
-          <canvas id="line_chart" height="150"></canvas>
+          <canvas id="divtva" height="150"></canvas>
         </div>
       </div>
     </div>
@@ -31,7 +31,7 @@
           Pieces Sent to Sewing or Embroidery
         </div>
         <div class="card-body">
-          <canvas id="bar_chart" height="150"></canvas>
+          <canvas id="divpse" height="150"></canvas>
         </div>
       </div>
     </div>
@@ -42,7 +42,7 @@
           Cutting Department Strength
         </div>
         <div class="card-body">
-          <canvas id="linep" height="150"></canvas>
+          <canvas id="divstr" height="150"></canvas>
         </div>
       </div>
     </div>
@@ -53,7 +53,7 @@
           Cutting WIP
         </div>
         <div class="card-body">
-          <canvas id="pie_chart" height="150"></canvas>
+          <canvas id="divwip" height="150"></canvas>
         </div>
       </div>
     </div>
@@ -64,73 +64,104 @@
 @endsection
 
 @section('scripts')
+  <script src="{{ asset('./js/moment.js')}}" charset="utf-8"></script>
   <script type="text/javascript">
-  $(function () {
-      new Chart(document.getElementById("line_chart").getContext("2d"), getChartJs('line'));
-      new Chart(document.getElementById("bar_chart").getContext("2d"), getChartJs('bar'));
-      new Chart(document.getElementById("linep").getContext("2d"), getChartJs('linep'));
-      new Chart(document.getElementById("pie_chart").getContext("2d"), getChartJs('linewip'));
-  });
+  var app = new Vue({
+    el: '#app',
+    data(){
+      return {
+        factory_id: {{Auth::user()->factory_id}},
+        report:{},
+        temp:{},
+        errors:{}
+      }
+    },
+    watch:{
 
-  var cqty = [];
-  var date = [];
-  var psew = [];
-  var pemb = [];
-  var fout = [];
-  var pcut = [];
-  var tpeople = [];
-  var wip = [];
+    },
+    methods:{
+      fetchCutting(){
+        axios.post(`/reports/cutting/${this.factory_id}`)
+        .then(
+          (response) => {
+            this.report = this.temp = response.data
+            var dates = [];
+            var cqty = [];
+            var psew = [];
+            var pemb = [];
+            var fout = [];
+            var pcut = [];
+            var tpeople = [];
+            var twip = [];
+            var wip = [];
 
-  var t_cqty = [];
-  var t_date = [];
-  var t_psew = [];
-  var t_pemb = [];
-  var t_fout = [];
-  var t_pcut = [];
-  var t_tpeople = [];
-  var t_wip = [];
+            // to log the report
+            console.log(this.report)
+
+            for(var i=this.report.length -1; i >=0 ; i--){
+              dates.push(moment(new Date(this.report[i].created_at)).format("D-MMM"));
+              cqty.push(parseInt(this.report[i].cqty));
+              psew.push(parseInt(this.report[i].psew));
+              pemb.push(parseInt(this.report[i].pemb));
+              fout.push(parseInt(this.report[i].fout));
+              pcut.push(parseInt(this.report[i].pcut));
+              tpeople.push(parseInt(this.report[i].tpeople));
+              wip.push(parseInt(this.report[i].pcut - this.report[i].psew));
+              if(i == this.report.length -1){
+                twip.push(parseInt(this.report[i].pcut - this.report[i].psew));
+              } else {
+                twip.push(twip[twip.length -1] + parseInt(this.report[i].pcut - this.report[i].psew));
+              }
+
+            }
 
 
+            // To map the wip
+            var wipChart = document.getElementById("divwip").getContext('2d');
+            var myWip = new Chart(wipChart, {
+            type: 'bar',
+            data: {
+                labels: dates,
+                datasets: [{
+                    label: "Cumulative WIP",
+                    data: twip,
+                    backgroundColor: 'rgba(0, 188, 212, 0.8)'
+                }, {
+                        label: "Daily WIP",
+                        data: wip,
+                        backgroundColor: 'rgba(233, 30, 99, 0.8)'
+                    }]
+            },
+            options: {
+                responsive: true,
+                legend: {
+                  display:true,
+                  position:'bottom'
+                },
+                scales: {
+                  yAxes:[{
+                    ticks:{min:0},
+                    scaleLabel:{
+                      display:true,
+                      labelString:'Pieces'
+                    }
+                  }],
+                  xAxes:[{
+                    scaleLabel:{
+                      display:true,
+                      labelString:'Dates'
+                    }
+                  }]
+                }
+            }
+            });
 
-  @foreach ($reports as $report)
-    t_cqty.push({{ $report->cqty }});
-    t_date.push("{{ date('d-M', strtotime($report->created_at)) }}");
-    t_psew.push({{ $report->psew }});
-    t_pemb.push({{ $report->pemb }});
-    t_fout.push({{ $report->fout }});
-    t_pcut.push({{ $report->pcut }});
-    t_tpeople.push({{ $report->tpeople }});
-    t_wip.push({{ $report->pcut - $report->psew }});
-  @endforeach
-
-  for(var i= t_date.length-1 ; i >= 0; i--){
-    cqty.push(t_cqty[i]);
-    date.push(t_date[i]);
-    psew.push(t_psew[i]);
-    pemb.push(t_pemb[i]);
-    fout.push(t_fout[i]);
-    pcut.push(t_pcut[i]);
-    tpeople.push(t_tpeople[i]);
-  }
-
-  var k = 0;
-  for(j = t_wip.length-1; j >= 0; j--){
-    if(k == 0){
-      wip.push(t_wip[j]);
-    } else {
-      wip.push(t_wip[j] + wip[k-1]);
-    }
-    k++;
-  }
-
-  function getChartJs(type) {
-    var config = null;
-
-    if (type === 'line') {
-        config = {
+            // To View Target Vs Actual Cutting
+            var tvaChart = document.getElementById("divtva").getContext('2d');
+            var myTva = new Chart(tvaChart, {
             type: 'line',
             data: {
-                labels: date,
+                labels: dates,
                 datasets: [{
                     label: "Total Cut Quantity",
                     data: cqty,
@@ -171,42 +202,13 @@
                   }]
                 }
             }
-        }
-    }
-    else if (type === 'linep') {
-        config = {
-            type: 'line',
+            });
+
+            var pseChart = document.getElementById("divpse").getContext('2d');
+            var myPse = new Chart(pseChart, {
+              type: 'bar',
             data: {
-                labels: date,
-                datasets: [{
-                    label: "Cutting Department Strength",
-                    data: tpeople,
-                    borderColor: 'rgba(0, 188, 212, 0.75)',
-                    backgroundColor: 'rgba(0, 188, 212, 0.3)',
-                    pointBorderColor: 'rgba(0, 188, 212, 0)',
-                    pointBackgroundColor: 'rgba(0, 188, 212, 0.9)',
-                    pointBorderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                legend: {
-                  display:true,
-                  position:'bottom'
-                },
-                scales: {
-                  yAxes:[{
-                    ticks:{min:0}
-                  }]
-                }
-            }
-        }
-    }
-    else if (type === 'bar') {
-        config = {
-            type: 'bar',
-            data: {
-                labels: date,
+                labels: dates,
                 datasets: [{
                     label: "Pieces Sent for Sewing",
                     data: psew,
@@ -239,45 +241,46 @@
                   }]
                 }
             }
-        }
-    }
-    else if (type === 'linewip') {
-        config = {
-          type: 'bar',
-          data: {
-              labels: date,
-              datasets: [{
-                  label: "Cutting WIP",
-                  data: wip,
-                  backgroundColor: 'rgba(0, 188, 212, 0.8)'
-              }]
-          },
-          options: {
-              responsive: true,
-              legend: {
-                display:true,
-                position:'bottom'
-              },
-              scales: {
-                yAxes:[{
-                  ticks:{min:0},
-                  scaleLabel:{
-                    display:true,
-                    labelString:'Pieces'
-                  }
-                }],
-                xAxes:[{
-                  scaleLabel:{
-                    display:true,
-                    labelString:'Dates'
-                  }
+            });
+
+            var strChart = document.getElementById("divstr").getContext('2d');
+            var myStr = new Chart(strChart, {
+            type: 'line',
+            data: {
+                labels: dates,
+                datasets: [{
+                    label: "Cutting Department Strength",
+                    data: tpeople,
+                    borderColor: 'rgba(0, 188, 212, 0.75)',
+                    backgroundColor: 'rgba(0, 188, 212, 0.3)',
+                    pointBorderColor: 'rgba(0, 188, 212, 0)',
+                    pointBackgroundColor: 'rgba(0, 188, 212, 0.9)',
+                    pointBorderWidth: 1
                 }]
-              }
-          }
-        }
+            },
+            options: {
+                responsive: true,
+                legend: {
+                  display:true,
+                  position:'bottom'
+                },
+                scales: {
+                  yAxes:[{
+                    ticks:{min:0}
+                  }]
+                }
+            }
+            });
+
+          })
+        // .catch((error) => this.errors = error.response.data.errors)
+      }
+
+    },
+    created(){
+      this.fetchCutting()
     }
-    return config;
-}
+  });
 
   </script>
 

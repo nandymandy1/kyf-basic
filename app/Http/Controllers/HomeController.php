@@ -60,15 +60,17 @@ class HomeController extends Controller
               }
 
               // return response()->json($reports);
-              return view('factory.cutting', ['reports'=> $reports, 'today'=> $today]);
+              return view('factory.cutting', ['today' => $today]);
 
             } elseif (Auth::user()->job == 'sewing') {
 
               $reports = Skpi::where('factory_id', $factory->id)->orderBy('created_at', 'DESC')->take(30)->get();
 
+              /*
               $production = DB::table('skpis')->where('factory_id', $factory->id)
               ->select(DB::raw('SUM(prod) as t_prod, MONTH(created_at) as month, YEAR(created_at) as year'))
               ->groupBy(DB::raw('YEAR(created_at) ASC, MONTH(created_at) ASC'))->get();
+              */
 
               if($reports[0]->created_at->isToday()){
                 $today = false;
@@ -77,7 +79,7 @@ class HomeController extends Controller
               }
 
               // return response()->json($today);
-              return view('factory.sewing', ['reports'=> $reports, 'today'=> $today, 'production' => $production]);
+              return view('factory.sewing', ['today'=> $today]);
 
 
             } elseif (Auth::user()->job == 'finishing') {

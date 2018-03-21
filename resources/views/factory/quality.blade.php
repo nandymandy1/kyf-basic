@@ -21,7 +21,7 @@
           Daily DHU
         </div>
         <div class="card-body">
-          <canvas id="line_chart" height="150"></canvas>
+          <canvas id="divdhu" height="150"></canvas>
         </div>
       </div>
     </div>
@@ -32,7 +32,7 @@
           Inspected Vs Failed
         </div>
         <div class="card-body">
-          <canvas id="bar_chart" height="150"></canvas>
+          <canvas id="divfvi" height="150"></canvas>
         </div>
       </div>
     </div>
@@ -44,123 +44,125 @@
 @endsection
 
 @section('scripts')
+  <script src="{{ asset('./js/moment.js')}}" charset="utf-8"></script>
   <script type="text/javascript">
-  $(function () {
-      new Chart(document.getElementById("line_chart").getContext("2d"), getChartJs('line'));
-      new Chart(document.getElementById("bar_chart").getContext("2d"), getChartJs('bar'));
-  });
-
-
-var t_inspected =[];
-var t_failed = [];
-var t_dhu = [];
-var t_date = [];
-var inspected = [];
-var failed = [];
-var date = [];
-var dhu = [];
-
-
-  @foreach ($reports as $report)
-    t_date.push("{{ date('d-M', strtotime($report->created_at)) }}");
-    t_inspected.push({{ $report->inspected }});
-    t_failed.push({{ $report->failed }});
-    t_dhu.push(({{ (($report->failed)/($report->inspected))*100 }}).toFixed(2));
-  @endforeach
-
-  for(var i = t_date.length-1; i >= 0; i--){
-    date.push(t_date[i]);
-    inspected.push(t_inspected[i]);
-    failed.push(t_failed[i]);
-    dhu.push(t_dhu[i]);
-  }
-
-  function getChartJs(type) {
-    var config = null;
-
-    if (type === 'line') {
-        config = {
-            type: 'line',
-            data: {
-                labels: date,
-                datasets: [{
-                    label: "DHU",
-                    data: dhu,
-                    borderColor: 'rgba(0, 188, 212, 0.75)',
-                    backgroundColor: 'rgba(0, 188, 212, 0.3)',
-                    pointBorderColor: 'rgba(0, 188, 212, 0)',
-                    pointBackgroundColor: 'rgba(0, 188, 212, 0.9)',
-                    pointBorderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                legend: {
-                  display:true,
-                  position:'bottom'
-                },
-                scales: {
-                  yAxes:[{
-                    ticks:{min:0},
-                    scaleLabel:{
-                      display:true,
-                      labelString:'DHU%'
-                    }
-                  }],
-                  xAxes:[{
-                    scaleLabel:{
-                      display:true,
-                      labelString:'Dates'
-                    }
-                  }]
-                }
-            }
+    var app = new Vue({
+      el: '#app',
+      data(){
+        return {
+          factory_id: {{Auth::user()->factory_id}},
+          report:{},
+          temp:{},
+          errors:{}
         }
-    }
-
-    else if (type === 'bar') {
-        config = {
-            type: 'bar',
-            data: {
-                labels: date,
-                datasets: [{
-                    label: "Inspected Quantity",
-                    data: inspected,
-                    backgroundColor: 'rgba(0, 188, 212, 0.8)'
-                }, {
-                        label: "Failed Quantity",
-                        data: failed,
-                        backgroundColor: 'rgba(233, 30, 99, 0.8)'
-                    }]
-            },
-            options: {
-                responsive: true,
-                legend: {
-                  display:true,
-                  position:'bottom'
-                },
-                scales: {
-                  yAxes:[{
-                    ticks:{min:0},
-                    scaleLabel:{
-                      display:true,
-                      labelString:'Pieces'
-                    }
-                  }],
-                  xAxes:[{
-                    scaleLabel:{
-                      display:true,
-                      labelString:'Dates'
-                    }
-                  }]
+      },
+      methods:{
+        fetchQuality(){
+          axios.post(`/reports/quality/${this.factory_id}`)
+          .then(
+              (response) => {
+                this.report = this.temp = response.data
+                console.log(this.report);
+                var inspected = [];
+                var failed = [];
+                var dates = [];
+                var dhu = [];
+                for(i = this.report.length -1; i >=0 ; i--){
+                  dates.push(moment(new Date(this.report[i].created_at)).format("D-MMM"));
+                  inspected.push(parseInt(this.report[i].inspected));
+                  failed.push(parseInt(this.report[i].failed));
+                  var nr = parseInt(this.report[i].failed);
+                  var dr = parseInt(this.report[i].inspected);
+                  dhu.push(((nr/dr)*100).toFixed(2));
                 }
-            }
+                console.log(dhu);
+
+                var dhuChart = document.getElementById("divdhu").getContext('2d');
+                var myDhu = new Chart(dhuChart, {
+                  type: 'line',
+                  data: {
+                      labels: dates,
+                      datasets: [{
+                          label: "DHU",
+                          data: dhu,
+                          borderColor: 'rgba(0, 188, 212, 0.75)',
+                          backgroundColor: 'rgba(0, 188, 212, 0.3)',
+                          pointBorderColor: 'rgba(0, 188, 212, 0)',
+                          pointBackgroundColor: 'rgba(0, 188, 212, 0.9)',
+                          pointBorderWidth: 1
+                      }]
+                  },
+                  options: {
+                      responsive: true,
+                      legend: {
+                        display:true,
+                        position:'bottom'
+                      },
+                      scales: {
+                        yAxes:[{
+                          ticks:{min:0},
+                          scaleLabel:{
+                            display:true,
+                            labelString:'DHU%'
+                          }
+                        }],
+                        xAxes:[{
+                          scaleLabel:{
+                            display:true,
+                            labelString:'Dates'
+                          }
+                        }]
+                      }
+                  }
+                });
+
+                var fviChart = document.getElementById("divfvi").getContext('2d');
+                var fvi = new Chart(fviChart, {
+                  type: 'bar',
+                  data: {
+                      labels: dates,
+                      datasets: [{
+                          label: "Inspected Quantity",
+                          data: inspected,
+                          backgroundColor: 'rgba(0, 188, 212, 0.8)'
+                      }, {
+                              label: "Failed Quantity",
+                              data: failed,
+                              backgroundColor: 'rgba(233, 30, 99, 0.8)'
+                          }]
+                  },
+                  options: {
+                      responsive: true,
+                      legend: {
+                        display:true,
+                        position:'bottom'
+                      },
+                      scales: {
+                        yAxes:[{
+                          ticks:{min:0},
+                          scaleLabel:{
+                            display:true,
+                            labelString:'Pieces'
+                          }
+                        }],
+                        xAxes:[{
+                          scaleLabel:{
+                            display:true,
+                            labelString:'Dates'
+                          }
+                        }]
+                      }
+                  }
+                });
+
+
+              })
         }
-    }
-
-    return config;
-}
-
+      },
+      created(){
+        this.fetchQuality();
+      }
+    })
   </script>
 
 @endsection

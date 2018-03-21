@@ -65,6 +65,13 @@ Route::prefix('/master')->group(function(){
   Route::get('/factory/main/dashboard', function() {
     return view('factory.master');
   });
+
+  Route::get('/users/{id}', function($id) {
+    return view('factory.users', ['id'=> $id]);
+  });
+
+  Route::post('/usersfetch/{id}', 'FactController@getFactoryUsers');
+
 });
 
 
@@ -100,4 +107,16 @@ Route::prefix('/admin')->group(function () {
     return view('admin.admins');
   });
 
+});
+
+
+// To fetch the reports of different departments
+
+Route::prefix('/reports')->group(function () {
+  Route::post('/cutting/{id}', 'FactoryController@cut');
+  Route::post('/sewing/{id}', 'FactoryController@sew');
+  Route::post('/finishing/{id}', 'FactoryController@fin');
+  Route::post('/quality/{id}', 'FactoryController@qua');
+  Route::get('/general/{id}', 'FactoryController@gen');
+  Route::get('/test/{id}', 'FactoryController@test');
 });
