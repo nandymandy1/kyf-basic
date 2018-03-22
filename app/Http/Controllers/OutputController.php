@@ -13,6 +13,7 @@ use App\Models\Skpi;
 use App\Models\Gkpi;
 use App\Models\Ckpi;
 use App\Models\Qkpi;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class OutputController extends Controller
@@ -46,10 +47,19 @@ class OutputController extends Controller
         $reports['sewing'] = Skpi::where('factory_id', $req)->orderBy('created_at', 'DESC')->take(10)->get();
 
         // Monthly Production Report
+        /*
         $production = DB::table('skpis')->where('factory_id', $req)
         ->select(DB::raw('SUM(prod) as t_prod, MONTH(created_at) as month, YEAR(created_at) as year'))
         ->groupBy(DB::raw('YEAR(created_at) ASC, MONTH(created_at) ASC'))
         ->get();
+        */
+        $production = DB::table('skpis')
+                        ->where('factory_id', $req)
+                        ->get(['prod', 'created_at'])
+                        ->groupBy(function($date){
+                        return Carbon::parse($date->created_at)
+                        ->format('m');
+                        });
 
         $reports['finishing'] = Fkpi::where('factory_id', $req)->orderBy('created_at', 'DESC')->take(10)->get();
 

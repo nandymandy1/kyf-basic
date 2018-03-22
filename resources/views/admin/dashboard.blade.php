@@ -186,7 +186,8 @@
           this.finishing = response.data.reports.finishing
           this.quality = response.data.reports.quality
           this.dGeneral = response.data.reports.d_general
-          console.log(this.dGeneral)
+          console.log(this.cutting)
+          console.log(this.production)
 
           // Cutting Variables
           var cwip = [];
@@ -212,6 +213,7 @@
           var passed = [];
           // General Data Variables
 
+          var loop_length = Math.min(this.cutting.length, this.sewing.length, this.finishing.length, this.quality.length, this.d_general.length)
 
           // For initializing the Data objects for the Carts
           var j = 0;
@@ -220,10 +222,12 @@
             dates.push(moment(new Date(this.cutting[i].created_at)).format("D-MMM"));
             actualC.push(this.cutting[i].pcut);
             targetC.push(this.cutting[i].cqty);
-            kopr = this.sewing[i].kopr;
-            sopr = this.sewing[i].sopr;
-            sam = this.sewing[i].sam;
-            prod = this.sewing[i].prod;
+
+            kopr = parseInt(this.sewing[i].kopr);
+            sopr = parseInt(this.sewing[i].sopr);
+            sam  = parseFloat(this.sewing[i].sam);
+            prod = parseInt(this.sewing[i].prod);
+
             effiCut.push(parseFloat((this.cutting[i].pcut / (((kopr + sopr) * 480) / sam) * 100).toFixed(2)));
             effiSew.push(parseFloat((((prod*sam)/((kopr + sopr)*480))*100).toFixed(2)));
             production.push(prod);
@@ -247,10 +251,12 @@
           }
 
           // To fill the Monthly Production Objects for the Charts to Render
+          /*
           for(i=0; i < this.production.length; i++){
             monthlyProd.push(parseInt(this.production[i].t_prod))
             months.push(moment(this.production[i].month, 'MM').format('MMM'))
           }
+          */
 
           // Cutting WIP
           var cwip = Highcharts.chart('cwip', {
