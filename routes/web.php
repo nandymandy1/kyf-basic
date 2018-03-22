@@ -81,9 +81,7 @@ Route::prefix('/admin')->group(function () {
   // View reports routes for the factories
   Route::get('/factory/master/{id}', 'OutputController@factoryDashboard');
   Route::post('/factory/reports/{req}', 'OutputController@master');
-  // For the Crisp Industry Report
-  Route::post('/factory/reportsmaster/{req}', 'OutputController@maindashboard');
-
+  
   Route::post('/factory', 'FactController@store');
   Route::resource('/factory', 'FactController');
   Route::get('/factory/endis/{id}', 'FactController@enable_disable');
@@ -114,7 +112,7 @@ Route::prefix('/admin')->group(function () {
 
 Route::prefix('/reports')->group(function () {
   Route::post('/cutting/{id}', 'FactoryController@cut');
-  Route::post('/sewing/{id}', 'FactoryController@sew');
+  Route::get('/sewing/{id}', 'FactoryController@sew');
   Route::post('/finishing/{id}', 'FactoryController@fin');
   Route::post('/quality/{id}', 'FactoryController@qua');
   Route::get('/general/{id}', 'FactoryController@gen');

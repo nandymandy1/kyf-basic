@@ -49,16 +49,17 @@ class FactoryController extends Controller
     }
 
     public function sew($id){
+
       $reports = Skpi::where('factory_id', $id)
                        ->orderBy('created_at', 'DESC')
                        ->take(30)->get();
+
       $prod = DB::table('skpis')
-                      ->where('factory_id', $id)
-                      ->get(['prod', 'created_at'])
-                      ->groupBy(function($date){
-                      return Carbon::parse($date->created_at)
-                      ->format('m');
-                      });
+                  ->where('factory_id', $id)
+                  ->select(DB::raw("SUM(prod) as tprod, strftime('%m',created_at) as month, strftime('%Y', created_at) as year"))
+                  ->groupBy(DB::raw("strftime('%Y', created_at), strftime('%m',created_at)", "ASC" ))
+                  ->take(12)
+                  ->get();
 
       return response()->json(['reports' => $reports, 'prod' => $prod]);
     }
@@ -92,17 +93,15 @@ class FactoryController extends Controller
     }
 
     public function test($id){
-      $prod = DB::table('skpis')->where('factory_id', $id)->get(['prod', 'created_at'])
-      ->groupBy(function($date){
-         return Carbon::parse($date->created_at)
-         ->format('m');
-      });
+
+      $prod = DB::table('skpis')
+                  ->where('factory_id', $id)
+                  ->select(DB::raw("SUM(prod) as tprod, strftime('%m',created_at) as month, strftime('%Y', created_at) as year"))
+                  ->groupBy(DB::raw("strftime('%Y', created_at), strftime('%m',created_at)", "ASC" ))
+                  ->take(12)
+                  ->get();
 
       return response()->json($prod);
     }
-
-
-
-
 
 }

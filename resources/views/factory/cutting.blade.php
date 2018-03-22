@@ -96,8 +96,6 @@
             var wip = [];
 
             // to log the report
-            console.log(this.report)
-
             for(var i=this.report.length -1; i >=0 ; i--){
               dates.push(moment(new Date(this.report[i].created_at)).format("D-MMM"));
               cqty.push(parseInt(this.report[i].cqty));
@@ -119,157 +117,157 @@
             // To map the wip
             var wipChart = document.getElementById("divwip").getContext('2d');
             var myWip = new Chart(wipChart, {
-            type: 'bar',
-            data: {
-                labels: dates,
-                datasets: [{
-                    label: "Cumulative WIP",
-                    data: twip,
-                    backgroundColor: 'rgba(0, 188, 212, 0.8)'
-                }, {
-                        label: "Daily WIP",
-                        data: wip,
-                        backgroundColor: 'rgba(233, 30, 99, 0.8)'
+              type: 'bar',
+              data: {
+                  labels: dates,
+                  datasets: [{
+                      label: "Cumulative WIP",
+                      data: twip,
+                      backgroundColor: 'rgba(0, 188, 212, 0.8)'
+                  }, {
+                          label: "Daily WIP",
+                          data: wip,
+                          backgroundColor: 'rgba(233, 30, 99, 0.8)'
+                      }]
+              },
+              options: {
+                  responsive: true,
+                  legend: {
+                    display:true,
+                    position:'bottom'
+                  },
+                  scales: {
+                    yAxes:[{
+                      ticks:{min:0},
+                      scaleLabel:{
+                        display:true,
+                        labelString:'Pieces'
+                      }
+                    }],
+                    xAxes:[{
+                      scaleLabel:{
+                        display:true,
+                        labelString:'Dates'
+                      }
                     }]
-            },
-            options: {
-                responsive: true,
-                legend: {
-                  display:true,
-                  position:'bottom'
-                },
-                scales: {
-                  yAxes:[{
-                    ticks:{min:0},
-                    scaleLabel:{
-                      display:true,
-                      labelString:'Pieces'
-                    }
-                  }],
-                  xAxes:[{
-                    scaleLabel:{
-                      display:true,
-                      labelString:'Dates'
-                    }
-                  }]
-                }
-            }
+                  }
+              }
             });
 
             // To View Target Vs Actual Cutting
             var tvaChart = document.getElementById("divtva").getContext('2d');
             var myTva = new Chart(tvaChart, {
-            type: 'line',
-            data: {
-                labels: dates,
-                datasets: [{
-                    label: "Total Cut Quantity",
-                    data: cqty,
-                    borderColor: 'rgba(0, 188, 212, 0.75)',
-                    backgroundColor: 'rgba(0, 188, 212, 0.3)',
-                    pointBorderColor: 'rgba(0, 188, 212, 0)',
-                    pointBackgroundColor: 'rgba(0, 188, 212, 0.9)',
-                    pointBorderWidth: 1
-                }, {
-                        label: "Pieces Cut",
-                        data: pcut,
-                        borderColor: 'rgba(233, 30, 99, 0.75)',
-                        backgroundColor: 'rgba(233, 30, 99, 0.3)',
-                        pointBorderColor: 'rgba(233, 30, 99, 0)',
-                        pointBackgroundColor: 'rgba(233, 30, 99, 0.9)',
-                        pointBorderWidth: 1
+              type: 'line',
+              data: {
+                  labels: dates,
+                  datasets: [{
+                      label: "Total Cut Quantity",
+                      data: cqty,
+                      borderColor: 'rgba(0, 188, 212, 0.75)',
+                      backgroundColor: 'rgba(0, 188, 212, 0.3)',
+                      pointBorderColor: 'rgba(0, 188, 212, 0)',
+                      pointBackgroundColor: 'rgba(0, 188, 212, 0.9)',
+                      pointBorderWidth: 1
+                  }, {
+                          label: "Pieces Cut",
+                          data: pcut,
+                          borderColor: 'rgba(233, 30, 99, 0.75)',
+                          backgroundColor: 'rgba(233, 30, 99, 0.3)',
+                          pointBorderColor: 'rgba(233, 30, 99, 0)',
+                          pointBackgroundColor: 'rgba(233, 30, 99, 0.9)',
+                          pointBorderWidth: 1
+                      }]
+              },
+              options: {
+                  responsive: true,
+                  legend: {
+                    display:true,
+                    position:'bottom'
+                  },
+                  scales: {
+                    yAxes:[{
+                      ticks:{min:0},
+                      scaleLabel:{
+                        display:true,
+                        labelString:'Pieces'
+                      }
+                    }],
+                    xAxes:[{
+                      scaleLabel:{
+                        display:true,
+                        labelString:'Dates'
+                      }
                     }]
-            },
-            options: {
-                responsive: true,
-                legend: {
-                  display:true,
-                  position:'bottom'
-                },
-                scales: {
-                  yAxes:[{
-                    ticks:{min:0},
-                    scaleLabel:{
-                      display:true,
-                      labelString:'Pieces'
-                    }
-                  }],
-                  xAxes:[{
-                    scaleLabel:{
-                      display:true,
-                      labelString:'Dates'
-                    }
-                  }]
-                }
-            }
+                  }
+              }
             });
 
             var pseChart = document.getElementById("divpse").getContext('2d');
             var myPse = new Chart(pseChart, {
               type: 'bar',
-            data: {
-                labels: dates,
-                datasets: [{
-                    label: "Pieces Sent for Sewing",
-                    data: psew,
-                    backgroundColor: 'rgba(0, 188, 212, 0.8)'
-                }, {
-                        label: "Pieces Sent for Embroidery",
-                        data: pemb,
-                        backgroundColor: 'rgba(233, 30, 99, 0.8)'
+              data: {
+                  labels: dates,
+                  datasets: [{
+                      label: "Pieces Sent for Sewing",
+                      data: psew,
+                      backgroundColor: 'rgba(0, 188, 212, 0.8)'
+                  }, {
+                          label: "Pieces Sent for Embroidery",
+                          data: pemb,
+                          backgroundColor: 'rgba(233, 30, 99, 0.8)'
+                      }]
+              },
+              options: {
+                  responsive: true,
+                  legend: {
+                    display:true,
+                    position:'bottom'
+                  },
+                  scales: {
+                    yAxes:[{
+                      ticks:{min:0},
+                      scaleLabel:{
+                        display:true,
+                        labelString:'Pieces'
+                      }
+                    }],
+                    xAxes:[{
+                      scaleLabel:{
+                        display:true,
+                        labelString:'Dates'
+                      }
                     }]
-            },
-            options: {
-                responsive: true,
-                legend: {
-                  display:true,
-                  position:'bottom'
-                },
-                scales: {
-                  yAxes:[{
-                    ticks:{min:0},
-                    scaleLabel:{
-                      display:true,
-                      labelString:'Pieces'
-                    }
-                  }],
-                  xAxes:[{
-                    scaleLabel:{
-                      display:true,
-                      labelString:'Dates'
-                    }
-                  }]
-                }
+                  }
             }
             });
 
             var strChart = document.getElementById("divstr").getContext('2d');
             var myStr = new Chart(strChart, {
-            type: 'line',
-            data: {
-                labels: dates,
-                datasets: [{
-                    label: "Cutting Department Strength",
-                    data: tpeople,
-                    borderColor: 'rgba(0, 188, 212, 0.75)',
-                    backgroundColor: 'rgba(0, 188, 212, 0.3)',
-                    pointBorderColor: 'rgba(0, 188, 212, 0)',
-                    pointBackgroundColor: 'rgba(0, 188, 212, 0.9)',
-                    pointBorderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                legend: {
-                  display:true,
-                  position:'bottom'
-                },
-                scales: {
-                  yAxes:[{
-                    ticks:{min:0}
+              type: 'line',
+              data: {
+                  labels: dates,
+                  datasets: [{
+                      label: "Cutting Department Strength",
+                      data: tpeople,
+                      borderColor: 'rgba(0, 188, 212, 0.75)',
+                      backgroundColor: 'rgba(0, 188, 212, 0.3)',
+                      pointBorderColor: 'rgba(0, 188, 212, 0)',
+                      pointBackgroundColor: 'rgba(0, 188, 212, 0.9)',
+                      pointBorderWidth: 1
                   }]
-                }
-            }
+              },
+              options: {
+                  responsive: true,
+                  legend: {
+                    display:true,
+                    position:'bottom'
+                  },
+                  scales: {
+                    yAxes:[{
+                      ticks:{min:0}
+                    }]
+                  }
+              }
             });
 
           })

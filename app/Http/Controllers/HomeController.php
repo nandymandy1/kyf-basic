@@ -51,6 +51,9 @@ class HomeController extends Controller
             // Check for the Job Type of the user
             if(Auth::user()->job == 'cutting'){
 
+              $reports = Ckpi::where('factory_id', Auth::user()->factory_id)
+                               ->orderBy('created_at', 'DESC')
+                               ->take(30)->get(['created_at']);
 
               if($reports[0]->created_at->isToday()){
                 $today = false;
@@ -63,6 +66,9 @@ class HomeController extends Controller
 
             } elseif (Auth::user()->job == 'sewing') {
 
+              $reports = Skpi::where('factory_id', Auth::user()->factory_id)
+                               ->orderBy('created_at', 'DESC')
+                               ->take(30)->get(['created_at']);
 
               if($reports[0]->created_at->isToday()){
                 $today = false;
@@ -76,6 +82,9 @@ class HomeController extends Controller
 
             } elseif (Auth::user()->job == 'finishing') {
 
+              $reports = Fkpi::where('factory_id', Auth::user()->factory_id)
+                               ->orderBy('created_at', 'DESC')
+                               ->take(30)->get(['created_at']);
 
               if($reports[0]->created_at->isToday()){
                 $today = false;
@@ -84,11 +93,13 @@ class HomeController extends Controller
               }
 
                //return response()->json($reports);
-              return view('factory.finishing');
+              return view('factory.finishing', ['today'=> $today]);
 
             } elseif (Auth::user()->job == 'quality') {
 
-
+              $reports = Qkpi::where('factory_id', Auth::user()->factory_id)
+                               ->orderBy('created_at', 'DESC')
+                               ->take(30)->get(['created_at']);
 
               if($reports[0]->created_at->isToday()){
                 $today = false;
@@ -97,9 +108,13 @@ class HomeController extends Controller
               }
 
               // return response()->json($reports);
-              return view('factory.quality');
+              return view('factory.quality', ['today'=> $today]);
 
             } elseif (Auth::user()->job == 'general') {
+
+              $reports = Gkpi::where('factory_id', Auth::user()->factory_id)
+                               ->orderBy('created_at', 'DESC')
+                               ->take(30)->get(['created_at']);
 
               if($reports[0]->created_at->isToday()){
                 $today = false;
@@ -108,7 +123,7 @@ class HomeController extends Controller
               }
 
               //return response()->json($mmr);
-              return view('factory.general');
+              return view('factory.general', ['today'=> $today]);
 
             } elseif (Auth::user()->job == 'master') {
 
@@ -122,11 +137,14 @@ class HomeController extends Controller
             }
 
           }else {
+
             return view('service.noauth');
+
           }
         }
 
       } else {
+
           return view('service.noauth');
       }
     }

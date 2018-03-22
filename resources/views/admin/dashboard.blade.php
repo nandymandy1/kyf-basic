@@ -3,7 +3,7 @@
   <h4>@{{ factory.name }}</h4>
   <div class="card">
     <div class="card-header bg-red">
-      Cutting
+        Cutting
     </div>
     <div class="card-body">
       <div class="row">
@@ -186,77 +186,121 @@
           this.finishing = response.data.reports.finishing
           this.quality = response.data.reports.quality
           this.dGeneral = response.data.reports.d_general
-          console.log(this.cutting)
-          console.log(this.production)
 
           // Cutting Variables
           var cwip = [];
-          var dates = [];
+          var datesC = [];
           var actualC = [];
           var targetC = [];
-          var effiCut = [];
+          var effiCut1 = [];
           // Sewing Variables
+          var datesS = [];
           var swip = [];
           var effiSew = [];
           var monthlyProd = [];
           var production = [];
           var months = [];
+          var kopr1 = [];
+          var sam1 = [];
+          var sopr1 = [];
           // Finishing Variables
+          var datesF = [];
           var feed = [];
           var pkd = [];
           var income = [];
           var fwip = [];
           // Quality Variables
+          var datesQ = [];
           var dhu = [];
           var insp = [];
           var failed = [];
           var passed = [];
           // General Data Variables
 
-          var loop_length = Math.min(this.cutting.length, this.sewing.length, this.finishing.length, this.quality.length, this.d_general.length)
 
-          // For initializing the Data objects for the Carts
+          // For initializing the Cutting Data objects
+
           var j = 0;
           for(i = this.cutting.length-1; i >= 0; i--){
 
-            dates.push(moment(new Date(this.cutting[i].created_at)).format("D-MMM"));
-            actualC.push(this.cutting[i].pcut);
-            targetC.push(this.cutting[i].cqty);
+            datesC.push(moment(new Date(this.cutting[i].created_at)).format("D-MMM"));
+            actualC.push(parseInt(this.cutting[i].pcut));
+            targetC.push(parseInt(this.cutting[i].cqty));
+            if(j == 0){
+                cwip.push(this.cutting[i].pcut - this.cutting[i].psew);
+              } else {
+                cwip.push(this.cutting[i].pcut - this.cutting[i].psew + cwip[j-1]);
+              }
+            j++;
+          }
 
+          // To fill Sewing data
+          var j = 0;
+          for(i = this.sewing.length-1; i >= 0; i--){
+            datesS.push(moment(new Date(this.sewing[i].created_at)).format("D-MMM"));
             kopr = parseInt(this.sewing[i].kopr);
             sopr = parseInt(this.sewing[i].sopr);
             sam  = parseFloat(this.sewing[i].sam);
             prod = parseInt(this.sewing[i].prod);
-
-            effiCut.push(parseFloat((this.cutting[i].pcut / (((kopr + sopr) * 480) / sam) * 100).toFixed(2)));
+            kopr1.push(kopr);
+            sopr1.push(sopr);
+            sam1.push(sam);
             effiSew.push(parseFloat((((prod*sam)/((kopr + sopr)*480))*100).toFixed(2)));
             production.push(prod);
-              if(j == 0){
-                cwip.push(this.cutting[i].pcut - this.cutting[i].psew);
-                swip.push(this.sewing[i].prod - this.sewing[i].outcome);
-                fwip.push(this.finishing[i].income - this.finishing[i].pkd);
-              } else {
-                cwip.push(this.cutting[i].pcut - this.cutting[i].psew + cwip[j-1]);
-                swip.push(this.sewing[i].prod - this.sewing[i].outcome + swip[j-1]);
-                fwip.push(this.finishing[i].income - this.finishing[i].pkd + fwip[j-1]);
-              }
-            j++;
-            income.push(this.finishing[i].income);
-            pkd.push(this.finishing[i].pkd);
-            dhu.push(parseFloat(((this.quality[i].failed/this.quality[i].inspected)*100).toFixed(2)));
-            insp.push(this.quality[i].inspected)
-            failed.push(this.quality[i].failed)
-            passed.push(this.quality[i].inspected - this.quality[i].failed)
 
+            if(j == 0){
+              swip.push(this.sewing[i].prod - this.sewing[i].outcome);
+            } else {
+              swip.push(this.sewing[i].prod - this.sewing[i].outcome + swip[j-1]);
+            }
+            j++;
+          }
+
+
+          // To get the Cutting Efficiency
+          var a = Math.min(this.cutting.length, this.sewing.length)
+          for(i = 0; i < a; i++){
+            effiCut1.push(((actualC[i]/(((kopr1[i]+sopr1[i])*480)/sam1[i]))*100).toFixed(2));
+          }
+
+          var effiCut = [];
+          effiCut1.forEach((eff) => {
+             effiCut.push(parseFloat(eff));
+           });
+
+          console.log(effiCut);
+          //To fill Finishing data
+          var j = 0;
+          for(i = this.finishing.length-1; i >= 0; i--){
+            datesF.push(moment(new Date(this.finishing[i].created_at)).format("D-MMM"));
+            if(j == 0){
+              fwip.push(this.finishing[i].income - this.finishing[i].pkd);
+            } else {
+              fwip.push(this.finishing[i].income - this.finishing[i].pkd + fwip[j-1]);
+            }
+            j++;
+            income.push(parseInt(this.finishing[i].income));
+            pkd.push(parseInt(this.finishing[i].pkd));
+          }
+
+          // To fill Quality Data
+          for(i = this.quality.length-1; i >= 0; i--){
+            datesQ.push(moment(new Date(this.quality[i].created_at)).format("D-MMM"));
+            dhu.push(parseFloat(((this.quality[i].failed/this.quality[i].inspected)*100).toFixed(2)));
+            insp.push(parseInt(this.quality[i].inspected))
+            failed.push(parseInt(this.quality[i].failed))
+            passed.push(parseInt(this.quality[i].inspected - this.quality[i].failed))
           }
 
           // To fill the Monthly Production Objects for the Charts to Render
-          /*
-          for(i=0; i < this.production.length; i++){
-            monthlyProd.push(parseInt(this.production[i].t_prod))
-            months.push(moment(this.production[i].month, 'MM').format('MMM'))
+          var month = [];
+          var product = [];
+          var months = ['','Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+
+          for (i = 0; i < this.production.length; i++){
+            month.push(months[parseInt(this.production[i].month)])
+            product.push(parseInt(this.production[i].tprod))
           }
-          */
 
           // Cutting WIP
           var cwip = Highcharts.chart('cwip', {
@@ -267,7 +311,7 @@
                   text: 'WIP'
               },
               xAxis: {
-                  categories: dates
+                  categories: datesC
               },
               yAxis: {
                   title: {
@@ -304,7 +348,7 @@
                   text: 'Target vs Actual Cutting Quantity'
               },
               xAxis: {
-                  categories: dates
+                  categories: datesC
               },
               yAxis: {
                   title: {
@@ -331,6 +375,7 @@
           // Cutting target Vs Actual
 
           // Cutting Efficiency
+
           var ceffi = Highcharts.chart('ceffi', {
               chart: {
                   type: 'line'
@@ -342,7 +387,7 @@
                   text: 'Cutting Efficiency w.r.t Sewing'
               },
               xAxis: {
-                  categories: dates
+                  categories: datesC
               },
               yAxis: {
                   title: {
@@ -362,6 +407,7 @@
                   data: effiCut
               }]
           });
+
           // Cutting Efficiency
 
           // Sewing Efficiency
@@ -376,7 +422,7 @@
                   text: 'Sewing Efficiency'
               },
               xAxis: {
-                  categories: dates
+                  categories: datesS
               },
               yAxis: {
                   title: {
@@ -404,7 +450,7 @@
                   text: 'Monthly Production'
               },
               xAxis: {
-                  categories: months
+                  categories: month
               },
               yAxis: {
                   title: {
@@ -423,7 +469,7 @@
                   type: 'column',
                   name: 'Pieces Produced',
                   colorByPoint: true,
-                  data: monthlyProd,
+                  data: product,
                   showInLegend: false
               }]
           });
@@ -435,7 +481,7 @@
                   text: 'Daily Production'
               },
               xAxis: {
-                  categories: dates
+                  categories: datesS
               },
               yAxis: {
                   title: {
@@ -469,7 +515,7 @@
                   text: 'WIP'
               },
               xAxis: {
-                  categories: dates
+                  categories: datesS
               },
               yAxis: {
                   title: {
@@ -500,7 +546,7 @@
                   text: 'Finishing WIP'
               },
               xAxis: {
-                  categories: dates
+                  categories: datesF
               },
               yAxis: {
                   title: {
@@ -537,7 +583,7 @@
                   text: 'Pieces Fed into finishig and Packed Goods'
               },
               xAxis: {
-                  categories: dates
+                  categories: datesF
               },
               yAxis: {
                   title: {
@@ -562,6 +608,7 @@
                   data: income
               }]
           });
+
           // Finishing Income vs Finished Goods
 
           // DHU
@@ -576,7 +623,7 @@
                   text: 'Daily DHU Report'
               },
               xAxis: {
-                  categories: dates
+                  categories: datesQ
               },
               yAxis: {
                   title: {
@@ -607,7 +654,7 @@
                     text: 'Failed Vs Passed'
                 },
                 xAxis: {
-                    categories: dates
+                    categories: datesQ
                 },
                 yAxis: {
                     min: 0,
@@ -655,8 +702,6 @@
                 }]
           });
           // Failed vs passed
-
-
 
         })// Promise function
       }

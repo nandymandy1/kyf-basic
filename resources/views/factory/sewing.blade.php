@@ -92,7 +92,7 @@
       },
       methods:{
         fetchSewing(){
-          axios.post(`/reports/sewing/${this.factory_id}`)
+          axios.get(`/reports/sewing/${this.factory_id}`)
           .then(
             (response) => {
               this.report = this.temp = response.data.reports
@@ -114,8 +114,6 @@
               var product = [];
               var months = ['','Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
 
-              console.log(this.monthlyProd);
-
               for(i = this.report.length -1; i >=0 ; i--){
                 dates.push(moment(new Date(this.report[i].created_at)).format("D-MMM"));
                 income.push(parseInt(this.report[i].income));
@@ -127,9 +125,13 @@
                 outcome.push(this.report[i].outcome);
                 sam.push(this.report[i].sam);
 
-                var nr = parseFloat(this.report[i].prod) * parseFloat(this.report[i].sam);
-                var dr = parseFloat(this.report[i].kopr) + parseFloat(this.report[i].sopr) *480;
-                eff.push((nr/dr*100).toFixed(2));
+                kopr1 = parseInt(this.report[i].kopr);
+                sopr1 = parseInt(this.report[i].sopr);
+                sam1  = parseFloat(this.report[i].sam);
+                prod1 = parseInt(this.report[i].prod);
+
+                eff.push(parseFloat((((prod1*sam1)/((kopr1 + sopr1)*480))*100).toFixed(2)));
+
                 if(i == this.report.length -1){
                   twip.push(parseInt(this.report[i].prod - this.report[i].outcome));
                 } else {
@@ -139,24 +141,11 @@
 
               }
 
-              var k = 0;
-
-              for (var property in this.monthlyProd) {
-                product[k] = 0;
-                  if (this.monthlyProd.hasOwnProperty(property)) {
-                    month.push(months[parseInt(property)]);
-                    // console.log(this.monthlyProd[property]);
-                    for(i = 0; i < this.monthlyProd[property].length; i++){
-                      product[k] += parseInt(this.monthlyProd[property][i].prod);
-                    }
-                  }
-                  k++;
+              // Monthly Production Report
+              for (i = 0; i < this.monthlyProd.length; i++){
+                month.push(months[parseInt(this.monthlyProd[i].month)])
+                product.push(parseInt(this.monthlyProd[i].tprod))
               }
-
-              console.log(month);
-              console.log(product);
-
-
 
               var tvaChart = document.getElementById("divtva").getContext('2d');
               var myTva = new Chart(tvaChart, {
@@ -329,7 +318,6 @@
               })
 
               // For monthly Production we have to see this later
-
               var monthlyChart = document.getElementById("divmonthly").getContext('2d');
               var myMonthly = new Chart(monthlyChart, {
                 type: 'bar',
@@ -365,10 +353,8 @@
                 }
               })
 
-
-
             })
-            .catch((error) => this.errors = error.response.data.errors);
+            //.catch((error) => this.errors = error.response.data.errors);
         }
 
       },

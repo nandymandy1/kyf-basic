@@ -7,7 +7,7 @@
     @if($today)
       <div class="row">
         <div class="col-md-6">
-          <a href="/factory/sewinginput" class="btn btn-md btn-primary">Add Today's Data</a>
+          <a href="/factory/generalinput" class="btn btn-md btn-primary">Add Today's Data</a>
         </div>
       </div>
     @endif
