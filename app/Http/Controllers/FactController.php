@@ -137,9 +137,10 @@ class FactController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function del($id)
     {
-        Factory::where('id', $id)->delete();
+        $factory = Factory::where('id', $id);
+        return $factory->delete();
     }
 
 
@@ -168,5 +169,8 @@ class FactController extends Controller
       $users = User::where('factory_id', $id)->get();
       return response()->json($users);
     }
+
+
+
 
 }
