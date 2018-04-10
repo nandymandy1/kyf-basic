@@ -52,8 +52,6 @@ Route::prefix('/factory')->group(function(){
   Route::post('/general/data', 'InputController@saveGeneral');
 });
 
-
-
 // MASTER ROUTES
 Route::prefix('/master')->group(function(){
   Route::get('/cutting', 'FactoryController@cutting');
@@ -81,7 +79,6 @@ Route::prefix('/admin')->group(function () {
   // View reports routes for the factories
   Route::get('/factory/master/{id}', 'OutputController@factoryDashboard');
   Route::post('/factory/reports/{req}', 'OutputController@master');
-  
   Route::post('/factory', 'FactController@store');
   Route::resource('/factory', 'FactController');
   Route::get('/factory/endis/{id}', 'FactController@enable_disable');
@@ -106,7 +103,6 @@ Route::prefix('/admin')->group(function () {
   });
 
 });
-
 
 // To fetch the reports of different departments
 

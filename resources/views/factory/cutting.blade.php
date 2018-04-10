@@ -138,16 +138,21 @@
                   },
                   scales: {
                     yAxes:[{
-                      ticks:{min:0},
                       scaleLabel:{
                         display:true,
                         labelString:'Pieces'
+                      },
+                      gridLines: {
+                          color: "rgba(0, 0, 0, 0)",
                       }
                     }],
                     xAxes:[{
                       scaleLabel:{
                         display:true,
                         labelString:'Dates'
+                      },
+                      gridLines: {
+                          color: "rgba(0, 0, 0, 0)",
                       }
                     }]
                   }
@@ -190,12 +195,18 @@
                       scaleLabel:{
                         display:true,
                         labelString:'Pieces'
+                      },
+                      gridLines: {
+                          color: "rgba(0, 0, 0, 0)",
                       }
                     }],
                     xAxes:[{
                       scaleLabel:{
                         display:true,
                         labelString:'Dates'
+                      },
+                      gridLines: {
+                          color: "rgba(0, 0, 0, 0)",
                       }
                     }]
                   }
@@ -229,12 +240,18 @@
                       scaleLabel:{
                         display:true,
                         labelString:'Pieces'
+                      },
+                      gridLines: {
+                          color: "rgba(0, 0, 0, 0)",
                       }
                     }],
                     xAxes:[{
                       scaleLabel:{
                         display:true,
                         labelString:'Dates'
+                      },
+                      gridLines: {
+                          color: "rgba(0, 0, 0, 0)",
                       }
                     }]
                   }
@@ -264,7 +281,23 @@
                   },
                   scales: {
                     yAxes:[{
-                      ticks:{min:0}
+                      ticks:{min:0},
+                      scaleLabel:{
+                        display:true,
+                        labelString:'Pieces'
+                      },
+                      gridLines: {
+                          color: "rgba(0, 0, 0, 0)",
+                      }
+                    }],
+                    xAxes:[{
+                      scaleLabel:{
+                        display:true,
+                        labelString:'Dates'
+                      },
+                      gridLines: {
+                          color: "rgba(0, 0, 0, 0)",
+                      }
                     }]
                   }
               }

@@ -55,12 +55,11 @@
                                   @endif
                               </div>
                           </div>
+                          
                           <div class="form-group row">
                               <label for="ocut" class="col-md-4 col-form-label text-md-right">Cutting Overtime</label>
-
                               <div class="col-md-6">
                                   <input id="ocut" type="text" placeholder="Cutting Overtime" class="form-control{{ $errors->has('ocut') ? ' is-invalid' : '' }}" name="ocut" value="{{ old('ocut') }}" required>
-
                                   @if ($errors->has('ocut'))
                                       <span class="invalid-feedback">
                                           <strong>{{ $errors->first('ocut') }}</strong>
@@ -68,6 +67,7 @@
                                   @endif
                               </div>
                           </div>
+
                           <div class="form-group row">
                               <label for="osew" class="col-md-4 col-form-label text-md-right">Sewing Overtime</label>
 

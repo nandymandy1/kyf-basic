@@ -19,7 +19,6 @@
                           <input type="hidden" name="factory_id" value="{{ Auth::user()->factory_id }}">
                           <div class="form-group row">
                               <label for="income" class="col-md-4 col-form-label text-md-right">Pieces Recieved From Cutting</label>
-
                               <div class="col-md-6">
                                 <div class="form-line">
                                   <input id="income" type="number" placeholder="Pieces Recieved From Cutting" class="form-control{{ $errors->has('income') ? ' is-invalid' : '' }}" name="income" value="{{ old('income') }}" required>
@@ -35,7 +34,6 @@
                               <label for="sopr" class="col-md-4 col-form-label text-md-right">Number of Sewing Operators</label>
                               <div class="col-md-6">
                                   <input id="sopr" placeholder="Number of Sewing Operators" type="number" class="form-control{{ $errors->has('sopr') ? ' is-invalid' : '' }}" name="sopr" value="{{ old('sopr') }}" required>
-
                                   @if ($errors->has('sopr'))
                                       <span class="invalid-feedback">
                                           <strong>{{ $errors->first('sopr') }}</strong>
@@ -57,6 +55,32 @@
                               </div>
                           </div>
                           <div class="form-group row">
+                              <label for="hlpr" class="col-md-4 col-form-label text-md-right">Number of Helpers</label>
+
+                              <div class="col-md-6">
+                                  <input id="hlpr" placeholder="Number of Helpers" type="number" class="form-control{{ $errors->has('hlpr') ? ' is-invalid' : '' }}" name="hlpr" value="{{ old('hlpr') }}" required>
+
+                                  @if ($errors->has('hlpr'))
+                                      <span class="invalid-feedback">
+                                          <strong>{{ $errors->first('hlpr') }}</strong>
+                                      </span>
+                                  @endif
+                              </div>
+                          </div>
+                          <div class="form-group row">
+                              <label for="chkr" class="col-md-4 col-form-label text-md-right">Number of Checkers</label>
+
+                              <div class="col-md-6">
+                                  <input id="chkr" type="number" placeholder="Number of Checkers" class="form-control{{ $errors->has('chkr') ? ' is-invalid' : '' }}" name="chkr" value="{{ old('chkr') }}" required>
+
+                                  @if ($errors->has('chkr'))
+                                      <span class="invalid-feedback">
+                                          <strong>{{ $errors->first('chkr') }}</strong>
+                                      </span>
+                                  @endif
+                              </div>
+                          </div>
+                          <div class="form-group row">
                               <label for="prod" class="col-md-4 col-form-label text-md-right">Total Production</label>
 
                               <div class="col-md-6">
@@ -65,32 +89,6 @@
                                   @if ($errors->has('prod'))
                                       <span class="invalid-feedback">
                                           <strong>{{ $errors->first('prod') }}</strong>
-                                      </span>
-                                  @endif
-                              </div>
-                          </div>
-                          <div class="form-group row">
-                              <label for="target" class="col-md-4 col-form-label text-md-right">Target Production</label>
-
-                              <div class="col-md-6">
-                                  <input id="target" type="number" placeholder="Target Production" class="form-control{{ $errors->has('target') ? ' is-invalid' : '' }}" name="target" value="{{ old('target') }}" required>
-
-                                  @if ($errors->has('target'))
-                                      <span class="invalid-feedback">
-                                          <strong>{{ $errors->first('target') }}</strong>
-                                      </span>
-                                  @endif
-                              </div>
-                          </div>
-                          <div class="form-group row">
-                              <label for="actual" class="col-md-4 col-form-label text-md-right">Actual Production</label>
-
-                              <div class="col-md-6">
-                                  <input id="actual" type="number" placeholder="Actual Production" class="form-control{{ $errors->has('actual') ? ' is-invalid' : '' }}" name="actual" value="{{ old('actual') }}" required>
-
-                                  @if ($errors->has('actual'))
-                                      <span class="invalid-feedback">
-                                          <strong>{{ $errors->first('actual') }}</strong>
                                       </span>
                                   @endif
                               </div>
@@ -137,5 +135,7 @@
 @endsection
 
 @section('scripts')
+<script type="text/javascript">
 
+</script>
 @endsection

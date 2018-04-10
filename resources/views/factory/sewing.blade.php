@@ -103,7 +103,6 @@
               var kopr = [];
               var prod = [];
               var target = [];
-              var actual = [];
               var outcome = [];
               var sam = [];
               var dates = [];
@@ -121,7 +120,6 @@
                 kopr.push(this.report[i].kor);
                 prod.push(this.report[i].prod);
                 target.push(this.report[i].target);
-                actual.push(this.report[i].actual);
                 outcome.push(this.report[i].outcome);
                 sam.push(this.report[i].sam);
 
@@ -129,8 +127,10 @@
                 sopr1 = parseInt(this.report[i].sopr);
                 sam1  = parseFloat(this.report[i].sam);
                 prod1 = parseInt(this.report[i].prod);
+                chkr1 = parseInt(this.report[i].chrk);
+                hlpr1 = parseInt(this.report[i].hlpr);
 
-                eff.push(parseFloat((((prod1*sam1)/((kopr1 + sopr1)*480))*100).toFixed(2)));
+                eff.push(parseFloat((((prod1*sam1)/((kopr1 + sopr1 + chkr1 + hlpr1)*480))*100).toFixed(2)));
 
                 if(i == this.report.length -1){
                   twip.push(parseInt(this.report[i].prod - this.report[i].outcome));
@@ -153,8 +153,8 @@
                 data: {
                     labels: dates,
                     datasets: [{
-                        label: "Actual",
-                        data: actual,
+                        label: "Production",
+                        data: prod,
                         borderColor: 'rgba(0, 188, 212, 0.75)',
                         backgroundColor: 'rgba(0, 188, 212, 0.3)',
                         pointBorderColor: 'rgba(0, 188, 212, 0)',
@@ -192,12 +192,18 @@
                         scaleLabel:{
                           display:true,
                           labelString:'Pieces'
+                        },
+                        gridLines: {
+                            color: "rgba(0, 0, 0, 0)",
                         }
                       }],
                       xAxes:[{
                         scaleLabel:{
                           display:true,
                           labelString:'Dates'
+                        },
+                        gridLines: {
+                            color: "rgba(0, 0, 0, 0)",
                         }
                       }]
                     }
@@ -231,12 +237,18 @@
                         scaleLabel:{
                           display:true,
                           labelString:'Efficiency%'
+                        },
+                        gridLines: {
+                            color: "rgba(0, 0, 0, 0)",
                         }
                       }],
                       xAxes:[{
                         scaleLabel:{
                           display:true,
                           labelString:'Dates'
+                        },
+                        gridLines: {
+                            color: "rgba(0, 0, 0, 0)",
                         }
                       }]
                     }
@@ -250,7 +262,7 @@
                      labels: dates,
                      datasets: [{
                          label: "Daily Production",
-                         data: actual,
+                         data: prod,
                          backgroundColor: 'rgba(160, 150, 212, 0.8)'
                      }]
                  },
@@ -266,12 +278,18 @@
                          scaleLabel:{
                            display:true,
                            labelString:'Pieces'
+                         },
+                         gridLines: {
+                             color: "rgba(0, 0, 0, 0)",
                          }
                        }],
                        xAxes:[{
                          scaleLabel:{
                            display:true,
                            labelString:'Dates'
+                         },
+                         gridLines: {
+                             color: "rgba(0, 0, 0, 0)",
                          }
                        }]
                      }
@@ -301,16 +319,21 @@
                     },
                     scales: {
                       yAxes:[{
-                        ticks:{min:0},
                         scaleLabel:{
                           display:true,
                           labelString:'Pieces'
+                        },
+                        gridLines: {
+                            color: "rgba(0, 0, 0, 0)",
                         }
                       }],
                       xAxes:[{
                         scaleLabel:{
                           display:true,
                           labelString:'Dates'
+                        },
+                        gridLines: {
+                            color: "rgba(0, 0, 0, 0)",
                         }
                       }]
                     }
@@ -341,12 +364,18 @@
                         scaleLabel:{
                           display:true,
                           labelString:'Pieces'
+                        },
+                        gridLines: {
+                            color: "rgba(0, 0, 0, 0)",
                         }
                       }],
                       xAxes:[{
                         scaleLabel:{
                           display:true,
                           labelString:'Dates'
+                        },
+                        gridLines: {
+                            color: "rgba(0, 0, 0, 0)",
                         }
                       }]
                     }

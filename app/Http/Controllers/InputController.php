@@ -48,16 +48,23 @@ class InputController extends Controller
     public function saveSewing(Request $req){
       // ValidationData
       $validatedData = $req->validate([
+        'factory_id'  => 'required',
         'income'      => 'required',
         'sopr'        => 'required',
         'kopr'        => 'required',
-        'factory_id'  => 'required',
+        'hlpr'        => 'required',
+        'chkr'        => 'required',
         'prod'        => 'required',
-        'target'      => 'required',
-        'actual'      => 'required',
         'outcome'     => 'required',
         'sam'         => 'required',
       ]);
+
+      $kopr   = intval($req->input('kopr'));
+      $chkr   = intval($req->input('chkr'));
+      $hlpr   = intval($req->input('hlpr'));
+      $sopr   = intval($req->input('sopr'));
+      $sam    = floatval($req->input('sam'));
+      $target = intval((($kopr + $chkr + $hlpr + $sopr)*480)/$sam);
 
 
       $c                = new Skpi;
@@ -66,8 +73,9 @@ class InputController extends Controller
       $c->factory_id    = $req->input('factory_id');
       $c->kopr          = $req->input('kopr');
       $c->prod          = $req->input('prod');
-      $c->target        = $req->input('target');
-      $c->actual        = $req->input('actual');
+      $c->target        = $target;
+      $c->chrk          = $req->input('chkr');
+      $c->hlpr          = $req->input('hlpr');
       $c->outcome       = $req->input('outcome');
       $c->sam           = $req->input('sam');
       $c->save();

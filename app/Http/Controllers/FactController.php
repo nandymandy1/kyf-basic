@@ -158,17 +158,15 @@ class FactController extends Controller
             'factory_id' => '',
             'job' => '',
             'isActive' => 1,
-            'type' => 'admin',
+            'type' => 'superadmin',
         ]);
     }
     */
+
     // Factory owners to maintain the users
     public function getFactoryUsers($id){
       $users = User::where('factory_id', $id)->get();
       return response()->json($users);
     }
-
-
-
 
 }

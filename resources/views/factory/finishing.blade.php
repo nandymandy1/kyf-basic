@@ -128,7 +128,6 @@
                   },
                   scales: {
                     yAxes:[{
-                      ticks:{min:0},
                       scaleLabel:{
                         display:true,
                         labelString:'Pieces'

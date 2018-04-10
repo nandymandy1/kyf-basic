@@ -215,6 +215,8 @@
           var insp = [];
           var failed = [];
           var passed = [];
+          var hlpr = [];
+          var chkr = [];
           // General Data Variables
 
 
@@ -238,15 +240,21 @@
           var j = 0;
           for(i = this.sewing.length-1; i >= 0; i--){
             datesS.push(moment(new Date(this.sewing[i].created_at)).format("D-MMM"));
+
             kopr = parseInt(this.sewing[i].kopr);
             sopr = parseInt(this.sewing[i].sopr);
             sam  = parseFloat(this.sewing[i].sam);
-            prod = parseInt(this.sewing[i].prod);
+            prod1 = parseInt(this.sewing[i].prod);
+            chkr1 = parseInt(this.sewing[i].chrk);
+            hlpr1 = parseInt(this.sewing[i].hlpr);
+
             kopr1.push(kopr);
+            chkr.push(chkr1);
+            hlpr.push(hlpr1);
             sopr1.push(sopr);
             sam1.push(sam);
-            effiSew.push(parseFloat((((prod*sam)/((kopr + sopr)*480))*100).toFixed(2)));
-            production.push(prod);
+            effiSew.push(parseFloat((((prod1*sam)/((kopr + sopr + chkr1 + hlpr1)*480))*100).toFixed(2)));
+            production.push(prod1);
 
             if(j == 0){
               swip.push(this.sewing[i].prod - this.sewing[i].outcome);
@@ -260,7 +268,7 @@
           // To get the Cutting Efficiency
           var a = Math.min(this.cutting.length, this.sewing.length)
           for(i = 0; i < a; i++){
-            effiCut1.push(((actualC[i]/(((kopr1[i]+sopr1[i])*480)/sam1[i]))*100).toFixed(2));
+            effiCut1.push(((actualC[i]/(((kopr1[i]+sopr1[i] + hlpr[i] + chkr[i])*480)/sam1[i]))*100).toFixed(2));
           }
 
           var effiCut = [];

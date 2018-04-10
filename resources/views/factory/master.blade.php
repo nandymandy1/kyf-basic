@@ -254,12 +254,18 @@
           dates.push(moment(new Date(this.cutting[i].created_at)).format("D-MMM"));
           actualC.push(this.cutting[i].pcut);
           targetC.push(this.cutting[i].cqty);
-          kopr = this.sewing[i].kopr;
-          sopr = this.sewing[i].sopr;
-          sam = this.sewing[i].sam;
-          prod = this.sewing[i].prod;
-          effiCut.push(parseFloat((this.cutting[i].pcut / (((kopr + sopr) * 480) / sam) * 100).toFixed(2)));
-          effiSew.push(parseFloat((((prod*sam)/((kopr + sopr)*480))*100).toFixed(2)));
+
+          kopr1 = parseInt(this.sewing[i].kopr);
+          sopr1 = parseInt(this.sewing[i].sopr);
+          sam1  = parseFloat(this.sewing[i].sam);
+          prod1 = parseInt(this.sewing[i].prod);
+          chkr1 = parseInt(this.sewing[i].chrk);
+          hlpr1 = parseInt(this.sewing[i].hlpr);
+
+
+          effiCut.push(parseFloat((this.cutting[i].pcut / (((kopr1 + sopr1 + chkr1 + hlpr1) * 480) / sam1) * 100).toFixed(2)));
+          effiSew.push(parseFloat((((prod1*sam1)/((kopr1 + sopr1 + chkr1 + hlpr1)*480))*100).toFixed(2)));
+
           production.push(prod);
             if(j == 0){
               cwip.push(this.cutting[i].pcut - this.cutting[i].psew);
