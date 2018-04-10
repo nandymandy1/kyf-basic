@@ -50,14 +50,18 @@ class HomeController extends Controller
           if($factory->isActive){
             // Check for the Job Type of the user
             if(Auth::user()->job == 'cutting'){
-
+              $exists = DB::table('ckpis')->where('factory_id', Auth::user()->factory_id)->first();
+              if($exists){
               $reports = Ckpi::where('factory_id', Auth::user()->factory_id)
                                ->orderBy('created_at', 'DESC')
                                ->take(30)->get(['created_at']);
-
-              if($reports[0]->created_at->isToday()){
-                $today = false;
-              } else {
+                    if($reports[0]->created_at->isToday()){
+                    $today = false;
+                    } else {
+                        $today = true;
+                    }
+              }
+              else {
                 $today = true;
               }
 
@@ -66,13 +70,18 @@ class HomeController extends Controller
 
             } elseif (Auth::user()->job == 'sewing') {
 
+              $exists = DB::table('skpis')->where('factory_id', Auth::user()->factory_id)->first();
+              if($exists){
               $reports = Skpi::where('factory_id', Auth::user()->factory_id)
                                ->orderBy('created_at', 'DESC')
                                ->take(30)->get(['created_at']);
-
-              if($reports[0]->created_at->isToday()){
-                $today = false;
-              } else {
+                    if($reports[0]->created_at->isToday()){
+                    $today = false;
+                    } else {
+                        $today = true;
+                    }
+              }
+              else {
                 $today = true;
               }
 
@@ -82,13 +91,18 @@ class HomeController extends Controller
 
             } elseif (Auth::user()->job == 'finishing') {
 
+              $exists = DB::table('fkpis')->where('factory_id', Auth::user()->factory_id)->first();
+              if($exists){
               $reports = Fkpi::where('factory_id', Auth::user()->factory_id)
                                ->orderBy('created_at', 'DESC')
                                ->take(30)->get(['created_at']);
-
-              if($reports[0]->created_at->isToday()){
-                $today = false;
-              } else {
+                    if($reports[0]->created_at->isToday()){
+                    $today = false;
+                    } else {
+                        $today = true;
+                    }
+              }
+              else {
                 $today = true;
               }
 
@@ -97,13 +111,18 @@ class HomeController extends Controller
 
             } elseif (Auth::user()->job == 'quality') {
 
+              $exists = DB::table('qkpis')->where('factory_id', Auth::user()->factory_id)->first();
+              if($exists){
               $reports = Qkpi::where('factory_id', Auth::user()->factory_id)
                                ->orderBy('created_at', 'DESC')
                                ->take(30)->get(['created_at']);
-
-              if($reports[0]->created_at->isToday()){
-                $today = false;
-              } else {
+                    if($reports[0]->created_at->isToday()){
+                    $today = false;
+                    } else {
+                        $today = true;
+                    }
+              }
+              else {
                 $today = true;
               }
 
@@ -112,13 +131,18 @@ class HomeController extends Controller
 
             } elseif (Auth::user()->job == 'general') {
 
+              $exists = DB::table('gkpis')->where('factory_id', Auth::user()->factory_id)->first();
+              if($exists){
               $reports = Gkpi::where('factory_id', Auth::user()->factory_id)
                                ->orderBy('created_at', 'DESC')
                                ->take(30)->get(['created_at']);
-
-              if($reports[0]->created_at->isToday()){
-                $today = false;
-              } else {
+                    if($reports[0]->created_at->isToday()){
+                    $today = false;
+                    } else {
+                        $today = true;
+                    }
+              }
+              else {
                 $today = true;
               }
 
@@ -127,8 +151,8 @@ class HomeController extends Controller
 
             } elseif (Auth::user()->job == 'master') {
 
-              // return redirect('/admin/factory/master/'. Auth::user()->factory_id);
-              return view('factory.cutting');
+              return redirect('/admin/factory/master/'. Auth::user()->factory_id);
+              // return view('factory.cutting');
 
             } else{
 
