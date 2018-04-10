@@ -146,11 +146,11 @@
       del(key, id){
         this.loading = !this.loading
         if(confirm("Are you sure to delete this factory?")){
-          axios.delete(`/admin/factory/${id}`)
+          axios.post(`/admin/factorydel/${id}`)
           .then((response) => {
             this.factories.splice(key, 1)
             this.success = 'Factory deleted from the list successfully'
-            this.fetchFactory()
+            // this.fetchFactory()
           }).catch((error) => {
             this.errors = error.response.data.errors
           })
