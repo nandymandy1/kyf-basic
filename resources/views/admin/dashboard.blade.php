@@ -7,21 +7,21 @@
     </div>
     <div class="card-body">
       <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-6">
           <div class="card">
             <div class="card-body">
               <div class="" id="ceffi"></div>
             </div>
           </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-6">
           <div class="card">
             <div class="card-body">
               <div class="" id="tvac"></div>
             </div>
           </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-12">
           <div class="card">
             <div class="card-body">
               <div class="" id="cwip"></div>
@@ -217,6 +217,10 @@
           var passed = [];
           var hlpr = [];
           var chkr = [];
+          // Cumulative WIP
+          dcutWip = [];
+          dsewWip = [];
+          dfinWip = [];
           // General Data Variables
 
 
@@ -234,6 +238,7 @@
                 cwip.push(this.cutting[i].pcut - this.cutting[i].psew + cwip[j-1]);
               }
             j++;
+            dcutWip.push(this.cutting[i].pcut - this.cutting[i].psew);
           }
 
           // To fill Sewing data
@@ -262,6 +267,7 @@
               swip.push(this.sewing[i].prod - this.sewing[i].outcome + swip[j-1]);
             }
             j++;
+            dsewWip.push(this.sewing[i].prod - this.sewing[i].outcome);
           }
 
 
@@ -276,7 +282,7 @@
              effiCut.push(parseFloat(eff));
            });
 
-          console.log(effiCut);
+
           //To fill Finishing data
           var j = 0;
           for(i = this.finishing.length-1; i >= 0; i--){
@@ -287,6 +293,7 @@
               fwip.push(this.finishing[i].income - this.finishing[i].pkd + fwip[j-1]);
             }
             j++;
+            dfinWip.push(this.finishing[i].income - this.finishing[i].pkd);
             income.push(parseInt(this.finishing[i].income));
             pkd.push(parseInt(this.finishing[i].pkd));
           }
@@ -298,6 +305,7 @@
             insp.push(parseInt(this.quality[i].inspected))
             failed.push(parseInt(this.quality[i].failed))
             passed.push(parseInt(this.quality[i].inspected - this.quality[i].failed))
+
           }
 
           // To fill the Monthly Production Objects for the Charts to Render
@@ -336,9 +344,15 @@
               },
               series: [{
                   type: 'column',
-                  name: 'Cutting WIP',
+                  name: 'Daily Cumulative WIP',
                   colorByPoint: true,
                   data: cwip,
+                  showInLegend: false
+              },{
+                  type: 'column',
+                  name: 'Daily Cutting WIP',
+                  colorByPoint: true,
+                  data: dcutWip,
                   showInLegend: false
               }]
           });
@@ -540,9 +554,15 @@
               },
               series: [{
                   type: 'column',
-                  name: 'Sewing WIP',
+                  name: 'Daily Cumulative WIP',
                   colorByPoint: true,
                   data: swip,
+                  showInLegend: false
+              },{
+                  type: 'column',
+                  name: 'Daily Sewing WIP',
+                  colorByPoint: true,
+                  data: dsewWip,
                   showInLegend: false
               }]
           });
@@ -572,8 +592,14 @@
               series: [{
                   type: 'column',
                   colorByPoint: true,
-                  name: 'Finishing WIP',
+                  name: 'Daily Cumulative WIP',
                   data: fwip,
+                  showInLegend: false
+              },{
+                  type: 'column',
+                  name: 'Daily Finishing WIP',
+                  colorByPoint: true,
+                  data: dfinWip,
                   showInLegend: false
               }]
           });
